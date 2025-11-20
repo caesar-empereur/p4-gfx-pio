@@ -27,6 +27,8 @@ String inputString = "";
 bool stringComplete = false;
 
 
+HardwareSerial MySerial(1);
+
 // void F18_SAI_BANK(unsigned int newValue) {
 //     float fix_value = (newValue  / 65535.0f * 360) - 180;
 //     int roll = static_cast<int>(fix_value);
@@ -71,7 +73,7 @@ bool stringComplete = false;
 
 
 void setup() {
-
+    MySerial.begin(115200, SERIAL_8N1, 37, 38);
 
 
     Serial.begin(115200);
@@ -80,7 +82,7 @@ void setup() {
     initDisplay();
     gestureInit(0,0);
 
-    // mpu_init();
+    mpu_init();
 
     // pinMode(7, OUTPUT);
     // analogWrite(7, 0);
@@ -109,6 +111,10 @@ void loop() {
 
 
 // void serialEvent2(){
+//     ges_data = receive_parse_mpu();
+// }
+
+// void serialEvent1(){
 //     ges_data = receive_parse_mpu();
 // }
 

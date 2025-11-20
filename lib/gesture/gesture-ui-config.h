@@ -8,7 +8,7 @@
 #define GES_SP_H 720
 
 //是否开启航向圆盘
-#define YAW_SP_COMPASS_SHOW 0
+#define YAW_SP_COMPASS_SHOW 1
 #define LEFT_FLOAT_SP_SHOW 1
 #define RIGHT_FLOAT_SP_SHOW 1
 
@@ -98,14 +98,13 @@ int16_t HORI_SP_SCALE_PIX_INTERVAL(T t) {
         h = 30;
     } else if(min_h>400 && min_h <= 500){
         h = 40;
-    }
-    else if(min_h>500){
-        h = 40;
+    } else if(min_h>=720){
+        h = 60;
     }
     return h;
 }
 
-#define HORI_SP_SCALE_VALUE_INTERVAL 10 //中间水平姿态 SP 的每个刻度的值间隔
+#define HORI_SP_SCALE_VALUE_INTERVAL 5 //中间水平姿态 SP 的每个刻度的值间隔
 #define HORI_SP_SCALE_PIX_RATE ((HORI_SP_SCALE_PIX_INTERVAL(0))/(HORI_SP_SCALE_VALUE_INTERVAL))//值刻度与像素的滚动比率
 #define HORI_SP_CROWN_H 30 //中间水平姿态 SP 顶部皇冠部分的高度
 #define HORI_SP_CROWN_SCALE_LEN ((GES_SP_H)<240?(5):(10))// 皇冠部分的刻度长度
@@ -188,7 +187,8 @@ float_t ELLIPSE_SP_RADIUS_RATE(T t) {
 //底部的航向旋转控件
 #define YAW_ROTATE_SP_BG_H (GES_SP_H/4-(TWO_SP_BEGIN_DRAW_Y))//背景的 sp
 #define YAW_ROTATE_SP_BG_W (GES_SP_W)
-#define YAW_ROTATE_SP_A ((GES_SP_W-TWO_SP_WIDTH)>300?(300):(GES_SP_W-TWO_SP_WIDTH)) //横线
+// #define YAW_ROTATE_SP_A ((GES_SP_W-TWO_SP_WIDTH)>300?(300):(GES_SP_W-TWO_SP_WIDTH)) //横线
+#define YAW_ROTATE_SP_A (GES_SP_W-2*TWO_SP_WIDTH) //横线
 // #define YAW_ROTATE_SP_A (320) //横线
 #define YAW_ROTATE_SP_B ((GES_SP_H/4)*(0.75)) //竖线
 // #define YAW_ROTATE_SP_RADIUS (YAW_ROTATE_SP_BG_H)

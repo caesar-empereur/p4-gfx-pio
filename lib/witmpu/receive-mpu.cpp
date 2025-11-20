@@ -74,13 +74,13 @@ static void CmdProcess(void){
 			break;
 		case 'B':	if(WitSetUartBaud(WIT_BAUD_115200) != WIT_HAL_OK) Serial.print("\r\nSet Baud Error\r\n");
               else {
-                Serial2.begin(c_uiBaud[WIT_BAUD_115200]);
+                Serial1.begin(c_uiBaud[WIT_BAUD_115200]);
                 Serial.print(" 115200 Baud rate modified successfully\r\n");
               }
 			break;
 		case 'b':	if(WitSetUartBaud(WIT_BAUD_9600) != WIT_HAL_OK) Serial.print("\r\nSet Baud Error\r\n");
               else {
-                Serial2.begin(c_uiBaud[WIT_BAUD_9600]); 
+                Serial1.begin(c_uiBaud[WIT_BAUD_9600]); 
                 Serial.print(" 9600 Baud rate modified successfully\r\n");
               }
 			break;
@@ -101,8 +101,8 @@ static void CmdProcess(void){
 	s_cCmd = 0xff;
 }
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize){
-  Serial2.write(p_data, uiSize);
-  Serial2.flush();
+  Serial1.write(p_data, uiSize);
+  Serial1.flush();
 }
 static void Delayms(uint16_t ucMs){
   delay(ucMs);
@@ -135,15 +135,15 @@ static void AutoScanSensor(void){
 	int i, iRetry;
 	
 	for(i = 0; i < sizeof(c_uiBaud)/sizeof(c_uiBaud[0]); i++){
-		Serial2.begin(c_uiBaud[i]);
-        Serial2.flush();
+		Serial1.begin(c_uiBaud[i]);
+        Serial1.flush();
 		iRetry = 2;
 		s_cDataUpdate = 0;
 		do{
 			WitReadReg(AX, 3);
 			delay(200);
-            while (Serial2.available()){
-                WitSerialDataIn(Serial2.read());
+            while (Serial1.available()){
+                WitSerialDataIn(Serial1.read());
             }
             if(s_cDataUpdate != 0){
                 Serial.print(c_uiBaud[i]);
@@ -169,8 +169,8 @@ void mpu_init(){
 ges_data_t ges_data_mpu;
 
 ges_data_t receive_parse_mpu(){
-    while (Serial2.available()){
-      	WitSerialDataIn(Serial2.read());
+    while (Serial1.available()){
+      	WitSerialDataIn(Serial1.read());
     }
 
 	CmdProcess();
