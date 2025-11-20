@@ -56,6 +56,20 @@
 // #define TWO_SP_BIG_SCALE_WIDTH ((GES_SP_W)<=240?((TWO_SP_WIDTH)*0.35):(TWO_SP_WIDTH)*0.5) //2个垂直刻度的大刻度的宽度
 // #define TWO_SP_SMALL_SCALE_WIDTH ((GES_SP_W)<=240?(TWO_SP_WIDTH/5):(TWO_SP_WIDTH/4)) //2个垂直刻度的小刻度的宽度
 #define TWO_SP_BIG_SCALE_WIDTH ((TWO_SP_WIDTH)*0.35) //2个垂直刻度的大刻度的宽度
+template<typename T>
+int16_t TWO_SP_BIG_SCALE_LINE_WIDTH(T t){//2个垂直刻度的大刻度的线宽度
+    int16_t w;
+    if(GES_SP_H<240){
+        w = 1;
+    } else if(GES_SP_H>=240 && GES_SP_H<=480){
+        w = 2;
+    } else if(GES_SP_H>480){
+        w = 3;
+    }
+    return w;
+
+
+}                  
 #define TWO_SP_SMALL_SCALE_WIDTH ((TWO_SP_WIDTH)/5) //2个垂直刻度的小刻度的宽度
 #define TWO_SP_BEGIN_DRAW_Y 10      //2个垂直刻度的 SP 上下预留高度像素
 
@@ -86,6 +100,8 @@ int16_t TWO_SP_FLOAT_H(T t) {
 //中间姿态仪 ui 的配置
 #define HORI_SP_SCALE_NUM 5 //必须得是奇数
 #define HORI_SP_SCROLL_BEGIN_Y 10
+
+//中间水平姿态刻度的像素间隔
 template<typename T>
 int16_t HORI_SP_SCALE_PIX_INTERVAL(T t) {
     int16_t h;
@@ -106,8 +122,10 @@ int16_t HORI_SP_SCALE_PIX_INTERVAL(T t) {
 
 #define HORI_SP_SCALE_VALUE_INTERVAL 5 //中间水平姿态 SP 的每个刻度的值间隔
 #define HORI_SP_SCALE_PIX_RATE ((HORI_SP_SCALE_PIX_INTERVAL(0))/(HORI_SP_SCALE_VALUE_INTERVAL))//值刻度与像素的滚动比率
-#define HORI_SP_CROWN_H 30 //中间水平姿态 SP 顶部皇冠部分的高度
-#define HORI_SP_CROWN_SCALE_LEN ((GES_SP_H)<240?(5):(10))// 皇冠部分的刻度长度
+// #define HORI_SP_CROWN_H 30 //中间水平姿态 SP 顶部皇冠部分的高度
+#define HORI_SP_CROWN_H (GES_SP_H/10)
+// #define HORI_SP_CROWN_SCALE_LEN ((GES_SP_H)<240?(5):(10))// 皇冠部分的刻度长度
+#define HORI_SP_CROWN_SCALE_LEN ((GES_SP_H)<240?(5):(GES_SP_H*0.04))
 // #define HORI_SP_CROWN_RADIUS_RATE ((YAW_SP_COMPASS_SHOW)==1?((GES_SP_H)<=240?(0.9):(0.95)):(1))// 皇冠部分的刻度对半径的比率,不开启罗盘都是1，开启罗盘根据高度判断
 template<typename T>
 float_t HORI_SP_CROWN_RADIUS_RATE(T t) {
@@ -128,14 +146,28 @@ float_t HORI_SP_CROWN_RADIUS_RATE(T t) {
 #define HORI_SP_WIDTH (HORI_SP_SCROLL_H) // 中间水平姿态 SP 的宽度
 #define HORI_SP_HEIGHT ((HORI_SP_SCROLL_H)+(HORI_SP_CROWN_H)) // 中间水平姿态 SP 的高度
 
-#define HORI_SP_LINE_WIDTH ((GES_SP_H) <= 240?(1):(2))
-#define HORI_SP_SCALE_W ((HORI_SP_WIDTH) * 0.09)
+// #define HORI_SP_LINE_WIDTH ((GES_SP_H) <= 240?(1):(3))
+template<typename T>
+int16_t HORI_SP_LINE_WIDTH(T t){
+    int16_t line;
+    if(GES_SP_H<=240){
+        line = 1;
+    } else if(GES_SP_H>240 && GES_SP_H<=480){
+        line = 2;
+    } else if(GES_SP_H>480){
+        line = 3;
+    }
+    return line;
+}
+// #define HORI_SP_SCALE_W ((HORI_SP_WIDTH) * 0.09)
+#define HORI_SP_SCALE_W ((HORI_SP_WIDTH) * 0.12)   //中间水平姿态刻度的水平宽度
 #define HORI_SP_SCALE_END_PAD (HORI_SP_WIDTH*0.35) //中间水平姿态 SP 的大小刻度的终点到左边的边距
 #define HORI_SP_SCALE_L_BEGIN (HORI_SP_SCALE_END_PAD-HORI_SP_SCALE_W) //中间水平姿态 SP Z左边的刻度的水平开始位置
 #define HORI_SP_SCALE_R_BEGIN (HORI_SP_WIDTH-HORI_SP_SCALE_END_PAD) //中间水平姿态 SP Z左边的刻度的水平开始位置
 #define HORI_SP_TEXT_R_BEGIN (HORI_SP_SCALE_R_BEGIN+HORI_SP_SCALE_W) //中间水平姿态 SP Z左边的刻度的水平开始位置
 
-#define HORI_SP_H_LINE_W 20//姿态仪中间的横线
+// #define HORI_SP_H_LINE_W 20//姿态仪中间的横线
+#define HORI_SP_H_LINE_W (GES_SP_W*0.08)//姿态仪中间的横线
 
 #define ELLIPSE_SP_W_GAP ((GES_SP_H)<(320)?((TWO_SP_WIDTH)/4):((TWO_SP_WIDTH)/4))
 #define ELLIPSE_SP_W ((GES_SP_W)-(TWO_SP_WIDTH)*2-2*(ELLIPSE_SP_W_GAP))

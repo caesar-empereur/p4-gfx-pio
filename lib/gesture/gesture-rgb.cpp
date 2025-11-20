@@ -140,8 +140,8 @@ void drawHorizon(){
         int cur_scale_y = HORI_SP_SCROLL_BEGIN_Y+HORI_SP_CROWN_H + (i-1)*HORI_SP_SCALE_PIX_INTERVAL(0);
         int16_t scale_num = HORI_SP_SCALE_VALUE_INTERVAL*2-(i-1)*HORI_SP_SCALE_VALUE_INTERVAL;
         midHoriSp.setTextColor(HORI_SP_COLOR, TFT_TRANSPARENT);
-        midHoriSp.drawWideLine(HORI_SP_SCALE_L_BEGIN, cur_scale_y, HORI_SP_SCALE_L_BEGIN+HORI_SP_SCALE_W, cur_scale_y,HORI_SP_LINE_WIDTH, HORI_SP_COLOR);
-        midHoriSp.drawWideLine(HORI_SP_SCALE_R_BEGIN, cur_scale_y, HORI_SP_SCALE_R_BEGIN+HORI_SP_SCALE_W, cur_scale_y,HORI_SP_LINE_WIDTH, HORI_SP_COLOR);
+        midHoriSp.drawWideLine(HORI_SP_SCALE_L_BEGIN, cur_scale_y, HORI_SP_SCALE_L_BEGIN+HORI_SP_SCALE_W, cur_scale_y,HORI_SP_LINE_WIDTH(0), HORI_SP_COLOR);
+        midHoriSp.drawWideLine(HORI_SP_SCALE_R_BEGIN, cur_scale_y, HORI_SP_SCALE_R_BEGIN+HORI_SP_SCALE_W, cur_scale_y,HORI_SP_LINE_WIDTH(0), HORI_SP_COLOR);
         
         
         if(abs(scale_num)<=90 && (abs(scale_num)%(HORI_SP_SCALE_VALUE_INTERVAL*2))==0){
@@ -184,8 +184,8 @@ void moveHoriSp(int16_t pitch_now){
         int16_t pos_y_mod = pos_y_hori-HORI_SP_SCROLL_BEGIN_Y-HORI_SP_CROWN_H;
         if((pos_y_mod) % HORI_SP_SCALE_PIX_INTERVAL(0) == 0){
             int pos_y_bu = pitch_diff>0?HORI_SP_SCROLL_BEGIN_Y+HORI_SP_CROWN_H:HORI_SP_SCROLL_BEGIN_Y+HORI_SP_CROWN_H+HORI_SP_SCALE_PIX_INTERVAL(0)*(HORI_SP_SCALE_NUM-1);
-            midHoriSp.drawWideLine(HORI_SP_SCALE_L_BEGIN, pos_y_bu, HORI_SP_SCALE_L_BEGIN+HORI_SP_SCALE_W, pos_y_bu,HORI_SP_LINE_WIDTH, HORI_SP_COLOR);
-            midHoriSp.drawWideLine(HORI_SP_SCALE_R_BEGIN, pos_y_bu, HORI_SP_SCALE_R_BEGIN+HORI_SP_SCALE_W, pos_y_bu,HORI_SP_LINE_WIDTH, HORI_SP_COLOR);
+            midHoriSp.drawWideLine(HORI_SP_SCALE_L_BEGIN, pos_y_bu, HORI_SP_SCALE_L_BEGIN+HORI_SP_SCALE_W, pos_y_bu,HORI_SP_LINE_WIDTH(0), HORI_SP_COLOR);
+            midHoriSp.drawWideLine(HORI_SP_SCALE_R_BEGIN, pos_y_bu, HORI_SP_SCALE_R_BEGIN+HORI_SP_SCALE_W, pos_y_bu,HORI_SP_LINE_WIDTH(0), HORI_SP_COLOR);
 
             int16_t value;
             if(pitch_diff>0){
@@ -367,7 +367,7 @@ void drawAirSpeed(){
         airSpeedSp.println(String(scale_num));
 
         //空速的刻度上的大的指标 x 坐标, 小的指标 x 坐标
-        airSpeedSp.drawWideLine(TWO_SP_WIDTH-TWO_SP_BIG_SCALE_WIDTH, cur_scale_y, TWO_SP_WIDTH, cur_scale_y,2, TWO_SP_SCALE_LINE_COLOR);
+        airSpeedSp.drawWideLine(TWO_SP_WIDTH-TWO_SP_BIG_SCALE_WIDTH, cur_scale_y, TWO_SP_WIDTH, cur_scale_y,TWO_SP_BIG_SCALE_LINE_WIDTH(0), TWO_SP_SCALE_LINE_COLOR);
     }
 }
 
@@ -398,7 +398,7 @@ void drawAltitude(){
         altitudeSp.println(String(scale_num));
 
         //空速的刻度上的大的指标 x 坐标, 小的指标 x 坐标
-        altitudeSp.drawWideLine(0, cur_scale_y, TWO_SP_BIG_SCALE_WIDTH, cur_scale_y,2, TWO_SP_SCALE_LINE_COLOR);
+        altitudeSp.drawWideLine(0, cur_scale_y, TWO_SP_BIG_SCALE_WIDTH, cur_scale_y,TWO_SP_BIG_SCALE_LINE_WIDTH(0), TWO_SP_SCALE_LINE_COLOR);
     }
 }
 
@@ -450,7 +450,7 @@ void moveAirSpeedGraph(Rgb_Sprite *bgSprP, int16_t air_speed_now, int16_t uiType
             if((pos_y_air-TWO_SP_BEGIN_DRAW_Y) % TWO_SP_BIG_SCALE_GAP == 0){
                 int pos_y_bu = speed_diff>0?TWO_SP_BEGIN_DRAW_Y:TWO_SP_BEGIN_DRAW_Y+TWO_SP_BIG_SCALE_GAP*4;
                 //补大刻度
-                airSpeedSp.drawWideLine(TWO_SP_WIDTH-TWO_SP_BIG_SCALE_WIDTH,pos_y_bu,TWO_SP_WIDTH,pos_y_bu,2,TWO_SP_SCALE_LINE_COLOR); //补上大刻度
+                airSpeedSp.drawWideLine(TWO_SP_WIDTH-TWO_SP_BIG_SCALE_WIDTH,pos_y_bu,TWO_SP_WIDTH,pos_y_bu,TWO_SP_BIG_SCALE_LINE_WIDTH(0),TWO_SP_SCALE_LINE_COLOR); //补上大刻度
                 int16_t value = speed_diff>0?pos_y_air-TWO_SP_BEGIN_DRAW_Y+TWO_SP_BIG_SCALE_GAP*2:pos_y_air-TWO_SP_BEGIN_DRAW_Y-TWO_SP_BIG_SCALE_GAP*2;
                 airSpeedSp.setTextSize(FONT_SIZE);
 
@@ -512,7 +512,7 @@ void moveAltitudeGraph(Rgb_Sprite *bgSprP, int16_t altitude_now, int16_t uiType)
             if((pos_y_alti-TWO_SP_BEGIN_DRAW_Y) % TWO_SP_BIG_SCALE_GAP == 0){
                 int pos_y_bu = altitude_diff>0?TWO_SP_BEGIN_DRAW_Y:TWO_SP_BEGIN_DRAW_Y+TWO_SP_BIG_SCALE_GAP*4;
                 //补大刻度
-                altitudeSp.drawWideLine(0,pos_y_bu,TWO_SP_BIG_SCALE_WIDTH,pos_y_bu,2,TWO_SP_SCALE_LINE_COLOR); //补上大刻度
+                altitudeSp.drawWideLine(0,pos_y_bu,TWO_SP_BIG_SCALE_WIDTH,pos_y_bu,TWO_SP_BIG_SCALE_LINE_WIDTH(0),TWO_SP_SCALE_LINE_COLOR); //补上大刻度
             
                 int value = altitude_diff>0?pos_y_alti-TWO_SP_BEGIN_DRAW_Y+TWO_SP_BIG_SCALE_GAP*2:pos_y_alti-TWO_SP_BEGIN_DRAW_Y-TWO_SP_BIG_SCALE_GAP*2;
                 // altitudeSp.drawString(String(value), TWO_SP_BIG_SCALE_WIDTH, pos_y_bu-(abs(value)>99?2:6), abs(value)>99?1:2);
