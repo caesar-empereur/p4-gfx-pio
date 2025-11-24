@@ -29,3 +29,15 @@ Arduino_ESP32SPI.h
       //   }
       // }
     // }
+
+
+编辑 lv_demo_widgets.h 文件，将第17行的引用改为：
+
+c
+// 将原来的
+#include "../../src/draw/lv_draw.h"
+
+// 改为
+#include "lvgl.h"
+// 或者
+#include <lvgl.h>
