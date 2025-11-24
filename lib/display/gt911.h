@@ -14,7 +14,7 @@
  */
 #include "touch.h"
 #include "i2c.h"
-#include "displays_config.h"
+#include "weixue_4_720_displays_config.h"
 
 /**
  * @brief I2C address of the GT911 controller

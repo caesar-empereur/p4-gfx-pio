@@ -46,7 +46,7 @@ Arduino_DSI_Display *gfx = new Arduino_DSI_Display(
                                                     display_cfg.width,
                                                     display_cfg.height,
                                                     dsipanel,
-                                                    2,
+                                                    1,
                                                     true,
                                                     display_cfg.lcd_rst,
                                                     display_cfg.init_cmds,
