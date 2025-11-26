@@ -1,5 +1,5 @@
 // display_config.h
-#pragma once
+// #pragma once
 #ifndef DISPLAYS_CONFIG_H
 #define DISPLAYS_CONFIG_H
 #include <Arduino_GFX_Library.h>
@@ -73,7 +73,7 @@ const DisplayConfig SCREEN_DEFAULT = {
     .lane_bit_rate = 1000,
     .width = 720,
     .height = 720,
-    .rotation = 1,
+    .rotation = 2,
     .auto_flush = true,
     .rst_pin = -1,
     .init_cmds = vendor_specific_init_default,

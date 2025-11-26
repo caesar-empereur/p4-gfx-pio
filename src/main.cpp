@@ -80,26 +80,25 @@ bool stringComplete = false;
 
 
 
-// Arduino_ESP32DSIPanel *dsipanel = new Arduino_ESP32DSIPanel(
-//   display_cfg.hsync_pulse_width,
-//   display_cfg.hsync_back_porch,
-//   display_cfg.hsync_front_porch,
-//   display_cfg.vsync_pulse_width,
-//   display_cfg.vsync_back_porch,
-//   display_cfg.vsync_front_porch,
-//   display_cfg.prefer_speed,
-//   display_cfg.lane_bit_rate);
+// Arduino_ESP32DSIPanel *dsipanel_1 = new Arduino_ESP32DSIPanel(
+//                                                             display_cfg.hsync_pulse_width,
+//                                                             display_cfg.hsync_back_porch,
+//                                                             display_cfg.hsync_front_porch,
+//                                                             display_cfg.vsync_pulse_width,
+//                                                             display_cfg.vsync_back_porch,
+//                                                             display_cfg.vsync_front_porch,
+//                                                             display_cfg.prefer_speed,
+//                                                             display_cfg.lane_bit_rate);
 
-// Arduino_DSI_Display *gfx = new Arduino_DSI_Display(
-//   display_cfg.width,
-//   display_cfg.height,
-//   dsipanel,
-//   0,
-//   true,
-//   display_cfg.lcd_rst,
-//   display_cfg.init_cmds,
-//   display_cfg.init_cmds_size);
-// extern Arduino_DSI_Display *gfx;
+// Arduino_DSI_Display *gfx_b = new Arduino_DSI_Display(
+//                                                     display_cfg.width,
+//                                                     display_cfg.height,
+//                                                     dsipanel_1,
+//                                                     2,
+//                                                     true,
+//                                                     display_cfg.lcd_rst,
+//                                                     display_cfg.init_cmds,
+//                                                     display_cfg.init_cmds_size);
 
 
 
@@ -110,16 +109,15 @@ void setup() {
     Serial.begin(115200);
     Serial1.begin(115200);
     Serial2.begin(115200);
-    // initDisplay();
+    initDisplay();
+    gestureInit(0,0);
 
-
-    // gestureInit(0,0);
-
-    lvgl_display_init();
+    // lvgl_display_init();
 
     // mpu_init();
-
-    
+    // gfx_b->begin();
+    // gfx_b->fillRect(0,0,480, 240, BLUE);
+    // gfx_b->fillRect(0,240,480, 240, GREEN);
 
     Serial.println("Setup complete");
 }
@@ -127,10 +125,10 @@ void setup() {
 void loop() {
     // DcsBios::loop();
   // put your main code here, to run repeatedly:
-    // drawGestureByData(2, ges_data, 0, 0);
+    drawGestureByData(2, ges_data, 0, 0);
 
-    lv_timer_handler();
-    delay(5);
+    // lv_timer_handler();
+    // delay(5);
 }
 
 // using namespace DcsBios;

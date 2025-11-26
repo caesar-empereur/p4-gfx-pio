@@ -53,6 +53,7 @@ Arduino_DSI_Display *gfx = new Arduino_DSI_Display(
                                                     display_cfg.init_cmds_size);
 
 
+
 //全屏的 sp
 Rgb_Sprite bgSprAllHori = Rgb_Sprite(gfx);
 
