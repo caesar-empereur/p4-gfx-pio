@@ -156,19 +156,19 @@ void my_disp_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map) {
     lv_display_flush_ready(disp);
 }
 
-// void my_touchpad_read(lv_indev_t *indev, lv_indev_data_t *data) {
-//     esp_lcd_touch_read_data(tp_handle);
-//     touch_pressed = esp_lcd_touch_get_coordinates(
-//       tp_handle, touch_x, touch_y, touch_strength, &touch_cnt, MAX_TOUCH_POINTS);
+void my_touchpad_read(lv_indev_t *indev, lv_indev_data_t *data) {
+    esp_lcd_touch_read_data(tp_handle);
+    touch_pressed = esp_lcd_touch_get_coordinates(
+      tp_handle, touch_x, touch_y, touch_strength, &touch_cnt, MAX_TOUCH_POINTS);
 
-//     if (touch_pressed && touch_cnt > 0) {
-//       data->point.x = touch_x[0];
-//       data->point.y = touch_y[0];
-//       data->state = LV_INDEV_STATE_PRESSED;
-//     } else {
-//       data->state = LV_INDEV_STATE_RELEASED;
-//     }
-// }
+    if (touch_pressed && touch_cnt > 0) {
+      data->point.x = touch_x[0];
+      data->point.y = touch_y[0];
+      data->state = LV_INDEV_STATE_PRESSED;
+    } else {
+      data->state = LV_INDEV_STATE_RELEASED;
+    }
+}
 
 void lvglTick(void *param) {
     lv_tick_inc(LVGL_TICK_PERIOD);
@@ -180,8 +180,8 @@ void lvgl_display_init(){
     }
 
 
-    // DEV_I2C_Port port = DEV_I2C_Init();
-    // tp_handle = touch_gt911_init(port);
+    DEV_I2C_Port port = DEV_I2C_Init();
+    tp_handle = touch_cst3530_init(port);
     
     lv_init();
     size_t draw_buf_size = display_cfg.width * DRAW_BUF_HEIGHT;
@@ -198,9 +198,9 @@ void lvgl_display_init(){
     lv_display_set_flush_cb(lv_display, my_disp_flush);
     lv_display_set_buffers(lv_display, lv_draw_buf1, lv_draw_buf2, draw_buf_size, LV_DISPLAY_RENDER_MODE_PARTIAL);
 
-    // indev_touchpad = lv_indev_create();
-    // lv_indev_set_type(indev_touchpad, LV_INDEV_TYPE_POINTER);
-    // lv_indev_set_read_cb(indev_touchpad, my_touchpad_read);
+    indev_touchpad = lv_indev_create();
+    lv_indev_set_type(indev_touchpad, LV_INDEV_TYPE_POINTER);
+    lv_indev_set_read_cb(indev_touchpad, my_touchpad_read);
 
     const esp_timer_create_args_t lvgl_timer_args = {
       .callback = &lvglTick,
