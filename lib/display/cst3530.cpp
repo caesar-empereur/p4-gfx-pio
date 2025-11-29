@@ -17,6 +17,21 @@
 #include "esp_check.h"
 #include "cst3530.h"
 
+/* CST3530 registers */
+#define ESP_LCD_TOUCH_CST3530_READ_KEY_REG    (0x8050)  // 按键状态寄存器
+#define ESP_LCD_TOUCH_CST3530_READ_XY_REG     (0x814E)  // 触摸坐标数据寄存器
+#define ESP_LCD_TOUCH_CST3530_CONFIG_REG      (0x8047)  // 配置寄存器
+#define ESP_LCD_TOUCH_CST3530_PRODUCT_ID_REG  (0x8140)  // 产品ID寄存器
+#define ESP_LCD_TOUCH_CST3530_ENTER_SLEEP     (0x8040)  // 进入睡眠模式寄存器
+#define ESP_LCD_TOUCH_CST3530_STATUS_REG      (0x814E)  // 状态寄存器（与READ_XY_REG相同）
+#define ESP_LCD_TOUCH_CST3530_GESTURE_REG     (0x814C)  // 手势识别寄存器
+#define ESP_LCD_TOUCH_CST3530_FW_VERSION_REG  (0x8144)  // 固件版本寄存器
+#define ESP_LCD_TOUCH_CST3530_CHIP_ID_REG     (0x8140)  // 芯片ID寄存器
+#define ESP_LCD_TOUCH_CST3530_VENDOR_ID_REG   (0x814A)  // 厂商ID寄存器
+
+/* CST3530 support key num */
+#define ESP_CST3530_TOUCH_MAX_BUTTONS         (0)  // CST3530通常不支持物理按键
+
 #define POINT_NUM_MAX (1)
 
 #define DATA_START_REG (0x00)
@@ -25,6 +40,8 @@
 #define ReportCoordinates 0xD00002AB
 static const char *TAG = "CST3530";
 
+#define ESP_GT911_TOUCH_MAX_BUTTONS         (4)
+
 esp_lcd_touch_handle_t tp_handle = NULL;
 
 static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp);
@@ -32,6 +49,7 @@ static bool esp_lcd_touch_cst3530_get_xy(esp_lcd_touch_handle_t tp, uint16_t *x,
 static esp_err_t esp_lcd_touch_cst3530_del(esp_lcd_touch_handle_t tp);
 
 static esp_err_t touch_cst3530_i2c_read(esp_lcd_touch_handle_t tp, uint16_t reg, uint8_t *data, uint8_t len);
+static esp_err_t touch_cst3530_i2c_write(esp_lcd_touch_handle_t tp, uint16_t reg, uint8_t data);
 static esp_err_t touch_cst3530_reset(esp_lcd_touch_handle_t tp);
 static esp_err_t touch_cst3530_read_cfg(esp_lcd_touch_handle_t tp);
 
@@ -164,6 +182,86 @@ static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp){
     return ESP_OK;
 }
 
+// static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp)
+// {
+//     esp_err_t err;
+//     uint8_t buf[41];
+//     uint8_t touch_cnt = 0;
+//     uint8_t clear = 0;
+//     size_t i = 0;
+
+//     assert(tp != NULL);
+
+//     err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, buf, 1);
+//     ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+
+//     /* Any touch data? */
+//     if ((buf[0] & 0x80) == 0x00) {
+//         touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+// #if (ESP_LCD_TOUCH_MAX_BUTTONS > 0)
+//     } else if ((buf[0] & 0x10) == 0x10) {
+//         /* Read all keys */
+//         uint8_t key_max = ((ESP_GT911_TOUCH_MAX_BUTTONS < ESP_LCD_TOUCH_MAX_BUTTONS) ? \
+//                            (ESP_GT911_TOUCH_MAX_BUTTONS) : (ESP_LCD_TOUCH_MAX_BUTTONS));
+//         err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_KEY_REG, &buf[0], key_max);
+//         ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+
+//         /* Clear all */
+//         touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+//         ESP_RETURN_ON_ERROR(err, TAG, "I2C write error!");
+
+//         portENTER_CRITICAL(&tp->data.lock);
+
+//         /* Buttons count */
+//         tp->data.buttons = key_max;
+//         for (i = 0; i < key_max; i++) {
+//             tp->data.button[i].status = buf[0] ? 1 : 0;
+//         }
+
+//         portEXIT_CRITICAL(&tp->data.lock);
+// #endif
+//     } else if ((buf[0] & 0x80) == 0x80) {
+// #if (ESP_LCD_TOUCH_MAX_BUTTONS > 0)
+//         portENTER_CRITICAL(&tp->data.lock);
+//         for (i = 0; i < ESP_LCD_TOUCH_MAX_BUTTONS; i++) {
+//             tp->data.button[i].status = 0;
+//         }
+//         portEXIT_CRITICAL(&tp->data.lock);
+// #endif
+//         /* Count of touched points */
+//         touch_cnt = buf[0] & 0x0f;
+//         if (touch_cnt > 5 || touch_cnt == 0) {
+//             touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+//             return ESP_OK;
+//         }
+
+//         /* Read all points */
+//         err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG + 1, &buf[1], touch_cnt * 8);
+//         ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+
+//         /* Clear all */
+//         err = touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+//         ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+
+//         portENTER_CRITICAL(&tp->data.lock);
+
+//         /* Number of touched points */
+//         touch_cnt = (touch_cnt > ESP_LCD_TOUCH_MAX_POINTS ? ESP_LCD_TOUCH_MAX_POINTS : touch_cnt);
+//         tp->data.points = touch_cnt;
+
+//         /* Fill all coordinates */
+//         for (i = 0; i < touch_cnt; i++) {
+//             tp->data.coords[i].x = ((uint16_t)buf[(i * 8) + 3] << 8) + buf[(i * 8) + 2];
+//             tp->data.coords[i].y = (((uint16_t)buf[(i * 8) + 5] << 8) + buf[(i * 8) + 4]);
+//             tp->data.coords[i].strength = (((uint16_t)buf[(i * 8) + 7] << 8) + buf[(i * 8) + 6]);
+//         }
+
+//         portEXIT_CRITICAL(&tp->data.lock);
+//     }
+
+//     return ESP_OK;
+// }
+
 static bool esp_lcd_touch_cst3530_get_xy(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t *strength, 
     uint8_t *point_num, uint8_t max_point_num){
     portENTER_CRITICAL(&tp->data.lock);
@@ -264,4 +362,17 @@ esp_lcd_touch_handle_t touch_cst3530_init(DEV_I2C_Port port){
     ESP_ERROR_CHECK(esp_lcd_touch_new_i2c_cst3530(tp_io_handle, &tp_cfg, &tp_handle));
 
     return tp_handle;
+}
+
+static esp_err_t touch_cst3530_i2c_write(esp_lcd_touch_handle_t tp, uint16_t reg, uint8_t data)
+{
+    assert(tp != NULL);
+
+    // *INDENT-OFF*
+    /* Write data */
+    // return esp_lcd_panel_io_tx_param(tp->io, reg, (uint8_t[]){data}, 1);
+    uint8_t data_array[1] = {data};
+    return esp_lcd_panel_io_tx_param(tp->io, reg, data_array, 1);
+
+    // *INDENT-ON*
 }
