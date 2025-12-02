@@ -190,9 +190,9 @@ void lvglTick(void *param) {
 void lvgl_display_init(){
     DEV_I2C_Port port = DEV_I2C_Init();
 
-    tp_handle = touch_gt911_init(port);
+    // tp_handle = touch_gt911_init(port);
 
-    // tp_handle = touch_cst3530_init(port);
+    tp_handle = touch_cst3530_init(port);
 
     if (!gfx_lvgl->begin()) {
       Serial.println("gfx->begin() failed!");
