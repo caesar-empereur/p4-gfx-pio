@@ -16,7 +16,7 @@ static const char *TAG = "i2c";  // Define a tag for logging
 
 // Global handle for the I2C master bus
 // i2c_master_bus_handle_t bus_handle = NULL;
-DEV_I2C_Port handle_i2c;
+DEV_I2C_Port handle;
 /**
  * @brief Initialize the I2C master interface.
  * 
@@ -38,7 +38,7 @@ DEV_I2C_Port DEV_I2C_Init()
     };
 
     // Create a new I2C master bus with the above configuration
-    ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_config, &handle_i2c.bus));
+    ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_config, &handle.bus));
     
     // Configure the device's I2C parameters
     i2c_device_config_t i2c_dev_conf = {
@@ -47,11 +47,11 @@ DEV_I2C_Port DEV_I2C_Init()
     
     // Add the I2C device to the bus
     // i2c_master_dev_handle_t dev_handle = NULL;
-    if (i2c_master_bus_add_device(handle_i2c.bus, &i2c_dev_conf, &handle_i2c.dev) != ESP_OK) {
+    if (i2c_master_bus_add_device(handle.bus, &i2c_dev_conf, &handle.dev) != ESP_OK) {
         ESP_LOGE(TAG, "I2C device creation failed");  // Log error if device creation fails
     }
 
-    return handle_i2c;  // Return the device handle if successful
+    return handle;  // Return the device handle if successful
 }
 
 /**
@@ -71,7 +71,7 @@ void DEV_I2C_Set_Slave_Addr(i2c_master_dev_handle_t *dev_handle, uint8_t Addr)
     };
     
     // Update the device with the new address
-    if (i2c_master_bus_add_device(handle_i2c.bus, &i2c_dev_conf, dev_handle) != ESP_OK) {
+    if (i2c_master_bus_add_device(handle.bus, &i2c_dev_conf, dev_handle) != ESP_OK) {
         ESP_LOGE(TAG, "I2C address modification failed");  // Log error if address modification fails
     }
 }
