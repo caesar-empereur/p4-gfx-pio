@@ -7,6 +7,7 @@
 #include "receive-mavlink.h"
 #include "rgb-init.h"
 // #include "spi-init.h"
+// #include "lvgl-display-init.h"
 #include "lvgl-display-init.h"
 
 // #include "gt911.h"

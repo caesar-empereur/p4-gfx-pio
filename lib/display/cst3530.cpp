@@ -70,56 +70,63 @@ esp_err_t esp_lcd_touch_new_i2c_cst3530(const esp_lcd_panel_io_handle_t io,
     esp_lcd_touch_cst3530->data.lock.owner = portMUX_FREE_VAL;
     memcpy(&esp_lcd_touch_cst3530->config, config, sizeof(esp_lcd_touch_config_t));
 
-    // if (esp_lcd_touch_cst3530->config.int_gpio_num != GPIO_NUM_NC){
-    //     gpio_config_t int_gpio_config = {
-    //         .mode = GPIO_MODE_INPUT,
-    //         .intr_type = (esp_lcd_touch_cst3530->config.levels.interrupt ? GPIO_INTR_POSEDGE : GPIO_INTR_NEGEDGE),
-    //         .pin_bit_mask = BIT64(config->int_gpio_num)};
-    //     ESP_GOTO_ON_ERROR(gpio_config(&int_gpio_config), err, TAG, "GPIO配置失败");
-
-    //     if (esp_lcd_touch_cst3530->config.interrupt_callback){
-    //         esp_lcd_touch_register_interrupt_callback(esp_lcd_touch_cst3530, esp_lcd_touch_cst3530->config.interrupt_callback);
-    //     }
-    // }
-
-    // if (esp_lcd_touch_cst3530->config.rst_gpio_num != GPIO_NUM_NC){
-    //     const gpio_config_t rst_gpio_config = {
-    //         .mode = GPIO_MODE_OUTPUT,
-    //         .pin_bit_mask = BIT64(config->rst_gpio_num)};
-    //     ESP_GOTO_ON_ERROR(gpio_config(&rst_gpio_config), err, TAG, "GPIO复位配置失败");
-    // }
-    if (config->rst_gpio_num != GPIO_NUM_NC) {
-        gpio_config_t rst_gpio_config = {
-            .pin_bit_mask = BIT64(config->rst_gpio_num),
-            .mode = GPIO_MODE_OUTPUT,
-            .pull_up_en = GPIO_PULLUP_DISABLE,
-            .pull_down_en = GPIO_PULLDOWN_DISABLE,
-            .intr_type = GPIO_INTR_DISABLE,
-        };
-        ret = gpio_config(&rst_gpio_config);
-        if (ret != ESP_OK) {
-            ESP_LOGE(TAG, "Failed to configure reset GPIO");
-            heap_caps_free(esp_lcd_touch_cst3530);  // Free allocated memory
-            return ret;
-        }
-    }
-
-    // Configure the interrupt GPIO pin if specified
-    if (config->int_gpio_num != GPIO_NUM_NC) {
+    if (esp_lcd_touch_cst3530->config.int_gpio_num != GPIO_NUM_NC){
         gpio_config_t int_gpio_config = {
             .pin_bit_mask = BIT64(config->int_gpio_num),
             .mode = GPIO_MODE_INPUT,
-            .pull_up_en = GPIO_PULLUP_DISABLE,
-            .pull_down_en = GPIO_PULLDOWN_DISABLE,
-            .intr_type = config->levels.interrupt ? GPIO_INTR_POSEDGE : GPIO_INTR_NEGEDGE,
+            .intr_type = (esp_lcd_touch_cst3530->config.levels.interrupt ? GPIO_INTR_POSEDGE : GPIO_INTR_NEGEDGE)
+            
         };
-        ret = gpio_config(&int_gpio_config);
-        if (ret != ESP_OK) {
-            ESP_LOGE(TAG, "Failed to configure interrupt GPIO");
-            heap_caps_free(esp_lcd_touch_cst3530);  // Free allocated memory
-            return ret;
+        ESP_GOTO_ON_ERROR(gpio_config(&int_gpio_config), err, TAG, "GPIO配置失败");
+
+        if (esp_lcd_touch_cst3530->config.interrupt_callback){
+            esp_lcd_touch_register_interrupt_callback(esp_lcd_touch_cst3530, 
+                        esp_lcd_touch_cst3530->config.interrupt_callback);
         }
     }
+
+    if (esp_lcd_touch_cst3530->config.rst_gpio_num != GPIO_NUM_NC){
+        const gpio_config_t rst_gpio_config = {
+            .pin_bit_mask = BIT64(config->rst_gpio_num),
+            .mode = GPIO_MODE_OUTPUT
+            
+        };
+        ESP_GOTO_ON_ERROR(gpio_config(&rst_gpio_config), err, TAG, "GPIO复位配置失败");
+    }
+
+    //模仿 gt911
+    // if (config->rst_gpio_num != GPIO_NUM_NC) {
+    //     gpio_config_t rst_gpio_config = {
+    //         .pin_bit_mask = BIT64(config->rst_gpio_num),
+    //         .mode = GPIO_MODE_OUTPUT,
+    //         .pull_up_en = GPIO_PULLUP_DISABLE,
+    //         .pull_down_en = GPIO_PULLDOWN_DISABLE,
+    //         .intr_type = GPIO_INTR_DISABLE,
+    //     };
+    //     ret = gpio_config(&rst_gpio_config);
+    //     if (ret != ESP_OK) {
+    //         ESP_LOGE(TAG, "Failed to configure reset GPIO");
+    //         heap_caps_free(esp_lcd_touch_cst3530);  // Free allocated memory
+    //         return ret;
+    //     }
+    // }
+
+    // // Configure the interrupt GPIO pin if specified
+    // if (config->int_gpio_num != GPIO_NUM_NC) {
+    //     gpio_config_t int_gpio_config = {
+    //         .pin_bit_mask = BIT64(config->int_gpio_num),
+    //         .mode = GPIO_MODE_INPUT,
+    //         .pull_up_en = GPIO_PULLUP_DISABLE,
+    //         .pull_down_en = GPIO_PULLDOWN_DISABLE,
+    //         .intr_type = config->levels.interrupt ? GPIO_INTR_POSEDGE : GPIO_INTR_NEGEDGE,
+    //     };
+    //     ret = gpio_config(&int_gpio_config);
+    //     if (ret != ESP_OK) {
+    //         ESP_LOGE(TAG, "Failed to configure interrupt GPIO");
+    //         heap_caps_free(esp_lcd_touch_cst3530);  // Free allocated memory
+    //         return ret;
+    //     }
+    // }
 
     ESP_GOTO_ON_ERROR(touch_cst3530_reset(esp_lcd_touch_cst3530), err, TAG, "复位失败");
 

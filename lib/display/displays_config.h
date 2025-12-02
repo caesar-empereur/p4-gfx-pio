@@ -156,7 +156,7 @@ static const lcd_init_cmd_t yuxi_480_480_init[] = {
 };
 
 //yao yuan hong 4 480 480  touch ic CST3530
-const DisplayConfig SCREEN_DEFAULT = {
+const DisplayConfig SCREEN_DEFAULT_YAO = {
     .name = "10.1-DSI-TOUCH-A",
     .hsync_pulse_width = 16,
     .hsync_back_porch = 32,
@@ -180,52 +180,54 @@ const DisplayConfig SCREEN_DEFAULT = {
 };
 
 //宇锡
-// const DisplayConfig SCREEN_DEFAULT = {
-//     .name = "10.1-DSI-TOUCH-A",
-//     .hsync_pulse_width = 6,
-//     .hsync_back_porch = 50,
-//     .hsync_front_porch = 50,
-//     .vsync_pulse_width = 8,
-//     .vsync_back_porch = 18,
-//     .vsync_front_porch = 18,
-//     .prefer_speed = 30000000,
-//     .lane_bit_rate = 1000,
-//     .width = 480,
-//     .height = 480,
-//     .rotation = 2,
-//     .auto_flush = true,
-//     .rst_pin = -1,
-//     .init_cmds = yuxi_480_480_init,
-//     .init_cmds_size = sizeof(yuxi_480_480_init) / sizeof(lcd_init_cmd_t),
-//     .i2c_sda_pin = 7,
-//     .i2c_scl_pin = 8,
-//     .i2c_clock_speed = 100000,
-//     .lcd_rst = 27,
-// };
+const DisplayConfig SCREEN_DEFAULT_YUXI = {
+    .name = "10.1-DSI-TOUCH-A",
+    .hsync_pulse_width = 6,
+    .hsync_back_porch = 50,
+    .hsync_front_porch = 50,
+    .vsync_pulse_width = 8,
+    .vsync_back_porch = 18,
+    .vsync_front_porch = 18,
+    .prefer_speed = 30000000,
+    .lane_bit_rate = 1000,
+    .width = 480,
+    .height = 480,
+    .rotation = 2,
+    .auto_flush = true,
+    .rst_pin = -1,
+    .init_cmds = yuxi_480_480_init,
+    .init_cmds_size = sizeof(yuxi_480_480_init) / sizeof(lcd_init_cmd_t),
+    .i2c_sda_pin = 7,
+    .i2c_scl_pin = 8,
+    .i2c_clock_speed = 100000,
+    .lcd_rst = 27,
+};
 
 //weixue 4 720 720 
-// const DisplayConfig SCREEN_DEFAULT = {
-//     .name = "10.1-DSI-TOUCH-A",
-//     .hsync_pulse_width = 20,
-//     .hsync_back_porch = 80,
-//     .hsync_front_porch = 80,
-//     .vsync_pulse_width = 4,
-//     .vsync_back_porch = 12,
-//     .vsync_front_porch = 30,
-//     .prefer_speed = 80000000,
-//     .lane_bit_rate = 1000,
-//     .width = 720,
-//     .height = 720,
-//     .rotation = 2,
-//     .auto_flush = true,
-//     .rst_pin = -1,
-//     .init_cmds = weixue_720_720_init,
-//     .init_cmds_size = sizeof(weixue_720_720_init) / sizeof(lcd_init_cmd_t),
-//     .i2c_sda_pin = 7,
-//     .i2c_scl_pin = 8,
-//     .i2c_clock_speed = 100000,
-//     .lcd_rst = 27,
-// };
+const DisplayConfig SCREEN_DEFAULT_WEIXUE = {
+    .name = "10.1-DSI-TOUCH-A",
+    .hsync_pulse_width = 20,
+    .hsync_back_porch = 80,
+    .hsync_front_porch = 80,
+    .vsync_pulse_width = 4,
+    .vsync_back_porch = 12,
+    .vsync_front_porch = 30,
+    .prefer_speed = 80000000,
+    .lane_bit_rate = 1000,
+    .width = 720,
+    .height = 720,
+    .rotation = 2,
+    .auto_flush = true,
+    .rst_pin = -1,
+    .init_cmds = weixue_720_720_init,
+    .init_cmds_size = sizeof(weixue_720_720_init) / sizeof(lcd_init_cmd_t),
+    .i2c_sda_pin = 7,
+    .i2c_scl_pin = 8,
+    .i2c_clock_speed = 100000,
+    .lcd_rst = 27,
+};
 
-inline const DisplayConfig& display_cfg = SCREEN_DEFAULT;
+// inline const DisplayConfig& display_cfg = SCREEN_DEFAULT;
+// inline const DisplayConfig& display_cfg = SCREEN_DEFAULT_YAO;
+inline const DisplayConfig& display_cfg = SCREEN_DEFAULT_WEIXUE;
 #endif
