@@ -114,6 +114,7 @@ void setup() {
     // gestureInit(0,0);
 
     lvgl_display_init();
+    create_red_screen();
 
     // mpu_init();
     // gfx_b->begin();
