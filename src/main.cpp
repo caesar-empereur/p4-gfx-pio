@@ -1,6 +1,10 @@
 #include <Arduino.h>
 #include <Arduino_GFX_Library.h>
 
+#define DCSBIOS_DEFAULT_SERIAL
+
+#include "DcsBios.h"
+
 // #include "radar-old.h"
 #include "gesture-rgb.h"
 #include "receive-mpu.h"
@@ -36,41 +40,41 @@ bool stringComplete = false;
 
 // HardwareSerial MySerial(1);
 
-// void F18_SAI_BANK(unsigned int newValue) {
-//     float fix_value = (newValue  / 65535.0f * 360) - 180;
-//     int roll = static_cast<int>(fix_value);
-//     ges_data.roll = roll;
-// }
-// DcsBios::IntegerBuffer F18_SAI_BANK_FUNC(FA_18C_hornet_SAI_BANK, F18_SAI_BANK);
+void F18_SAI_BANK(unsigned int newValue) {
+    float fix_value = (newValue  / 65535.0f * 360) - 180;
+    int roll = static_cast<int>(fix_value);
+    ges_data.roll = roll;
+}
+DcsBios::IntegerBuffer F18_SAI_BANK_FUNC(FA_18C_hornet_SAI_BANK, F18_SAI_BANK);
 
-// void F18_SAI_PITCH(unsigned int newValue) {
-//     float fix_value = (newValue / 65535.0f * 180.0f) -90.0f;
-//     int pitch = static_cast<int>(fix_value);
-//     ges_data.pitch = pitch;
-// }
-// DcsBios::IntegerBuffer F18_SAI_PITCH_FUNC(FA_18C_hornet_SAI_PITCH, F18_SAI_PITCH);
+void F18_SAI_PITCH(unsigned int newValue) {
+    float fix_value = (newValue / 65535.0f * 180.0f) -90.0f;
+    int pitch = static_cast<int>(fix_value);
+    ges_data.pitch = pitch;
+}
+DcsBios::IntegerBuffer F18_SAI_PITCH_FUNC(FA_18C_hornet_SAI_PITCH, F18_SAI_PITCH);
 
-// void F18_SBY_COMPASS_HDG(unsigned int newValue) {
+void F18_SBY_COMPASS_HDG(unsigned int newValue) {
 
-//     float fix_value = (newValue * 360 / 65535.0f);
-//     int yaw = static_cast<int>(fix_value);
-//     if(abs(yaw)>=360){
-//       yaw = 0;
-//     }
-//     ges_data.yaw = yaw;
-// }
-// DcsBios::IntegerBuffer F18_SBY_COMPASS_HDG_FUNC(FA_18C_hornet_SBY_COMPASS_HDG, F18_SBY_COMPASS_HDG);
+    float fix_value = (newValue * 360 / 65535.0f);
+    int yaw = static_cast<int>(fix_value);
+    if(abs(yaw)>=360){
+      yaw = 0;
+    }
+    ges_data.yaw = yaw;
+}
+DcsBios::IntegerBuffer F18_SBY_COMPASS_HDG_FUNC(FA_18C_hornet_SBY_COMPASS_HDG, F18_SBY_COMPASS_HDG);
 
-// void F18_STBY_ASI_AIRSPEED(unsigned int newValue) {
-//   int fix_value = (newValue * 350 / 65535);
-//   ges_data.air_speed=fix_value;
-// }
-// DcsBios::IntegerBuffer F18_STBY_ASI_AIRSPEED_FUNC(FA_18C_hornet_STBY_ASI_AIRSPEED, F18_STBY_ASI_AIRSPEED);
+void F18_STBY_ASI_AIRSPEED(unsigned int newValue) {
+  int fix_value = (newValue * 350 / 65535);
+  ges_data.air_speed=abs(int(newValue/150));
+}
+DcsBios::IntegerBuffer F18_STBY_ASI_AIRSPEED_FUNC(FA_18C_hornet_STBY_ASI_AIRSPEED, F18_STBY_ASI_AIRSPEED);
 
-// void F18_PRESSURE_ALT(unsigned int newValue) {
-//   ges_data.altitude = newValue;
-// }
-// DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRESSURE_ALT);
+void F18_PRESSURE_ALT(unsigned int newValue) {
+  ges_data.altitude = newValue*2;
+}
+DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRESSURE_ALT);
 
 // void F18_STBY_PRESS_ALT(unsigned int newValue) {
 //   float fix_value = (newValue * 360 / 65535);
@@ -80,79 +84,38 @@ bool stringComplete = false;
 
 
 
-
-// Arduino_ESP32DSIPanel *dsipanel_1 = new Arduino_ESP32DSIPanel(
-//                                                             display_cfg.hsync_pulse_width,
-//                                                             display_cfg.hsync_back_porch,
-//                                                             display_cfg.hsync_front_porch,
-//                                                             display_cfg.vsync_pulse_width,
-//                                                             display_cfg.vsync_back_porch,
-//                                                             display_cfg.vsync_front_porch,
-//                                                             display_cfg.prefer_speed,
-//                                                             display_cfg.lane_bit_rate);
-
-// Arduino_DSI_Display *gfx_b = new Arduino_DSI_Display(
-//                                                     display_cfg.width,
-//                                                     display_cfg.height,
-//                                                     dsipanel_1,
-//                                                     2,
-//                                                     true,
-//                                                     display_cfg.lcd_rst,
-//                                                     display_cfg.init_cmds,
-//                                                     display_cfg.init_cmds_size);
-
-
-
 void setup() {
     // MySerial.begin(115200, SERIAL_8N1, 37, 38);
 
 
-    Serial.begin(115200);
-    Serial1.begin(115200);
-    Serial2.begin(115200);
-    // initDisplay();
-    // gestureInit(0,0);
+    
+    // Serial1.begin(115200);
+    // Serial2.begin(115200);
+    initDisplay();
+    gestureInit(0,0);
 
-    lvgl_display_init();
-    create_red_screen();
+    // lvgl_display_init();
+    // create_red_screen();
 
     // mpu_init();
     // gfx_b->begin();
     // gfx_b->fillRect(0,0,480, 240, BLUE);
     // gfx_b->fillRect(0,240,480, 240, GREEN);
 
+    // DcsBios::setup();
     Serial.println("Setup complete");
+    Serial.begin(115200);
 }
 
 void loop() {
     // DcsBios::loop();
   // put your main code here, to run repeatedly:
-    // drawGestureByData(2, ges_data, 0, 0);
+    drawGestureByData(2, ges_data, 0, 0);
 
-    lv_timer_handler();
-    delay(5);
+    // lv_timer_handler();
+    // delay(5);
 }
 
-// using namespace DcsBios;
-// ProtocolParser parser1;
-
-// void serialEvent(){
-//     using namespace DcsBios;
-//     while (Serial.available()) {
-//       parser1.processChar(Serial.read());
-//     }
-//     PollingInput::pollInputs();
-//     ExportStreamListener::loopAll();
-// }
-
-
-// void serialEvent2(){
-//     ges_data = receive_parse_mpu();
-// }
-
-// void serialEvent1(){
-//     ges_data = receive_parse_mpu();
-// }
 
 String getStringBetween(String data, String startStr, String endStr) {
     int startIndex = data.indexOf(startStr);
@@ -166,9 +129,8 @@ String getStringBetween(String data, String startStr, String endStr) {
     return data.substring(startIndex, endIndex);
 }
 
-
-void serialEvent(){
-    // while(Serial.available()>0) {
+void serial_read_p3d(){
+   // while(Serial.available()>0) {
     //     uint8_t c = Serial.read();
     //     Serial2.write(c);
     // }
@@ -204,5 +166,30 @@ void serialEvent(){
 
         inputString = "";
     }
-    
 }
+
+using namespace DcsBios;
+ProtocolParser parser1;
+
+void serial_read_dcs(){
+    using namespace DcsBios;
+    while (Serial.available()) {
+      parser1.processChar(Serial.read());
+    }
+    PollingInput::pollInputs();
+    ExportStreamListener::loopAll();
+}
+
+void serialEvent(){
+    serial_read_dcs();
+}
+
+
+// void serialEvent2(){
+//     ges_data = receive_parse_mpu();
+// }
+
+// void serialEvent1(){
+//     ges_data = receive_parse_mpu();
+// }
+

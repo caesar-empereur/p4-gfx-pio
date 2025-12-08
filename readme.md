@@ -41,3 +41,8 @@ c
 #include "lvgl.h"
 // 或者
 #include <lvgl.h>
+
+
+## GFX 库 BROWN
+-- #define RGB565_BROWN RGB565(150, 75, 0)
+-- #define BROWN RGB565_BROWN
