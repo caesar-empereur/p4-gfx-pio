@@ -24,28 +24,28 @@ void main_screen_init(void)
     lv_obj_set_style_bg_color(ui_game_container, lv_color_hex(0x439EA9), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_game_container, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label1 = lv_label_create(ui_game_container);
-    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label1, "连接游戏选择 >>");
-    lv_obj_set_style_text_color(ui_Label1, lv_color_hex(0xF8F6F6), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_Label1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Label1, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_label_game = lv_label_create(ui_game_container);
+    lv_obj_set_width(ui_label_game, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_label_game, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_label_game, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_label_game, "连接游戏选择 >>");
+    lv_obj_set_style_text_color(ui_label_game, lv_color_hex(0xF8F6F6), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_label_game, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_label_game, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container3 = lv_obj_create(main_screen);
-    lv_obj_remove_style_all(ui_Container3);
-    lv_obj_set_width(ui_Container3, 331);
-    lv_obj_set_height(ui_Container3, 78);
-    lv_obj_set_x(ui_Container3, 5);
-    lv_obj_set_y(ui_Container3, 133);
-    lv_obj_set_align(ui_Container3, LV_ALIGN_CENTER);
-    lv_obj_remove_flag(ui_Container3, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_Container3, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Container3, lv_color_hex(0x29CB47), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Container3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_config_container = lv_obj_create(main_screen);
+    lv_obj_remove_style_all(ui_config_container);
+    lv_obj_set_width(ui_config_container, 331);
+    lv_obj_set_height(ui_config_container, 78);
+    lv_obj_set_x(ui_config_container, 5);
+    lv_obj_set_y(ui_config_container, 133);
+    lv_obj_set_align(ui_config_container, LV_ALIGN_CENTER);
+    lv_obj_remove_flag(ui_config_container, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_config_container, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_config_container, lv_color_hex(0x29CB47), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_config_container, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label3 = lv_label_create(ui_Container3);
+    ui_Label3 = lv_label_create(ui_config_container);
     lv_obj_set_width(ui_Label3, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label3, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label3, LV_ALIGN_CENTER);
@@ -101,7 +101,7 @@ void main_screen_init(void)
     lv_obj_set_style_text_font(ui_Label21, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_game_container, ui_event_game, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_Container3, ui_event_Container3, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_config_container, ui_event_Container3, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Container4, ui_event_Container4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button6, ui_event_Button6, LV_EVENT_ALL, NULL);
     ui_game_chose = ui_game_container;
