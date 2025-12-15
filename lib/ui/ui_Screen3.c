@@ -7,7 +7,7 @@
     
 void ui_gyro_event(lv_event_t * e);
 void ui_fc_event(lv_event_t * e);
-void ui_Screen3_screen_init(void)
+void sensor_screen_init(void)
 {
     ui_Screen3 = lv_obj_create(NULL);
     lv_obj_remove_flag(ui_Screen3, LV_OBJ_FLAG_SCROLLABLE);      /// Flags

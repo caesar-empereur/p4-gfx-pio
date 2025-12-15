@@ -57,7 +57,7 @@ lv_obj_t * ui_f22;
 
 
 // SCREEN: ui_Screen3
-void ui_Screen3_screen_init(void);
+void sensor_screen_init(void);
 lv_obj_t * ui_Screen3;
 void ui_event_Button3(lv_event_t * e);
 lv_obj_t * ui_Button3;
@@ -130,7 +130,7 @@ void ui_event_Container4(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &ui_Screen3_screen_init);
+        _ui_screen_change(&ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &sensor_screen_init);
     }
 }
 
@@ -190,7 +190,7 @@ void ui_init(void)
     lv_disp_set_theme(dispp, theme);
     main_screen_init();
     game_screen_init();
-    ui_Screen3_screen_init();
+    sensor_screen_init();
     ui_Screen4_screen_init();
     ui_Screen5_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
