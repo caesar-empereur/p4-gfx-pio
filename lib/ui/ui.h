@@ -40,10 +40,10 @@ extern lv_obj_t * ui_sensor_select;
 // SCREEN: ui_Screen2
 void game_screen_init(void);
 extern lv_obj_t * game_screen;
-extern lv_obj_t * ui_Container2;
-extern lv_obj_t * ui_Label2;
-extern lv_obj_t * ui_Container6;
-extern lv_obj_t * ui_Label5;
+extern lv_obj_t * ui_container_p3d;
+extern lv_obj_t * ui_label_p3d;
+extern lv_obj_t * ui_container_dcs;
+extern lv_obj_t * ui_label_dcs;
 extern lv_obj_t * ui_Container14;
 extern lv_obj_t * ui_Container9;
 extern lv_obj_t * ui_Label9;

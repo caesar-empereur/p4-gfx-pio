@@ -24,47 +24,47 @@ void game_screen_init(void)
     lv_obj_set_style_bg_color(game_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(game_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container2 = lv_obj_create(game_screen);
-    lv_obj_remove_style_all(ui_Container2);
-    lv_obj_set_width(ui_Container2, 130);
-    lv_obj_set_height(ui_Container2, 70);
-    lv_obj_set_x(ui_Container2, -83);
-    lv_obj_set_y(ui_Container2, -98);
-    lv_obj_set_align(ui_Container2, LV_ALIGN_CENTER);
-    lv_obj_remove_flag(ui_Container2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_Container2, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Container2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Container2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui_Container2, lv_color_hex(0xF55C19), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui_Container2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui_Container2, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_container_p3d = lv_obj_create(game_screen);
+    lv_obj_remove_style_all(ui_container_p3d);
+    lv_obj_set_width(ui_container_p3d, 130);
+    lv_obj_set_height(ui_container_p3d, 70);
+    lv_obj_set_x(ui_container_p3d, -83);
+    lv_obj_set_y(ui_container_p3d, -98);
+    lv_obj_set_align(ui_container_p3d, LV_ALIGN_CENTER);
+    lv_obj_remove_flag(ui_container_p3d, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_container_p3d, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_container_p3d, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_container_p3d, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_container_p3d, lv_color_hex(0xF55C19), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_container_p3d, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_container_p3d, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label2 = lv_label_create(ui_Container2);
-    lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label2, "P3D");
-    lv_obj_set_style_text_font(ui_Label2, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_label_p3d = lv_label_create(ui_container_p3d);
+    lv_obj_set_width(ui_label_p3d, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_label_p3d, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_label_p3d, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_label_p3d, "P3D");
+    lv_obj_set_style_text_font(ui_label_p3d, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container6 = lv_obj_create(game_screen);
-    lv_obj_remove_style_all(ui_Container6);
-    lv_obj_set_width(ui_Container6, 130);
-    lv_obj_set_height(ui_Container6, 70);
-    lv_obj_set_x(ui_Container6, 83);
-    lv_obj_set_y(ui_Container6, -99);
-    lv_obj_set_align(ui_Container6, LV_ALIGN_CENTER);
-    lv_obj_remove_flag(ui_Container6, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_Container6, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui_Container6, lv_color_hex(0xF55C19), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui_Container6, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui_Container6, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_container_dcs = lv_obj_create(game_screen);
+    lv_obj_remove_style_all(ui_container_dcs);
+    lv_obj_set_width(ui_container_dcs, 130);
+    lv_obj_set_height(ui_container_dcs, 70);
+    lv_obj_set_x(ui_container_dcs, 83);
+    lv_obj_set_y(ui_container_dcs, -99);
+    lv_obj_set_align(ui_container_dcs, LV_ALIGN_CENTER);
+    lv_obj_remove_flag(ui_container_dcs, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_container_dcs, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_container_dcs, lv_color_hex(0xF55C19), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_container_dcs, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_container_dcs, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label5 = lv_label_create(ui_Container6);
-    lv_obj_set_width(ui_Label5, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label5, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label5, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label5, "DCS");
-    lv_obj_set_style_text_font(ui_Label5, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_label_dcs = lv_label_create(ui_container_dcs);
+    lv_obj_set_width(ui_label_dcs, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_label_dcs, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_label_dcs, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_label_dcs, "DCS");
+    lv_obj_set_style_text_font(ui_label_dcs, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Container14 = lv_obj_create(game_screen);
     lv_obj_remove_style_all(ui_Container14);
@@ -156,8 +156,8 @@ void game_screen_init(void)
     lv_obj_set_style_text_font(ui_Label14, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_Button1, ui_event_Button1, LV_EVENT_ALL, NULL);
-    ui_p3d = ui_Container2;
-    ui_dcs = ui_Container6;
+    ui_p3d = ui_container_p3d;
+    ui_dcs = ui_container_dcs;
     ui_f16 = ui_Container9;
     ui_f18 = ui_Container8;
     ui_f22 = ui_Container7;
