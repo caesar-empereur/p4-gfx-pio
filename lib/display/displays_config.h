@@ -228,6 +228,6 @@ const DisplayConfig SCREEN_DEFAULT_WEIXUE = {
 };
 
 // inline const DisplayConfig& display_cfg = SCREEN_DEFAULT;
-inline const DisplayConfig& display_cfg = SCREEN_DEFAULT_YAO;
-// inline const DisplayConfig& display_cfg = SCREEN_DEFAULT_WEIXUE;
+// inline const DisplayConfig& display_cfg = SCREEN_DEFAULT_YAO;
+inline const DisplayConfig& display_cfg = SCREEN_DEFAULT_WEIXUE;
 #endif

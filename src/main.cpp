@@ -91,10 +91,10 @@ void setup() {
     
     // Serial1.begin(115200);
     // Serial2.begin(115200);
-    initDisplay();
-    gestureInit(0,0);
+    // initDisplay();
+    // gestureInit(0,0);
 
-    // lvgl_display_init();
+    lvgl_display_init();
     // create_red_screen();
 
     // mpu_init();
@@ -110,10 +110,10 @@ void setup() {
 void loop() {
     // DcsBios::loop();
   // put your main code here, to run repeatedly:
-    drawGestureByData(2, ges_data, 0, 0);
+    // drawGestureByData(2, ges_data, 0, 0);
 
-    // lv_timer_handler();
-    // delay(5);
+    lv_timer_handler();
+    delay(5);
 }
 
 

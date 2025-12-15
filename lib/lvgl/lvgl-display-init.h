@@ -7,6 +7,7 @@
 // #include "lv_conf.h"
 #include <demos/lv_demos.h>
 
-#include "ui.h"
+// #include "ui.h"
+#include "../ui/ui.h"
 
 void lvgl_display_init();
