@@ -155,7 +155,7 @@ void game_screen_init(void)
     lv_label_set_text(ui_label_return, "返回");
     lv_obj_set_style_text_font(ui_label_return, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_button_return, ui_event_Button1, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_button_return, ui_event_button_game_return, LV_EVENT_ALL, NULL);
     ui_p3d = ui_container_p3d;
     ui_dcs = ui_container_dcs;
     ui_f16 = ui_container_f16;

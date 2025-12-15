@@ -78,7 +78,7 @@ void sensor_screen_init(void)
     lv_label_set_text(ui_label_feikong, "飞控");
     lv_obj_set_style_text_font(ui_label_feikong, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_button_return, ui_event_Button3, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_button_return, ui_event_button_sensor_return, LV_EVENT_ALL, NULL);
     ui_gyro = ui_container_gyro;
     ui_fc = ui_container_feikong;
 

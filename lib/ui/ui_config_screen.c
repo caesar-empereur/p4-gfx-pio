@@ -84,7 +84,7 @@ void ui_config_screen_init(void)
     lv_label_set_text(ui_label_return, "返回");
     lv_obj_set_style_text_font(ui_label_return, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_button_return, ui_event_Button4, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_button_return, ui_event_button_ui_config_return, LV_EVENT_ALL, NULL);
     ui_yes = ui_container_yes;
     ui_no = ui_container_no;
     lv_obj_add_flag(ui_container_yes, LV_OBJ_FLAG_CLICKABLE);

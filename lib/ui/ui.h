@@ -29,7 +29,7 @@ void ui_event_sensor(lv_event_t * e);
 extern lv_obj_t * ui_container_sensor;
 extern lv_obj_t * ui_label_sensor;
 extern lv_obj_t * ui_container_return;
-void ui_event_Button6(lv_event_t * e);
+void ui_event_button_main_return(lv_event_t * e);
 extern lv_obj_t * ui_button_return;
 extern lv_obj_t * ui_label_return;
 // CUSTOM VARIABLES
@@ -51,7 +51,7 @@ extern lv_obj_t * ui_container_f18;
 extern lv_obj_t * ui_label_f18;
 extern lv_obj_t * ui_container_f22;
 extern lv_obj_t * ui_label_f22;
-void ui_event_Button1(lv_event_t * e);
+void ui_event_button_game_return(lv_event_t * e);
 extern lv_obj_t * ui_button_return;
 extern lv_obj_t * ui_label_return;
 // CUSTOM VARIABLES
@@ -64,7 +64,7 @@ extern lv_obj_t * ui_f22;
 // SCREEN: ui_Screen3
 void sensor_screen_init(void);
 extern lv_obj_t * sensor_screen;
-void ui_event_Button3(lv_event_t * e);
+void ui_event_button_sensor_return(lv_event_t * e);
 extern lv_obj_t * ui_button_return;
 extern lv_obj_t * ui_label_return;
 extern lv_obj_t * ui_container_gyro;
@@ -83,7 +83,7 @@ extern lv_obj_t * ui_label_yes;
 extern lv_obj_t * ui_container_no;
 extern lv_obj_t * ui_label_no;
 extern lv_obj_t * ui_label_yaw_show;
-void ui_event_Button4(lv_event_t * e);
+void ui_event_button_ui_config_return(lv_event_t * e);
 extern lv_obj_t * ui_button_return;
 extern lv_obj_t * ui_label_return;
 // CUSTOM VARIABLES
@@ -92,7 +92,7 @@ extern lv_obj_t * ui_no;
 
 // SCREEN: ui_Screen5
 void red_screen_init(void);
-void ui_event_Screen5(lv_event_t * e);
+void ui_event_red_screen(lv_event_t * e);
 extern lv_obj_t * red_screen;
 extern lv_obj_t * ui_Container19;
 // CUSTOM VARIABLES
