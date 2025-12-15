@@ -12,19 +12,19 @@ void main_screen_init(void)
     lv_obj_set_style_bg_color(main_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(main_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_game = lv_obj_create(main_screen);
-    lv_obj_remove_style_all(ui_game);
-    lv_obj_set_width(ui_game, 331);
-    lv_obj_set_height(ui_game, 78);
-    lv_obj_set_x(ui_game, 2);
-    lv_obj_set_y(ui_game, -107);
-    lv_obj_set_align(ui_game, LV_ALIGN_CENTER);
-    lv_obj_remove_flag(ui_game, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_game, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_game, lv_color_hex(0x439EA9), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_game, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_game_container = lv_obj_create(main_screen);
+    lv_obj_remove_style_all(ui_game_container);
+    lv_obj_set_width(ui_game_container, 331);
+    lv_obj_set_height(ui_game_container, 78);
+    lv_obj_set_x(ui_game_container, 2);
+    lv_obj_set_y(ui_game_container, -107);
+    lv_obj_set_align(ui_game_container, LV_ALIGN_CENTER);
+    lv_obj_remove_flag(ui_game_container, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_game_container, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_game_container, lv_color_hex(0x439EA9), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_game_container, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label1 = lv_label_create(ui_game);
+    ui_Label1 = lv_label_create(ui_game_container);
     lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
@@ -100,11 +100,11 @@ void main_screen_init(void)
     lv_label_set_text(ui_Label21, "返回");
     lv_obj_set_style_text_font(ui_Label21, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_game, ui_event_game, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_game_container, ui_event_game, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Container3, ui_event_Container3, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Container4, ui_event_Container4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button6, ui_event_Button6, LV_EVENT_ALL, NULL);
-    ui_game_chose = ui_game;
+    ui_game_chose = ui_game_container;
     ui_ui_select = ui_Label3;
     ui_sensor_select = ui_Container4;
 

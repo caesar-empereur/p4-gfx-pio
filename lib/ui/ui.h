@@ -20,7 +20,7 @@ extern "C" {
 void main_screen_init(void);
 extern lv_obj_t * main_screen;
 void ui_event_game(lv_event_t * e);
-extern lv_obj_t * ui_game;
+extern lv_obj_t * ui_game_container;
 extern lv_obj_t * ui_Label1;
 void ui_event_Container3(lv_event_t * e);
 extern lv_obj_t * ui_Container3;
