@@ -22,7 +22,7 @@ extern lv_obj_t * main_screen;
 void ui_event_game(lv_event_t * e);
 extern lv_obj_t * ui_container_game;
 extern lv_obj_t * ui_label_game;
-void ui_event_Container3(lv_event_t * e);
+void ui_event_ui_config(lv_event_t * e);
 extern lv_obj_t * ui_container_ui_config;
 extern lv_obj_t * ui_label_ui_config;
 void ui_event_Container4(lv_event_t * e);
