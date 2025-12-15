@@ -13,11 +13,11 @@
 void main_screen_init(void);
 lv_obj_t * main_screen;
 void ui_event_game(lv_event_t * e);
-lv_obj_t * ui_game_container;
+lv_obj_t * ui_container_game;
 lv_obj_t * ui_label_game;
 void ui_event_Container3(lv_event_t * e);
-lv_obj_t * ui_config_container;
-lv_obj_t * ui_Label3;
+lv_obj_t * ui_container_ui_config;
+lv_obj_t * ui_label_ui_config;
 void ui_event_Container4(lv_event_t * e);
 lv_obj_t * ui_Container4;
 lv_obj_t * ui_Label4;
