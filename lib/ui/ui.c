@@ -19,12 +19,12 @@ void ui_event_Container3(lv_event_t * e);
 lv_obj_t * ui_container_ui_config;
 lv_obj_t * ui_label_ui_config;
 void ui_event_Container4(lv_event_t * e);
-lv_obj_t * ui_Container4;
-lv_obj_t * ui_Label4;
-lv_obj_t * ui_Container13;
+lv_obj_t * ui_container_sensor;
+lv_obj_t * ui_label_sensor;
+lv_obj_t * ui_container_return;
 void ui_event_Button6(lv_event_t * e);
-lv_obj_t * ui_Button6;
-lv_obj_t * ui_Label21;
+lv_obj_t * ui_button_return;
+lv_obj_t * ui_label_return;
 // CUSTOM VARIABLES
 lv_obj_t * ui_game_chose;
 lv_obj_t * ui_ui_select;

@@ -54,58 +54,58 @@ void main_screen_init(void)
     lv_obj_set_style_text_opa(ui_label_ui_config, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_label_ui_config, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container4 = lv_obj_create(main_screen);
-    lv_obj_remove_style_all(ui_Container4);
-    lv_obj_set_width(ui_Container4, 331);
-    lv_obj_set_height(ui_Container4, 78);
-    lv_obj_set_x(ui_Container4, 2);
-    lv_obj_set_y(ui_Container4, 12);
-    lv_obj_set_align(ui_Container4, LV_ALIGN_CENTER);
-    lv_obj_remove_flag(ui_Container4, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_Container4, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_Container4, lv_color_hex(0xD84BB0), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Container4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_container_sensor = lv_obj_create(main_screen);
+    lv_obj_remove_style_all(ui_container_sensor);
+    lv_obj_set_width(ui_container_sensor, 331);
+    lv_obj_set_height(ui_container_sensor, 78);
+    lv_obj_set_x(ui_container_sensor, 2);
+    lv_obj_set_y(ui_container_sensor, 12);
+    lv_obj_set_align(ui_container_sensor, LV_ALIGN_CENTER);
+    lv_obj_remove_flag(ui_container_sensor, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_container_sensor, 11, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_container_sensor, lv_color_hex(0xD84BB0), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_container_sensor, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label4 = lv_label_create(ui_Container4);
-    lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label4, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Label4, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label4, "传感器设置 >>");
-    lv_obj_set_style_text_color(ui_Label4, lv_color_hex(0xF8F6F6), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_Label4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Label4, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_label_sensor = lv_label_create(ui_container_sensor);
+    lv_obj_set_width(ui_label_sensor, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_label_sensor, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_label_sensor, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_label_sensor, "传感器设置 >>");
+    lv_obj_set_style_text_color(ui_label_sensor, lv_color_hex(0xF8F6F6), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_label_sensor, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_label_sensor, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container13 = lv_obj_create(main_screen);
-    lv_obj_remove_style_all(ui_Container13);
-    lv_obj_set_width(ui_Container13, 100);
-    lv_obj_set_height(ui_Container13, 50);
-    lv_obj_set_align(ui_Container13, LV_ALIGN_CENTER);
-    lv_obj_remove_flag(ui_Container13, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    ui_container_return = lv_obj_create(main_screen);
+    lv_obj_remove_style_all(ui_container_return);
+    lv_obj_set_width(ui_container_return, 100);
+    lv_obj_set_height(ui_container_return, 50);
+    lv_obj_set_align(ui_container_return, LV_ALIGN_CENTER);
+    lv_obj_remove_flag(ui_container_return, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_Button6 = lv_button_create(main_screen);
-    lv_obj_set_width(ui_Button6, 100);
-    lv_obj_set_height(ui_Button6, 50);
-    lv_obj_set_x(ui_Button6, -161);
-    lv_obj_set_y(ui_Button6, -205);
-    lv_obj_set_align(ui_Button6, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Button6, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_remove_flag(ui_Button6, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    ui_button_return = lv_button_create(main_screen);
+    lv_obj_set_width(ui_button_return, 100);
+    lv_obj_set_height(ui_button_return, 50);
+    lv_obj_set_x(ui_button_return, -161);
+    lv_obj_set_y(ui_button_return, -205);
+    lv_obj_set_align(ui_button_return, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_button_return, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_remove_flag(ui_button_return, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_Label21 = lv_label_create(ui_Button6);
-    lv_obj_set_width(ui_Label21, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Label21, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_Label21, 1);
-    lv_obj_set_y(ui_Label21, 4);
-    lv_obj_set_align(ui_Label21, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label21, "返回");
-    lv_obj_set_style_text_font(ui_Label21, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_label_return = lv_label_create(ui_button_return);
+    lv_obj_set_width(ui_label_return, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_label_return, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_label_return, 1);
+    lv_obj_set_y(ui_label_return, 4);
+    lv_obj_set_align(ui_label_return, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_label_return, "返回");
+    lv_obj_set_style_text_font(ui_label_return, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_container_game, ui_event_game, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_container_ui_config, ui_event_Container3, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_Container4, ui_event_Container4, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_Button6, ui_event_Button6, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_container_sensor, ui_event_Container4, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_button_return, ui_event_Button6, LV_EVENT_ALL, NULL);
     ui_game_chose = ui_container_game;
     ui_ui_select = ui_label_ui_config;
-    ui_sensor_select = ui_Container4;
+    ui_sensor_select = ui_container_sensor;
 
 }
