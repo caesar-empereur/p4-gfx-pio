@@ -102,7 +102,7 @@ void main_screen_init(void)
 
     lv_obj_add_event_cb(ui_container_game, ui_event_game, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_container_ui_config, ui_event_ui_config, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_container_sensor, ui_event_Container4, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_container_sensor, ui_event_sensor, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_button_return, ui_event_Button6, LV_EVENT_ALL, NULL);
     ui_game_chose = ui_container_game;
     ui_ui_select = ui_label_ui_config;

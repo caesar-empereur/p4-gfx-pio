@@ -18,7 +18,7 @@ lv_obj_t * ui_label_game;
 void ui_event_ui_config(lv_event_t * e);
 lv_obj_t * ui_container_ui_config;
 lv_obj_t * ui_label_ui_config;
-void ui_event_Container4(lv_event_t * e);
+void ui_event_sensor(lv_event_t * e);
 lv_obj_t * ui_container_sensor;
 lv_obj_t * ui_label_sensor;
 lv_obj_t * ui_container_return;
@@ -125,7 +125,7 @@ void ui_event_ui_config(lv_event_t * e)
     }
 }
 
-void ui_event_Container4(lv_event_t * e)
+void ui_event_sensor(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
