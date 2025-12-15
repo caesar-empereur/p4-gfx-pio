@@ -5,20 +5,20 @@
 
 #include "ui.h"
 
-void ui_Screen5_screen_init(void)
+void red_screen_init(void)
 {
-    ui_Screen5 = lv_obj_create(NULL);
-    lv_obj_remove_flag(ui_Screen5, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Screen5, lv_color_hex(0xFA0303), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Screen5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    red_screen = lv_obj_create(NULL);
+    lv_obj_remove_flag(red_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(red_screen, lv_color_hex(0xFA0303), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(red_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container19 = lv_obj_create(ui_Screen5);
+    ui_Container19 = lv_obj_create(red_screen);
     lv_obj_remove_style_all(ui_Container19);
     lv_obj_set_width(ui_Container19, 100);
     lv_obj_set_height(ui_Container19, 50);
     lv_obj_set_align(ui_Container19, LV_ALIGN_CENTER);
     lv_obj_remove_flag(ui_Container19, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    lv_obj_add_event_cb(ui_Screen5, ui_event_Screen5, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(red_screen, ui_event_Screen5, LV_EVENT_ALL, NULL);
 
 }

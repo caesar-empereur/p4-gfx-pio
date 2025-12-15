@@ -91,9 +91,9 @@ extern lv_obj_t * ui_yes;
 extern lv_obj_t * ui_no;
 
 // SCREEN: ui_Screen5
-void ui_Screen5_screen_init(void);
+void red_screen_init(void);
 void ui_event_Screen5(lv_event_t * e);
-extern lv_obj_t * ui_Screen5;
+extern lv_obj_t * red_screen;
 extern lv_obj_t * ui_Container19;
 // CUSTOM VARIABLES
 

@@ -87,10 +87,10 @@ lv_obj_t * ui_yes;
 lv_obj_t * ui_no;
 
 
-// SCREEN: ui_Screen5
-void ui_Screen5_screen_init(void);
+// SCREEN: red_screen
+void red_screen_init(void);
 void ui_event_Screen5(lv_event_t * e);
-lv_obj_t * ui_Screen5;
+lv_obj_t * red_screen;
 lv_obj_t * ui_Container19;
 // CUSTOM VARIABLES
 
@@ -139,7 +139,7 @@ void ui_event_Button6(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen5, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &ui_Screen5_screen_init);
+        _ui_screen_change(&red_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &red_screen_init);
     }
 }
 
@@ -192,7 +192,7 @@ void ui_init(void)
     game_screen_init();
     sensor_screen_init();
     ui_config_screen_init();
-    ui_Screen5_screen_init();
+    red_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(main_screen);
 }
