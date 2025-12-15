@@ -17,14 +17,14 @@ void ui_f18_event(lv_event_t * e);
 
 
 void ui_f22_event(lv_event_t * e);
-void ui_Screen2_screen_init(void)
+void game_screen_init(void)
 {
-    ui_Screen2 = lv_obj_create(NULL);
-    lv_obj_remove_flag(ui_Screen2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Screen2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Screen2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    game_screen = lv_obj_create(NULL);
+    lv_obj_remove_flag(game_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(game_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(game_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container2 = lv_obj_create(ui_Screen2);
+    ui_Container2 = lv_obj_create(game_screen);
     lv_obj_remove_style_all(ui_Container2);
     lv_obj_set_width(ui_Container2, 130);
     lv_obj_set_height(ui_Container2, 70);
@@ -46,7 +46,7 @@ void ui_Screen2_screen_init(void)
     lv_label_set_text(ui_Label2, "P3D");
     lv_obj_set_style_text_font(ui_Label2, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container6 = lv_obj_create(ui_Screen2);
+    ui_Container6 = lv_obj_create(game_screen);
     lv_obj_remove_style_all(ui_Container6);
     lv_obj_set_width(ui_Container6, 130);
     lv_obj_set_height(ui_Container6, 70);
@@ -66,7 +66,7 @@ void ui_Screen2_screen_init(void)
     lv_label_set_text(ui_Label5, "DCS");
     lv_obj_set_style_text_font(ui_Label5, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container14 = lv_obj_create(ui_Screen2);
+    ui_Container14 = lv_obj_create(game_screen);
     lv_obj_remove_style_all(ui_Container14);
     lv_obj_set_width(ui_Container14, 467);
     lv_obj_set_height(ui_Container14, 121);
@@ -137,7 +137,7 @@ void ui_Screen2_screen_init(void)
     lv_label_set_text(ui_Label6, "F22");
     lv_obj_set_style_text_font(ui_Label6, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Button1 = lv_button_create(ui_Screen2);
+    ui_Button1 = lv_button_create(game_screen);
     lv_obj_set_width(ui_Button1, 100);
     lv_obj_set_height(ui_Button1, 50);
     lv_obj_set_x(ui_Button1, -161);

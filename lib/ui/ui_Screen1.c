@@ -5,14 +5,14 @@
 
 #include "ui.h"
 
-void ui_Screen1_screen_init(void)
+void main_screen_init(void)
 {
-    ui_Screen1 = lv_obj_create(NULL);
-    lv_obj_remove_flag(ui_Screen1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Screen1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Screen1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    main_screen = lv_obj_create(NULL);
+    lv_obj_remove_flag(main_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(main_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(main_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_game = lv_obj_create(ui_Screen1);
+    ui_game = lv_obj_create(main_screen);
     lv_obj_remove_style_all(ui_game);
     lv_obj_set_width(ui_game, 331);
     lv_obj_set_height(ui_game, 78);
@@ -33,7 +33,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_text_opa(ui_Label1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label1, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container3 = lv_obj_create(ui_Screen1);
+    ui_Container3 = lv_obj_create(main_screen);
     lv_obj_remove_style_all(ui_Container3);
     lv_obj_set_width(ui_Container3, 331);
     lv_obj_set_height(ui_Container3, 78);
@@ -54,7 +54,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_text_opa(ui_Label3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label3, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container4 = lv_obj_create(ui_Screen1);
+    ui_Container4 = lv_obj_create(main_screen);
     lv_obj_remove_style_all(ui_Container4);
     lv_obj_set_width(ui_Container4, 331);
     lv_obj_set_height(ui_Container4, 78);
@@ -75,14 +75,14 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_style_text_opa(ui_Label4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label4, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container13 = lv_obj_create(ui_Screen1);
+    ui_Container13 = lv_obj_create(main_screen);
     lv_obj_remove_style_all(ui_Container13);
     lv_obj_set_width(ui_Container13, 100);
     lv_obj_set_height(ui_Container13, 50);
     lv_obj_set_align(ui_Container13, LV_ALIGN_CENTER);
     lv_obj_remove_flag(ui_Container13, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_Button6 = lv_button_create(ui_Screen1);
+    ui_Button6 = lv_button_create(main_screen);
     lv_obj_set_width(ui_Button6, 100);
     lv_obj_set_height(ui_Button6, 50);
     lv_obj_set_x(ui_Button6, -161);

@@ -17,8 +17,8 @@ extern "C" {
 
 
 // SCREEN: ui_Screen1
-void ui_Screen1_screen_init(void);
-extern lv_obj_t * ui_Screen1;
+void main_screen_init(void);
+extern lv_obj_t * main_screen;
 void ui_event_game(lv_event_t * e);
 extern lv_obj_t * ui_game;
 extern lv_obj_t * ui_Label1;
@@ -38,8 +38,8 @@ extern lv_obj_t * ui_ui_select;
 extern lv_obj_t * ui_sensor_select;
 
 // SCREEN: ui_Screen2
-void ui_Screen2_screen_init(void);
-extern lv_obj_t * ui_Screen2;
+void game_screen_init(void);
+extern lv_obj_t * game_screen;
 extern lv_obj_t * ui_Container2;
 extern lv_obj_t * ui_Label2;
 extern lv_obj_t * ui_Container6;

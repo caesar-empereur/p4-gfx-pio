@@ -10,8 +10,8 @@
 
 
 // SCREEN: ui_Screen1
-void ui_Screen1_screen_init(void);
-lv_obj_t * ui_Screen1;
+void main_screen_init(void);
+lv_obj_t * main_screen;
 void ui_event_game(lv_event_t * e);
 lv_obj_t * ui_game;
 lv_obj_t * ui_Label1;
@@ -32,8 +32,8 @@ lv_obj_t * ui_sensor_select;
 
 
 // SCREEN: ui_Screen2
-void ui_Screen2_screen_init(void);
-lv_obj_t * ui_Screen2;
+void game_screen_init(void);
+lv_obj_t * game_screen;
 lv_obj_t * ui_Container2;
 lv_obj_t * ui_Label2;
 lv_obj_t * ui_Container6;
@@ -112,7 +112,7 @@ void ui_event_game(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen2, LV_SCR_LOAD_ANIM_FADE_ON, 11, 0, &ui_Screen2_screen_init);
+        _ui_screen_change(&game_screen, LV_SCR_LOAD_ANIM_FADE_ON, 11, 0, &game_screen_init);
     }
 }
 
@@ -148,7 +148,7 @@ void ui_event_Button1(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &ui_Screen1_screen_init);
+        _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &main_screen_init);
     }
 }
 
@@ -157,7 +157,7 @@ void ui_event_Button3(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &ui_Screen1_screen_init);
+        _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &main_screen_init);
     }
 }
 
@@ -166,7 +166,7 @@ void ui_event_Button4(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &ui_Screen1_screen_init);
+        _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &main_screen_init);
     }
 }
 
@@ -176,7 +176,7 @@ void ui_event_Screen5(lv_event_t * e)
 
     if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_active()) == LV_DIR_TOP) {
         lv_indev_wait_release(lv_indev_active());
-        _ui_screen_change(&ui_Screen1, LV_SCR_LOAD_ANIM_MOVE_TOP, 222, 0, &ui_Screen1_screen_init);
+        _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_MOVE_TOP, 222, 0, &main_screen_init);
     }
 }
 
@@ -188,11 +188,11 @@ void ui_init(void)
     lv_theme_t * theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
                                                false, LV_FONT_DEFAULT);
     lv_disp_set_theme(dispp, theme);
-    ui_Screen1_screen_init();
-    ui_Screen2_screen_init();
+    main_screen_init();
+    game_screen_init();
     ui_Screen3_screen_init();
     ui_Screen4_screen_init();
     ui_Screen5_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
-    lv_disp_load_scr(ui_Screen1);
+    lv_disp_load_scr(main_screen);
 }
