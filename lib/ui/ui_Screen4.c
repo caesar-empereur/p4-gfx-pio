@@ -6,14 +6,14 @@
 #include "ui.h"
 void ui_no_event(lv_event_t * e);
 void ui_yes_event(lv_event_t * e);
-void ui_Screen4_screen_init(void)
+void ui_config_screen_init(void)
 {
-    ui_Screen4 = lv_obj_create(NULL);
-    lv_obj_remove_flag(ui_Screen4, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Screen4, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Screen4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_config_screen = lv_obj_create(NULL);
+    lv_obj_remove_flag(ui_config_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_config_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_config_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container11 = lv_obj_create(ui_Screen4);
+    ui_Container11 = lv_obj_create(ui_config_screen);
     lv_obj_remove_style_all(ui_Container11);
     lv_obj_set_width(ui_Container11, 129);
     lv_obj_set_height(ui_Container11, 70);
@@ -33,7 +33,7 @@ void ui_Screen4_screen_init(void)
     lv_label_set_text(ui_Label11, "是");
     lv_obj_set_style_text_font(ui_Label11, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container12 = lv_obj_create(ui_Screen4);
+    ui_Container12 = lv_obj_create(ui_config_screen);
     lv_obj_remove_style_all(ui_Container12);
     lv_obj_set_width(ui_Container12, 129);
     lv_obj_set_height(ui_Container12, 70);
@@ -57,7 +57,7 @@ void ui_Screen4_screen_init(void)
     lv_label_set_text(ui_Label12, "否");
     lv_obj_set_style_text_font(ui_Label12, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Label13 = lv_label_create(ui_Screen4);
+    ui_Label13 = lv_label_create(ui_config_screen);
     lv_obj_set_width(ui_Label13, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label13, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_Label13, -16);
@@ -66,7 +66,7 @@ void ui_Screen4_screen_init(void)
     lv_label_set_text(ui_Label13, "是否开启航向罗盘");
     lv_obj_set_style_text_font(ui_Label13, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Button4 = lv_button_create(ui_Screen4);
+    ui_Button4 = lv_button_create(ui_config_screen);
     lv_obj_set_width(ui_Button4, 100);
     lv_obj_set_height(ui_Button4, 50);
     lv_obj_set_x(ui_Button4, -161);

@@ -71,9 +71,9 @@ lv_obj_t * ui_gyro;
 lv_obj_t * ui_fc;
 
 
-// SCREEN: ui_Screen4
-void ui_Screen4_screen_init(void);
-lv_obj_t * ui_Screen4;
+// SCREEN: ui_config_screen_init
+void ui_config_screen_init(void);
+lv_obj_t * ui_config_screen;
 lv_obj_t * ui_Container11;
 lv_obj_t * ui_Label11;
 lv_obj_t * ui_Container12;
@@ -121,7 +121,7 @@ void ui_event_Container3(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen4, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &ui_Screen4_screen_init);
+        _ui_screen_change(&ui_config_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &ui_config_screen_init);
     }
 }
 
@@ -191,7 +191,7 @@ void ui_init(void)
     main_screen_init();
     game_screen_init();
     sensor_screen_init();
-    ui_Screen4_screen_init();
+    ui_config_screen_init();
     ui_Screen5_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(main_screen);

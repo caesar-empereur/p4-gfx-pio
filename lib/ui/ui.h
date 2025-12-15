@@ -76,8 +76,8 @@ extern lv_obj_t * ui_gyro;
 extern lv_obj_t * ui_fc;
 
 // SCREEN: ui_Screen4
-void ui_Screen4_screen_init(void);
-extern lv_obj_t * ui_Screen4;
+void ui_config_screen_init(void);
+extern lv_obj_t * ui_config_screen;
 extern lv_obj_t * ui_Container11;
 extern lv_obj_t * ui_Label11;
 extern lv_obj_t * ui_Container12;
