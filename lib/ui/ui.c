@@ -56,9 +56,9 @@ lv_obj_t * ui_f18;
 lv_obj_t * ui_f22;
 
 
-// SCREEN: ui_Screen3
+// SCREEN: sensor_screen
 void sensor_screen_init(void);
-lv_obj_t * ui_Screen3;
+lv_obj_t * sensor_screen;
 void ui_event_Button3(lv_event_t * e);
 lv_obj_t * ui_Button3;
 lv_obj_t * ui_Label17;
@@ -130,7 +130,7 @@ void ui_event_Container4(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Screen3, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &sensor_screen_init);
+        _ui_screen_change(&sensor_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &sensor_screen_init);
     }
 }
 

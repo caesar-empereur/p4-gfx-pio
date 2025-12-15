@@ -9,12 +9,12 @@ void ui_gyro_event(lv_event_t * e);
 void ui_fc_event(lv_event_t * e);
 void sensor_screen_init(void)
 {
-    ui_Screen3 = lv_obj_create(NULL);
-    lv_obj_remove_flag(ui_Screen3, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_Screen3, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_Screen3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    sensor_screen = lv_obj_create(NULL);
+    lv_obj_remove_flag(sensor_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(sensor_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(sensor_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Button3 = lv_button_create(ui_Screen3);
+    ui_Button3 = lv_button_create(sensor_screen);
     lv_obj_set_width(ui_Button3, 100);
     lv_obj_set_height(ui_Button3, 50);
     lv_obj_set_x(ui_Button3, -161);
@@ -32,7 +32,7 @@ void sensor_screen_init(void)
     lv_label_set_text(ui_Label17, "返回");
     lv_obj_set_style_text_font(ui_Label17, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container10 = lv_obj_create(ui_Screen3);
+    ui_Container10 = lv_obj_create(sensor_screen);
     lv_obj_remove_style_all(ui_Container10);
     lv_obj_set_width(ui_Container10, 130);
     lv_obj_set_height(ui_Container10, 70);
@@ -54,7 +54,7 @@ void sensor_screen_init(void)
     lv_label_set_text(ui_Label10, "陀螺仪");
     lv_obj_set_style_text_font(ui_Label10, &ui_font_Font1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Container18 = lv_obj_create(ui_Screen3);
+    ui_Container18 = lv_obj_create(sensor_screen);
     lv_obj_remove_style_all(ui_Container18);
     lv_obj_set_width(ui_Container18, 130);
     lv_obj_set_height(ui_Container18, 70);

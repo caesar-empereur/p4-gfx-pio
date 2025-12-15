@@ -63,7 +63,7 @@ extern lv_obj_t * ui_f22;
 
 // SCREEN: ui_Screen3
 void sensor_screen_init(void);
-extern lv_obj_t * ui_Screen3;
+extern lv_obj_t * sensor_screen;
 void ui_event_Button3(lv_event_t * e);
 extern lv_obj_t * ui_Button3;
 extern lv_obj_t * ui_Label17;
