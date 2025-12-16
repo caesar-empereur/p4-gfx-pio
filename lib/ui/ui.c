@@ -89,7 +89,7 @@ lv_obj_t * ui_no;
 
 // SCREEN: red_screen
 void red_screen_init(void);
-void ui_event_red_screen(lv_event_t * e);
+void ui_event_bottom_slide_up(lv_event_t * e);
 lv_obj_t * red_screen;
 lv_obj_t * ui_Container19;
 // CUSTOM VARIABLES
@@ -170,20 +170,19 @@ void ui_event_button_ui_config_return(lv_event_t * e)
     }
 }
 
-void ui_event_red_screen(lv_event_t * e)
+void ui_event_bottom_slide_up(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_active()) == LV_DIR_TOP) {
         lv_indev_wait_release(lv_indev_active());
-        _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_MOVE_TOP, 222, 0, &main_screen_init);
+        _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_MOVE_TOP, 500, 0, &main_screen_init);
     }
 }
 
 ///////////////////// SCREENS ////////////////////
 
-void ui_init(void)
-{
+void ui_init(void){
     lv_disp_t * dispp = lv_display_get_default();
     lv_theme_t * theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
                                                false, LV_FONT_DEFAULT);

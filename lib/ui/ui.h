@@ -92,7 +92,7 @@ extern lv_obj_t * ui_no;
 
 // SCREEN: ui_Screen5
 void red_screen_init(void);
-void ui_event_red_screen(lv_event_t * e);
+void ui_event_bottom_slide_up(lv_event_t * e);
 extern lv_obj_t * red_screen;
 extern lv_obj_t * ui_Container19;
 // CUSTOM VARIABLES

@@ -18,6 +18,6 @@ void red_screen_init(void){
     lv_obj_set_align(ui_Container19, LV_ALIGN_CENTER);
     lv_obj_remove_flag(ui_Container19, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    lv_obj_add_event_cb(red_screen, ui_event_red_screen, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(red_screen, ui_event_bottom_slide_up, LV_EVENT_ALL, NULL);
 
 }
