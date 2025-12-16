@@ -6,8 +6,7 @@
 #include "ui.h"
 void ui_no_event(lv_event_t * e);
 void ui_yes_event(lv_event_t * e);
-void ui_config_screen_init(void)
-{
+void ui_config_screen_init(void){
     ui_config_screen = lv_obj_create(NULL);
     lv_obj_remove_flag(ui_config_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_config_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);

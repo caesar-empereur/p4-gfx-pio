@@ -17,8 +17,7 @@ void ui_f18_event(lv_event_t * e);
 
 
 void ui_f22_event(lv_event_t * e);
-void game_screen_init(void)
-{
+void game_screen_init(void){
     game_screen = lv_obj_create(NULL);
     lv_obj_remove_flag(game_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(game_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);

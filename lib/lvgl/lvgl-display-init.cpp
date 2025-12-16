@@ -27,27 +27,27 @@ static uint8_t touch_cnt = 0;
 static bool touch_pressed = false;
 
 
-Arduino_ESP32DSIPanel *dsipanel_lvgl = new Arduino_ESP32DSIPanel(
-  display_cfg.hsync_pulse_width,
-  display_cfg.hsync_back_porch,
-  display_cfg.hsync_front_porch,
-  display_cfg.vsync_pulse_width,
-  display_cfg.vsync_back_porch,
-  display_cfg.vsync_front_porch,
-  display_cfg.prefer_speed,
-  display_cfg.lane_bit_rate);
+// Arduino_ESP32DSIPanel *dsipanel_lvgl = new Arduino_ESP32DSIPanel(
+//   display_cfg.hsync_pulse_width,
+//   display_cfg.hsync_back_porch,
+//   display_cfg.hsync_front_porch,
+//   display_cfg.vsync_pulse_width,
+//   display_cfg.vsync_back_porch,
+//   display_cfg.vsync_front_porch,
+//   display_cfg.prefer_speed,
+//   display_cfg.lane_bit_rate);
 
-Arduino_DSI_Display *gfx_lvgl = new Arduino_DSI_Display(
-  display_cfg.width,
-  display_cfg.height,
-  dsipanel_lvgl,
-  2,
-  true,
-  display_cfg.lcd_rst,
-  display_cfg.init_cmds,
-  display_cfg.init_cmds_size);
+// Arduino_DSI_Display *gfx_lvgl = new Arduino_DSI_Display(
+//   display_cfg.width,
+//   display_cfg.height,
+//   dsipanel_lvgl,
+//   2,
+//   true,
+//   display_cfg.lcd_rst,
+//   display_cfg.init_cmds,
+//   display_cfg.init_cmds_size);
 
-// extern Arduino_DSI_Display *gfx;
+extern Arduino_DSI_Display *gfx;
 
 
 static lv_obj_t * left_checkbox;
@@ -79,7 +79,8 @@ void my_disp_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map) {
     uint32_t w = (area->x2 - area->x1 + 1);
     uint32_t h = (area->y2 - area->y1 + 1);
 
-    gfx_lvgl->draw16bitRGBBitmap(area->x1, area->y1, (uint16_t *)px_map, w, h);
+    // gfx_lvgl->draw16bitRGBBitmap(area->x1, area->y1, (uint16_t *)px_map, w, h);
+    gfx->draw16bitRGBBitmap(area->x1, area->y1, (uint16_t *)px_map, w, h);
     lv_display_flush_ready(disp);
 }
 
@@ -159,7 +160,7 @@ void lvgl_display_init(){
 
     // tp_handle = touch_cst3530_init(port);
 
-    if (!gfx_lvgl->begin()) {
+    if (!gfx->begin()) {
       Serial.println("gfx->begin() failed!");
     }
 

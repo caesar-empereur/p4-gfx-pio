@@ -5,8 +5,7 @@
 
 #include "ui.h"
 
-void main_screen_init(void)
-{
+void main_screen_init(void){
     main_screen = lv_obj_create(NULL);
     lv_obj_remove_flag(main_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(main_screen, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
