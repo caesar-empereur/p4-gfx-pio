@@ -105,49 +105,6 @@ void my_touchpad_read(lv_indev_t *indev, lv_indev_data_t *data) {
     }
 }
 
-// void double_touch_read(lv_indev_t *indev, lv_indev_data_t *data) {
-//     esp_lcd_touch_read_data(tp_handle);
-//     touch_pressed = esp_lcd_touch_get_coordinates(
-//       tp_handle, touch_x, touch_y, touch_strength, &touch_cnt, MAX_TOUCH_POINTS);
-
-//     if (touch_pressed && touch_cnt > 0) {
-//         //这里是触摸坐标反向的处理，不知道为什么触摸反向了
-//         data->point.x = display_cfg.width-touch_x[0];
-//         data->point.y = display_cfg.height-touch_y[0];
-
-
-//         // 双击检测
-//         uint32_t current_time = millis();
-//         lv_point_t current_point = {data->point.x, data->point.y};
-        
-//         if(current_time - last_tap_time < DOUBLE_TAP_DELAY && 
-//            abs(current_point.x - last_tap_point.x) < DOUBLE_TAP_DISTANCE &&
-//            abs(current_point.y - last_tap_point.y) < DOUBLE_TAP_DISTANCE) {
-//             tap_count++;
-//             if(tap_count == 2) {
-//                 // 检测到双击
-//                 if(!ui_is_visible()) {
-//                     create_ui();
-//                 }
-//                 tap_count = 0;
-//             }
-//         } else {
-//             tap_count = 1;
-//         }
-        
-//         last_tap_time = current_time;
-//         last_tap_point = current_point;
-
-//         //这里是原版正常的
-//         // data->point.x = touch_x[0];
-//         // data->point.y = touch_y[0];
-//         data->state = LV_INDEV_STATE_PRESSED;
-//         // last_pressed = true;
-//         Serial.println("x: " + String(data->point.x) + ", y: " +String(data->point.y));
-//     } else {
-//         data->state = LV_INDEV_STATE_RELEASED;
-//     }
-// }
 
 void lvglTick(void *param) {
     lv_tick_inc(LVGL_TICK_PERIOD);
@@ -160,9 +117,9 @@ void lvgl_display_init(){
 
     // tp_handle = touch_cst3530_init(port);
 
-    if (!gfx->begin()) {
-      Serial.println("gfx->begin() failed!");
-    }
+    // if (!gfx->begin()) {
+    //   Serial.println("gfx->begin() failed!");
+    // }
 
     lv_init();
 

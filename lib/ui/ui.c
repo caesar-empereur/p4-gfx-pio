@@ -193,5 +193,5 @@ void ui_init(void){
     ui_config_screen_init();
     red_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
-    lv_disp_load_scr(main_screen);
+    // lv_disp_load_scr(main_screen);
 }
