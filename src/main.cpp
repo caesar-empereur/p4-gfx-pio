@@ -96,7 +96,7 @@ void setup() {
     lvgl_display_init();
 
     initDisplay();
-    gestureInit(0,0);
+    // gestureInit(0,0);
 
     
 
@@ -111,9 +111,13 @@ void setup() {
 }
 
 void loop() {
-    // DcsBios::loop();
-  // put your main code here, to run repeatedly:
-    drawGestureByData(2, ges_data, 0, 0);
+    /**
+     * drawGestureByData  这里是用 Arduino gfx 库显示的
+     * 这里 改为简单  的 gfx->fillScreen(RED);
+     * 屏幕底部有上滑动作的时候，出现那个配置界面
+     * 配置界面返回的时候, 又回到这个给  gfx->fillScreen(RED) 的界面
+     */
+    // drawGestureByData(2, ges_data, 0, 0);
 
     lv_timer_handler();
     delay(5);

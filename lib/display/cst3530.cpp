@@ -141,7 +141,7 @@ err:
     ESP_LOGE(TAG, "初始化失败!");
     return ret;
 }
-
+#if 1
 static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp){
     typedef struct {
         uint8_t checksum_l;
@@ -168,6 +168,18 @@ static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp){
     // ESP_RETURN_ON_ERROR(i2c_read_bytes(tp, DATA_START_REG, (uint8_t *)&point, sizeof(data_t)), TAG, "I2C读取失败！");
     ESP_RETURN_ON_ERROR(touch_cst3530_i2c_read(tp, 0x00, buf2, sizeof(buf2)), TAG, "I2C read failed");
 
+    #if DEBUG_TOUCH_cst3530_i2c_read // -------------------- By MiluoOffical 2025.12.31 -------------------------- --------------------------
+    char sbuf[90] = "";
+    const char *tohex = "0123456789ABCDEF";
+    for(int i=0;i<30;i++){
+        sbuf[i*3  ] = tohex[(buf2[i]>>4)&15];
+        sbuf[i*3+1] = tohex[buf2[i]&15];
+        sbuf[i*3+2] = ' ';
+    }
+    sbuf[89] = '\0';
+    ESP_LOGW(TAG, "Registers: %s", sbuf);
+    #endif // ------------------- -------------------------- By MiluoOffical 2025.12.31 -------------------------- --------------------------
+
     uint8_t buf3[3] = {0};
     buf3[0] = (uint8_t)((ReportCoordinates & 0x00ff0000) >> 16);
     buf3[1] = (uint8_t)((ReportCoordinates & 0x0000ff00) >> 8);
@@ -176,6 +188,13 @@ static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp){
     esp_lcd_panel_io_tx_param(tp->io, ReportCoordinates >> 24, &buf3, 3); // write  end
 
     point.num = buf2[3] & 0x0f;
+    // -------------------------- -------------------------- By MiluoOffical 2025.12.31 -------------------------- --------------------------
+    static uint8_t lbuf = 0;
+    if(buf2[24] == 0x00 || lbuf == 0x00){
+        lbuf = buf2[24];
+        point.num = 0; //修复驱动中的未复位情况
+    } //By MiluoOffical
+    // -------------------------- -------------------------- By MiluoOffical 2025.12.31 -------------------------- --------------------------
     portENTER_CRITICAL(&tp->data.lock);
     point.num = (point.num > POINT_NUM_MAX ? POINT_NUM_MAX : point.num);
     tp->data.points = point.num;
@@ -189,85 +208,87 @@ static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp){
     return ESP_OK;
 }
 
-// static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp)
-// {
-//     esp_err_t err;
-//     uint8_t buf[41];
-//     uint8_t touch_cnt = 0;
-//     uint8_t clear = 0;
-//     size_t i = 0;
+#else
+static esp_err_t esp_lcd_touch_cst3530_read_data(esp_lcd_touch_handle_t tp)
+{
+    esp_err_t err;
+    uint8_t buf[41];
+    uint8_t touch_cnt = 0;
+    uint8_t clear = 0;
+    size_t i = 0;
 
-//     assert(tp != NULL);
+    assert(tp != NULL);
 
-//     err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, buf, 1);
-//     ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+    err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, buf, 1);
+    ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
 
-//     /* Any touch data? */
-//     if ((buf[0] & 0x80) == 0x00) {
-//         touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
-// #if (ESP_LCD_TOUCH_MAX_BUTTONS > 0)
-//     } else if ((buf[0] & 0x10) == 0x10) {
-//         /* Read all keys */
-//         uint8_t key_max = ((ESP_GT911_TOUCH_MAX_BUTTONS < ESP_LCD_TOUCH_MAX_BUTTONS) ? \
-//                            (ESP_GT911_TOUCH_MAX_BUTTONS) : (ESP_LCD_TOUCH_MAX_BUTTONS));
-//         err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_KEY_REG, &buf[0], key_max);
-//         ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+    /* Any touch data? */
+    if ((buf[0] & 0x80) == 0x00) {
+        touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+#if (ESP_LCD_TOUCH_MAX_BUTTONS > 0)
+    } else if ((buf[0] & 0x10) == 0x10) {
+        /* Read all keys */
+        uint8_t key_max = ((ESP_GT911_TOUCH_MAX_BUTTONS < ESP_LCD_TOUCH_MAX_BUTTONS) ? \
+                           (ESP_GT911_TOUCH_MAX_BUTTONS) : (ESP_LCD_TOUCH_MAX_BUTTONS));
+        err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_KEY_REG, &buf[0], key_max);
+        ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
 
-//         /* Clear all */
-//         touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
-//         ESP_RETURN_ON_ERROR(err, TAG, "I2C write error!");
+        /* Clear all */
+        touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+        ESP_RETURN_ON_ERROR(err, TAG, "I2C write error!");
 
-//         portENTER_CRITICAL(&tp->data.lock);
+        portENTER_CRITICAL(&tp->data.lock);
 
-//         /* Buttons count */
-//         tp->data.buttons = key_max;
-//         for (i = 0; i < key_max; i++) {
-//             tp->data.button[i].status = buf[0] ? 1 : 0;
-//         }
+        /* Buttons count */
+        tp->data.buttons = key_max;
+        for (i = 0; i < key_max; i++) {
+            tp->data.button[i].status = buf[0] ? 1 : 0;
+        }
 
-//         portEXIT_CRITICAL(&tp->data.lock);
-// #endif
-//     } else if ((buf[0] & 0x80) == 0x80) {
-// #if (ESP_LCD_TOUCH_MAX_BUTTONS > 0)
-//         portENTER_CRITICAL(&tp->data.lock);
-//         for (i = 0; i < ESP_LCD_TOUCH_MAX_BUTTONS; i++) {
-//             tp->data.button[i].status = 0;
-//         }
-//         portEXIT_CRITICAL(&tp->data.lock);
-// #endif
-//         /* Count of touched points */
-//         touch_cnt = buf[0] & 0x0f;
-//         if (touch_cnt > 5 || touch_cnt == 0) {
-//             touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
-//             return ESP_OK;
-//         }
+        portEXIT_CRITICAL(&tp->data.lock);
+#endif
+    } else if ((buf[0] & 0x80) == 0x80) {
+#if (ESP_LCD_TOUCH_MAX_BUTTONS > 0)
+        portENTER_CRITICAL(&tp->data.lock);
+        for (i = 0; i < ESP_LCD_TOUCH_MAX_BUTTONS; i++) {
+            tp->data.button[i].status = 0;
+        }
+        portEXIT_CRITICAL(&tp->data.lock);
+#endif
+        /* Count of touched points */
+        touch_cnt = buf[0] & 0x0f;
+        if (touch_cnt > 5 || touch_cnt == 0) {
+            touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+            return ESP_OK;
+        }
 
-//         /* Read all points */
-//         err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG + 1, &buf[1], touch_cnt * 8);
-//         ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+        /* Read all points */
+        err = touch_cst3530_i2c_read(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG + 1, &buf[1], touch_cnt * 8);
+        ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
 
-//         /* Clear all */
-//         err = touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
-//         ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
+        /* Clear all */
+        err = touch_cst3530_i2c_write(tp, ESP_LCD_TOUCH_CST3530_READ_XY_REG, clear);
+        ESP_RETURN_ON_ERROR(err, TAG, "I2C read error!");
 
-//         portENTER_CRITICAL(&tp->data.lock);
+        portENTER_CRITICAL(&tp->data.lock);
 
-//         /* Number of touched points */
-//         touch_cnt = (touch_cnt > ESP_LCD_TOUCH_MAX_POINTS ? ESP_LCD_TOUCH_MAX_POINTS : touch_cnt);
-//         tp->data.points = touch_cnt;
+        /* Number of touched points */
+        touch_cnt = (touch_cnt > ESP_LCD_TOUCH_MAX_POINTS ? ESP_LCD_TOUCH_MAX_POINTS : touch_cnt);
+        tp->data.points = touch_cnt;
 
-//         /* Fill all coordinates */
-//         for (i = 0; i < touch_cnt; i++) {
-//             tp->data.coords[i].x = ((uint16_t)buf[(i * 8) + 3] << 8) + buf[(i * 8) + 2];
-//             tp->data.coords[i].y = (((uint16_t)buf[(i * 8) + 5] << 8) + buf[(i * 8) + 4]);
-//             tp->data.coords[i].strength = (((uint16_t)buf[(i * 8) + 7] << 8) + buf[(i * 8) + 6]);
-//         }
+        /* Fill all coordinates */
+        for (i = 0; i < touch_cnt; i++) {
+            tp->data.coords[i].x = ((uint16_t)buf[(i * 8) + 3] << 8) + buf[(i * 8) + 2];
+            tp->data.coords[i].y = (((uint16_t)buf[(i * 8) + 5] << 8) + buf[(i * 8) + 4]);
+            tp->data.coords[i].strength = (((uint16_t)buf[(i * 8) + 7] << 8) + buf[(i * 8) + 6]);
+        }
 
-//         portEXIT_CRITICAL(&tp->data.lock);
-//     }
+        portEXIT_CRITICAL(&tp->data.lock);
+    }
 
-//     return ESP_OK;
-// }
+    return ESP_OK;
+}
+#endif
 
 static bool esp_lcd_touch_cst3530_get_xy(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t *strength, 
     uint8_t *point_num, uint8_t max_point_num){

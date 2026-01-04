@@ -113,9 +113,9 @@ void lvglTick(void *param) {
 void lvgl_display_init(){
     DEV_I2C_Port port = DEV_I2C_Init();
 
-    tp_handle = touch_gt911_init(port);
+    // tp_handle = touch_gt911_init(port);
 
-    // tp_handle = touch_cst3530_init(port);
+    tp_handle = touch_cst3530_init(port);
 
     // if (!gfx->begin()) {
     //   Serial.println("gfx->begin() failed!");
@@ -157,7 +157,6 @@ void lvgl_display_init(){
     lv_obj_set_style_bg_color(lv_screen_active(), lv_color_black(), 0);
 
     // lv_demo_widgets();
-    // lv_demo_benchmark();  
     ui_init();
 }
 

@@ -240,7 +240,7 @@ void ui_f22_event(lv_event_t * e){
     if(event_code == LV_EVENT_PRESSED) {
         lv_obj_set_style_bg_color(ui_f16, lv_color_hex(0xFFFFFF), LV_PART_MAIN|LV_STATE_DEFAULT  );
         lv_obj_set_style_bg_color(ui_f18, lv_color_hex(0xFFFFFF), LV_PART_MAIN|LV_STATE_DEFAULT );
-         lv_obj_set_style_bg_color(ui_f22, lv_color_hex(0xF66D31), LV_PART_MAIN|LV_STATE_DEFAULT );
+        lv_obj_set_style_bg_color(ui_f22, lv_color_hex(0xF66D31), LV_PART_MAIN|LV_STATE_DEFAULT );
       
     }
 

@@ -1,7 +1,7 @@
 
 
-#include "../display/gt911.h"
-// #include "../display/cst3530.h"
+// #include "../display/gt911.h"
+#include "../display/cst3530.h"
 #include "../display/rgb-init.h"
 #include <lvgl.h>
 // #include "lv_conf.h"
