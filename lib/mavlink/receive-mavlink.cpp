@@ -31,6 +31,9 @@ ges_data_t mavlink_receive_parse() {
                   //方位值大于360就重置为0
                   yaw = 0;
               }
+              if(yaw<0){
+                  yaw = 360-abs(yaw);
+              }
 
               // ges_data_t ges_data_mav;
               ges_data_mav.roll = roll;
