@@ -100,9 +100,11 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 
     lvgl_display_init();
     ui_init();
+
     initDisplay();
+
     showRedScreen();
-    // gestureInit(0,0);
+    gestureInit(0,0);
 
     
 
