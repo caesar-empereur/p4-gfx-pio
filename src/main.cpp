@@ -19,6 +19,11 @@
 // #include "lv_conf.h"
 // #include <demos/lv_demos.h>
 
+#include "ui.h"
+#include <esp_log.h>
+extern Arduino_DSI_Display *gfx; //显示句柄
+extern esp_lcd_touch_handle_t tp_handle; //触摸句柄
+
 
 // #define PIN_NUM_LCD_CS     46
 // #define PIN_NUM_LCD_PCLK   16
@@ -94,8 +99,9 @@ void setup() {
     
 
     lvgl_display_init();
-
+    ui_init();
     initDisplay();
+    showRedScreen();
     // gestureInit(0,0);
 
     
@@ -119,9 +125,61 @@ void loop() {
      */
     // drawGestureByData(2, ges_data, 0, 0);
 
-    lv_timer_handler();
+    /**
+     * drawGestureByData  这里是用 Arduino gfx 库显示的
+     * 这里 改为简单  的 gfx->fillScreen(RED);
+     * 屏幕底部有上滑动作的时候，出现那个配置界面
+     * 配置界面返回的时候, 又回到这个给  gfx->fillScreen(RED) 的界面
+     */
+// -------------------- By MiluoOffical 2026.02.02 --------------
+
+    //检测到红屏为false时, lvgl需要及时接管.
+    if( isRedScreen() == true ){ //当前是红屏状态, 持续检测手势, 监测到上滑手势时标记 redScreen_status 为false, 下个循环将会自动进入LVGL部分
+    //检测到上滑动作时, 进入lvgl控制, 红屏状态值标记为false.
+        esp_lcd_touch_read_data(tp_handle);
+        static uint16_t first_touch_x = 0xffffu;
+        static uint16_t first_touch_y = 0xffffu;
+        static uint16_t last_touch_x = 0xffffu;
+        static uint16_t last_touch_y = 0xffffu;
+        static bool lastPressed = false;
+        uint16_t touch_x;
+        uint16_t touch_y;
+        uint8_t touch_cnt;
+        bool pressed = esp_lcd_touch_get_coordinates(
+        tp_handle, &touch_x, &touch_y, NULL, &touch_cnt, (uint8_t )1);
+    //检测方法: 在红屏状态下, 检测手指刚放在屏幕时的触摸点和手指离开的触摸点, 分析这两个点的坐标位置
+        if(pressed==true){
+            if(lastPressed==false){ //手指刚放在屏幕上, 记录触摸点
+                first_touch_x = touch_x;
+                first_touch_y = touch_y;
+                ESP_LOGI("TOUCH", "Pressed at (%d, %d)", touch_x, touch_y);
+                lastPressed = true;
+            }
+            last_touch_x = touch_x; //只要触摸没断触, 就持续记录触摸点
+            last_touch_y = touch_y;
+        }
+        if(pressed==false && lastPressed==true){ //如果移动方位角在-45°~45°之间, 那么视为向上滑动
+            int32_t dx = ((int32_t)last_touch_x-(int32_t)first_touch_x);
+            int32_t dy = ((int32_t)last_touch_y-(int32_t)first_touch_y);
+            int32_t distance_sq = (dx*dx+dy*dy);
+            float angle = atan2f(dx,dy) * 180 / 3.14159265f;
+            ESP_LOGI("TOUCH", "Released at (%" PRIu16 ", %" PRIu16 "), Distant is sqrt(%" PRId32 "), Angle is (%.3lf)",\
+                last_touch_x, last_touch_y, distance_sq, angle);
+
+            //参考阈值: 距离 10000 (100像素), 角度 -45~45
+            if(distance_sq >= 10000 && angle > -45 &&  angle < 45 ){ //满足上滑动作的阈值
+                clearRedScreen(); //退出红屏状态
+                ESP_LOGI("TOUCH", "Red screen cleared.");
+            }
+            lastPressed = false;
+        }
+    }
+
+    lvglHandler();
     delay(5);
 }
+
+
 
 
 String getStringBetween(String data, String startStr, String endStr) {

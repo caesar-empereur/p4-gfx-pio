@@ -104,6 +104,12 @@ extern lv_obj_t * ui____initial_actions0;
 // FONTS
 LV_FONT_DECLARE(ui_font_Font1);
 
+// -------------------- By MiluoOffical 2026.02.02 --------------
+void showRedScreen();  //显示红屏, 并标记红屏状态为true, - 函数定义
+void lvglHandler();    //进入lvgl控制, 此函数检测红屏标记值, 如果不处于红屏状态, 调用 lv_timer_handler(); 
+void clearRedScreen(); //退出红屏状态, 并切换到menu屏幕
+bool isRedScreen();    //返回是否处于红屏状态
+
 // UI INIT
 void ui_init(void);
 

@@ -88,7 +88,7 @@ lv_obj_t * ui_no;
 
 
 // SCREEN: red_screen
-void red_screen_init(void);
+// void red_screen_init(void);
 void ui_event_bottom_slide_up(lv_event_t * e);
 lv_obj_t * red_screen;
 lv_obj_t * ui_Container19;
@@ -139,7 +139,9 @@ void ui_event_button_main_return(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&red_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &red_screen_init);
+        // ESP_LOGI("UI_C", "Red screen loaded");
+        showRedScreen(); //显示红屏
+        //_ui_screen_change(&red_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1000, 0, &red_screen_init);
     }
 }
 
@@ -191,7 +193,7 @@ void ui_init(void){
     game_screen_init();
     sensor_screen_init();
     ui_config_screen_init();
-    red_screen_init();
+    // red_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(main_screen);
 }
