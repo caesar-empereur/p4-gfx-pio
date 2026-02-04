@@ -19,7 +19,11 @@ extern "C" {
 #include "ui_helpers.h" // 为了 _ui_screen_change 函数
 }
 #include <Arduino_GFX_Library.h>
+
 #include "gesture-rgb.h"
+#include "receive-mpu.h"
+#include "receive-mavlink.h"
+
 extern Arduino_DSI_Display *gfx; //显示句柄
 
 ges_data_t ges_data_red;
@@ -36,8 +40,6 @@ extern "C" void showRedScreen(){
 extern "C" void lvglHandler(){
     if(redScreenStatus){
         if(!redScreenUpdated){
-            // gfx->fillScreen(RGB565(0xfa, 0x03, 0x03)); //使用接口的函数来
-            // gfx->fillScreen(RED);
             drawGestureByData(2, ges_data_red, 0, 0);
             redScreenUpdated = true;
         }

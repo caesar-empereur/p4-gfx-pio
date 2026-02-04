@@ -184,77 +184,77 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 
 
 
-// String getStringBetween(String data, String startStr, String endStr) {
-//     int startIndex = data.indexOf(startStr);
-//     if (startIndex == -1) return "";  // 起始字符串未找到
+String getStringBetween(String data, String startStr, String endStr) {
+    int startIndex = data.indexOf(startStr);
+    if (startIndex == -1) return "";  // 起始字符串未找到
     
-//     startIndex += startStr.length();  // 移动到起始字符串之后
+    startIndex += startStr.length();  // 移动到起始字符串之后
     
-//     int endIndex = data.indexOf(endStr, startIndex);
-//     if (endIndex == -1) return "";    // 结束字符串未找到
+    int endIndex = data.indexOf(endStr, startIndex);
+    if (endIndex == -1) return "";    // 结束字符串未找到
     
-//     return data.substring(startIndex, endIndex);
-// }
+    return data.substring(startIndex, endIndex);
+}
 
-// void serial_read_p3d(){
-//    // while(Serial.available()>0) {
-//     //     uint8_t c = Serial.read();
-//     //     Serial2.write(c);
-//     // }
-//     while(Serial.available()>0) {
-//         char inChar = (char)Serial.read();
-//         // Serial2.print(inChar);
-//         if (inChar == '/') {
-//           stringComplete = true;
-//         } else {
-//           inputString += inChar;
-//         }
+void serial_read_p3d(){
+   // while(Serial.available()>0) {
+    //     uint8_t c = Serial.read();
+    //     Serial2.write(c);
+    // }
+    while(Serial.available()>0) {
+        char inChar = (char)Serial.read();
+        // Serial2.print(inChar);
+        if (inChar == '/') {
+          stringComplete = true;
+        } else {
+          inputString += inChar;
+        }
         
-//     }
+    }
     
-//     if(stringComplete){
+    if(stringComplete){
         
-//         String altitude_str = getStringBetween(inputString, "altitude:", ",");
-//         String bank_str = getStringBetween(inputString, "bank:", ",");
-//         String pitch_str = getStringBetween(inputString, "pitch:", ",");
-//         String air_speed = getStringBetween(inputString, "air_speed:", ",");
-//         String heading_str = getStringBetween(inputString, "heading:", ",");
+        String altitude_str = getStringBetween(inputString, "altitude:", ",");
+        String bank_str = getStringBetween(inputString, "bank:", ",");
+        String pitch_str = getStringBetween(inputString, "pitch:", ",");
+        String air_speed = getStringBetween(inputString, "air_speed:", ",");
+        String heading_str = getStringBetween(inputString, "heading:", ",");
 
-//         ges_data.roll = bank_str.toInt();
-//         ges_data.pitch = pitch_str.toInt();
-//         ges_data.yaw = heading_str.toInt();
-//         ges_data.altitude = altitude_str.toInt();
-//         ges_data.air_speed = air_speed.toInt();
-//         // tft.fillScreen(TFT_BLACK);
-//         // tft.drawString("altitude:" + altitude_str, 0, 0, 4);
-//         // tft.drawString("bank:" + bank_str, 0, 50, 4);
-//         // tft.drawString("pitch:" + pitch_str, 0, 100, 4);
-//         // tft.drawString("heading:" + heading_str, 0, 150, 4);
+        ges_data.roll = bank_str.toInt();
+        ges_data.pitch = pitch_str.toInt();
+        ges_data.yaw = heading_str.toInt();
+        ges_data.altitude = altitude_str.toInt();
+        ges_data.air_speed = air_speed.toInt();
+        // tft.fillScreen(TFT_BLACK);
+        // tft.drawString("altitude:" + altitude_str, 0, 0, 4);
+        // tft.drawString("bank:" + bank_str, 0, 50, 4);
+        // tft.drawString("pitch:" + pitch_str, 0, 100, 4);
+        // tft.drawString("heading:" + heading_str, 0, 150, 4);
 
-//         inputString = "";
-//     }
-// }
+        inputString = "";
+    }
+}
 
-// using namespace DcsBios;
-// ProtocolParser parser1;
+using namespace DcsBios;
+ProtocolParser parser1;
 
-// void serial_read_dcs(){
-//     using namespace DcsBios;
-//     while (Serial.available()) {
-//       parser1.processChar(Serial.read());
-//     }
-//     PollingInput::pollInputs();
-//     ExportStreamListener::loopAll();
-// }
+void serial_read_dcs(){
+    using namespace DcsBios;
+    while (Serial.available()) {
+      parser1.processChar(Serial.read());
+    }
+    PollingInput::pollInputs();
+    ExportStreamListener::loopAll();
+}
 
-// void serialEvent(){
-//     serial_read_dcs();
-// }
+void serialEvent(){
+    serial_read_dcs();
+}
 
 
-// void serialEvent2(){
-//     ges_data = receive_parse_mpu();
-// }
+void serialEvent2(){
+    ges_data = receive_parse_mpu();
+}
 
 // void serialEvent1(){
 //     ges_data = receive_parse_mpu();
