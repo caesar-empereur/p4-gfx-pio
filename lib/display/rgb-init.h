@@ -8,5 +8,12 @@
 #include "../sprite/Rgb_Sprite.h"
 #include <U8g2lib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void initDisplay();
 
+#ifdef __cplusplus
+} /*extern "C"*/
+#endif

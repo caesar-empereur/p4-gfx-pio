@@ -6,6 +6,8 @@
 #ifndef _SQUARELINE_PROJECT_UI_H
 #define _SQUARELINE_PROJECT_UI_H
 
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -14,6 +16,10 @@ extern "C" {
 
 #include "ui_helpers.h"
 // #include "ui_events.h"
+// #include "gesture-rgb.h"
+// #include "receive-mpu.h"
+// #include "receive-mavlink.h"
+
 
 
 // SCREEN: ui_Screen1
@@ -91,7 +97,7 @@ extern lv_obj_t * ui_yes;
 extern lv_obj_t * ui_no;
 
 // SCREEN: ui_Screen5
-void red_screen_init(void);
+// void red_screen_init(void);
 void ui_event_bottom_slide_up(lv_event_t * e);
 extern lv_obj_t * red_screen;
 extern lv_obj_t * ui_Container19;

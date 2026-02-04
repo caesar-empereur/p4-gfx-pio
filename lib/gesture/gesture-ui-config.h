@@ -4,8 +4,8 @@
 #ifndef GES_UI_CONFIG_H
 #define GES_UI_CONFIG_H
 
-#define GES_SP_W 720
-#define GES_SP_H 720
+#define GES_SP_W 480
+#define GES_SP_H 480
 
 // #define GES_SP_W 720
 // #define GES_SP_H 720

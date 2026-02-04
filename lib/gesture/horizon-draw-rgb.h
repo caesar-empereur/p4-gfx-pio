@@ -5,5 +5,14 @@
 #define GROUND_COLOR BROWN
 #define SKY_COLOR DARKCYAN
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void drawSkyGroudAngleByCircle(Rgb_Sprite *bgSprP, int pitch, int roll, 
                                 int radius, float center_x, float center_y);
+
+
+#ifdef __cplusplus
+} /*extern "C"*/
+#endif
