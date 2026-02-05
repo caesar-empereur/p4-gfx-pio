@@ -8,6 +8,6 @@
 #include <demos/lv_demos.h>
 
 // #include "ui.h"
-#include "../ui/ui.h"
+#include "../configui/ui.h"
 
 void lvgl_display_init();

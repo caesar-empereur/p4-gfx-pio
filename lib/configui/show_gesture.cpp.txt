@@ -24,24 +24,23 @@ extern "C" {
 #include "receive-mpu.h"
 #include "receive-mavlink.h"
 
-extern Arduino_DSI_Display *gfx; //显示句柄
 
-ges_data_t ges_data_red;
+ges_data_t ges_data_curr;
 
-static int redScreenStatus = false;
-static bool redScreenUpdated = false;
+static int show_ges_status = false;
+static bool ges_status_update = false;
 
 
-extern "C" void showRedScreen(){
-    drawGestureByData(2, ges_data_red, 0, 0);
-    redScreenStatus = true;
+extern "C" void show_gesture(){
+    drawGestureByData(2, ges_data_curr, 0, 0);
+    show_ges_status = true;
 }
 
-extern "C" void lvglHandler(){
-    if(redScreenStatus){
-        if(!redScreenUpdated){
-            drawGestureByData(2, ges_data_red, 0, 0);
-            redScreenUpdated = true;
+extern "C" void lvgl_custom_handler(){
+    if(show_ges_status){
+        if(!ges_status_update){
+            drawGestureByData(2, ges_data_curr, 0, 0);
+            ges_status_update = true;
         }
     }
     else{
@@ -49,9 +48,9 @@ extern "C" void lvglHandler(){
     }
 }
 
-extern "C" void clearRedScreen(){
-    redScreenStatus = false;
-    redScreenUpdated = false;
+extern "C" void clear_gesture(){
+    show_ges_status = false;
+    ges_status_update = false;
     _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &main_screen_init);
     lv_obj_update_layout(main_screen);
     lv_area_t mainArea = {
@@ -64,8 +63,8 @@ extern "C" void clearRedScreen(){
     lv_refr_now(lv_display_get_default());
 }
 
-extern "C" bool isRedScreen(){
-    return redScreenStatus;
+extern "C" bool is_show_gesture(){
+    return show_ges_status;
 }
 
 // extern "C" void red_screen_init(void){ //这个函数是C接口的 所以加上 extern "C"

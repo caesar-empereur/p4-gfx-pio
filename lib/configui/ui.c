@@ -139,8 +139,7 @@ void ui_event_button_main_return(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
-        // ESP_LOGI("UI_C", "Red screen loaded");
-        showRedScreen(); //显示红屏
+        show_gesture(); //显示红屏
         //_ui_screen_change(&red_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1000, 0, &red_screen_init);
     }
 }
