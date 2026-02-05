@@ -30,20 +30,33 @@ bool stringComplete = false;
 
 ges_data_t ges_data_curr;
 
-static int show_ges_status = false;
-static bool ges_status_update = false;
 
+extern "C" int ges_show_type = 0;  //红屏状态标记变量. 0代表LVGL显示中, 非0代表GFX显示中
+static bool gfx_screen_updated = false;
 
 extern "C" void show_gesture(){
     drawGestureByData(2, ges_data_curr, 0, 0);
-    show_ges_status = true;
+    // show_ges_status = true;
+    ges_show_type = 1; //初始刷到第一屏幕
+    gfx_screen_updated = false; //需要多刷一次纯色屏, 这样才能覆盖刷新被lvgl绘制的脏区域
 }
 
-extern "C" void lvgl_custom_handler(){
-    if(show_ges_status){
-        if(!ges_status_update){
-            drawGestureByData(2, ges_data_curr, 0, 0);
-            ges_status_update = true;
+
+extern "C" void ges_show_handler(){
+    if(ges_show_type){
+        if(!gfx_screen_updated){
+            switch (ges_show_type){
+                case 1:
+                    drawGestureByData(2, ges_data_curr, 0, 0);
+                break;
+                case 2:
+                    drawGestureByData(1, ges_data_curr, 0, 0);
+                break;
+                case 3:
+                    drawGestureByData(3, ges_data_curr, 0, 0);
+                break;
+            }
+            gfx_screen_updated = true;
         }
     }
     else{
@@ -51,9 +64,13 @@ extern "C" void lvgl_custom_handler(){
     }
 }
 
+extern "C" void clear_gfx_screen(){
+    gfx_screen_updated = false;
+}
+
 extern "C" void clear_gesture(){
-    show_ges_status = false;
-    ges_status_update = false;
+    ges_show_type = false;
+    gfx_screen_updated = false;
     _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &main_screen_init);
     lv_obj_update_layout(main_screen);
     lv_area_t mainArea = {
@@ -66,9 +83,6 @@ extern "C" void clear_gesture(){
     lv_refr_now(lv_display_get_default());
 }
 
-extern "C" bool is_show_gesture(){
-    return show_ges_status;
-}
 
 void refresh_mavlink_data(){
     ges_data_curr = mavlink_receive_parse();
