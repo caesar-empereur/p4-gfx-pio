@@ -31,8 +31,13 @@ bool stringComplete = false;
 ges_data_t ges_data_curr;
 
 
-extern "C" int ges_show_type = 0;  //红屏状态标记变量. 0代表LVGL显示中, 非0代表GFX显示中
+extern "C" int ges_show_type = 0;  //状态标记变量. 0代表LVGL显示中, 非0代表GFX显示中
 static bool gfx_screen_updated = false;
+
+volatile unsigned long start_time = 0;
+
+volatile int ges_init = 0;
+
 
 extern "C" void show_gesture(){
     drawGestureByData(2, ges_data_curr, 0, 0);
@@ -43,33 +48,52 @@ extern "C" void show_gesture(){
 
 
 extern "C" void ges_show_handler(){
+    Serial.println("ges_show_type: " + String(ges_show_type) + ", gfx_screen_updated: " + String(gfx_screen_updated) + ", " + String(millis()));
+    
+    if(millis() - start_time > 500) { // 每100ms刷新一次数据
+        ges_data_curr.air_speed=ges_data_curr.air_speed+2;
+        ges_data_curr.altitude=ges_data_curr.altitude+2;
+        ges_data_curr.roll = ges_data_curr.roll+2;
+        if(ges_data_curr.roll >350){
+            ges_data_curr.roll = 0;
+        }
+        start_time = millis();
+    }
+    // if(ges_init==0){
+    //     gestureInit(0,0);
+    //     ges_init = 1;
+    // }
     if(ges_show_type){
         if(!gfx_screen_updated){
-            switch (ges_show_type){
-                case 1:
-                    drawGestureByData(2, ges_data_curr, 0, 0);
-                break;
-                case 2:
-                    drawGestureByData(1, ges_data_curr, 0, 0);
-                break;
-                case 3:
-                    drawGestureByData(3, ges_data_curr, 0, 0);
-                break;
-            }
-            gfx_screen_updated = true;
+            drawGestureByData(3, ges_data_curr, 0, 0);
+            // switch (ges_show_type){
+                // case 1:
+                //     drawGestureByData(1, ges_data_curr, 0, 0);
+                // break;
+                // case 2:
+                //     drawGestureByData(2, ges_data_curr, 0, 0);
+                // break;
+                // case 3:
+                    // drawGestureByData(3, ges_data_curr, 0, 0);
+                // break;
+            // }
+                gfx_screen_updated = true;
+            // }
+            
         }
     }
     else{
         lv_timer_handler();
     }
+
 }
 
-extern "C" void clear_gfx_screen(){
+extern "C" void update_gfx_screen(){
     gfx_screen_updated = false;
 }
 
-extern "C" void clear_gesture(){
-    ges_show_type = false;
+extern "C" void return_to_lvgl(){
+    ges_show_type = 0;
     gfx_screen_updated = false;
     _ui_screen_change(&main_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1, 0, &main_screen_init);
     lv_obj_update_layout(main_screen);

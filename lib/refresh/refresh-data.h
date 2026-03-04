@@ -14,8 +14,8 @@ extern "C" {
 // -------------------- By MiluoOffical 2026.02.02 --------------
 void show_gesture();  //显示红屏, 并标记红屏状态为true, - 函数定义
 // void lvgl_custom_handler();    //进入lvgl控制, 此函数检测红屏标记值, 如果不处于红屏状态, 调用 lv_timer_handler(); 
-void clear_gesture(); //退出红屏状态, 并切换到menu屏幕
-void clear_gfx_screen();
+void return_to_lvgl(); //退出红屏状态, 并切换到menu屏幕
+void update_gfx_screen();
 void ges_show_handler();       //进入lvgl控制, 此函数检测红屏标记值, 如果不处于红屏状态, 调用 lv_timer_handler(); 
 extern int ges_show_type;
 

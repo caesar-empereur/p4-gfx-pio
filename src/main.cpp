@@ -75,6 +75,8 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 
 
 
+
+
  void setup() {
 
     
@@ -103,8 +105,9 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 
 
     //检测到红屏为false时, lvgl需要及时接管.
-    if( ges_show_type != 0 ){ //当前是红屏状态, 持续检测手势, 监测到上滑手势时标记 redScreen_status 为false, 下个循环将会自动进入LVGL部分
-    //检测到上滑动作时, 进入lvgl控制, 红屏状态值标记为false.
+    if(ges_show_type != 0 ){ //当前是 GFX 显示的状态, 持续检测手势, 监测到上滑手势时标记 redScreen_status 为false, 下个循环将会自动进入LVGL部分
+        Serial.println("ges_show_type != 0");
+
         esp_lcd_touch_read_data(tp_handle);
         static uint16_t first_touch_x = 0xffffu;
         static uint16_t first_touch_y = 0xffffu;
@@ -116,45 +119,40 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
         uint8_t touch_cnt;
         bool pressed = esp_lcd_touch_get_coordinates(
         tp_handle, &touch_x, &touch_y, NULL, &touch_cnt, (uint8_t )1);
-    //检测方法: 在红屏状态下, 检测手指刚放在屏幕时的触摸点和手指离开的触摸点, 分析这两个点的坐标位置
+    
+
+        Serial.println("pressed= " + String(pressed));
         if(pressed==true){
             if(lastPressed==false){ //手指刚放在屏幕上, 记录触摸点
                 first_touch_x = touch_x;
                 first_touch_y = touch_y;
-                ESP_LOGI("TOUCH", "Pressed at (%d, %d)", touch_x, touch_y);
                 lastPressed = true;
             }
             last_touch_x = touch_x; //只要触摸没断触, 就持续记录触摸点
             last_touch_y = touch_y;
         }
+        Serial.println("pressed= " + String(pressed) + ", lastPressed= " + String(lastPressed));
         if(pressed==false && lastPressed==true){ //如果移动方位角在-45°~45°之间, 那么视为向上滑动
             int32_t dx = ((int32_t)last_touch_x-(int32_t)first_touch_x);
             int32_t dy = ((int32_t)last_touch_y-(int32_t)first_touch_y);
             int32_t distance_sq = (dx*dx+dy*dy);
-            float angle = atan2f(dx,dy) * 180 / 3.14159265f;
-            ESP_LOGI("TOUCH", "Released at (%" PRIu16 ", %" PRIu16 "), Distant is sqrt(%" PRId32 "), Angle is (%.3lf)",\
-                last_touch_x, last_touch_y, distance_sq, angle);
+            float angle = atan2f(dx,dy) * 180 / 3.14f;
 
             //参考阈值: 距离 10000 (100像素), 角度 -45~45
             if(distance_sq >= 10000 && angle > -45 &&  angle < 45 ){ //满足上滑动作的阈值
-                clear_gesture(); //退出红屏状态
-                ESP_LOGI("TOUCH", "Red screen cleared.");
+                return_to_lvgl(); //退出红屏状态
+                Serial.println("return_to_lvgl");
+                
             }
             if(distance_sq >= 10000 && angle > 45 &&  angle < 135 ){ //满足右滑动作的阈值
-                if(ges_show_type < GFX_SCREENS) ges_show_type ++; //这两行代码表示需要切屏, 切到下一个屏幕
-#if USE_LOOP_SLIDE
-                else gfxScreenStatus = 1;
-#endif
-                clear_gfx_screen(); //调用该函数之后将在下一个 displayHandler() 调用时全屏刷新
-                ESP_LOGI("TOUCH", "right slide.");
+                if(ges_show_type < GFX_SCREENS) ges_show_type ++; 
+                update_gfx_screen(); //调用该函数之后将在下一个 displayHandler() 调用时全屏刷新
+                Serial.println("touch from right to left");
             }
             if(distance_sq >= 10000 && angle > -135 &&  angle < -45 ){ //满足左滑动作的阈值
-                if(ges_show_type > 1) ges_show_type --; //这两行代码表示需要切屏, 切到上一个屏幕
-#if USE_LOOP_SLIDE
-                else ges_show_type = GFX_SCREENS;
-#endif
-                clear_gfx_screen(); //调用该函数之后将在下一个 displayHandler() 调用时全屏刷新
-                ESP_LOGI("TOUCH", "left slide.");
+                if(ges_show_type > 1) ges_show_type --; 
+                update_gfx_screen(); //调用该函数之后将在下一个 displayHandler() 调用时全屏刷新
+                Serial.println("touch from left to right");
             }
             lastPressed = false;
         }

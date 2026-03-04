@@ -199,7 +199,7 @@ float_t ELLIPSE_SP_RADIUS_RATE(T t) {
             rate = 1.1;
         } else {
             if(GES_SP_H>=320){
-                rate = 1.1;
+                rate = 1.2;
             } else {
                 rate = 1.1;
             }
