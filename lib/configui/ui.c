@@ -140,6 +140,7 @@ void ui_event_button_main_return(lv_event_t * e)
 
     if(event_code == LV_EVENT_CLICKED) {
         show_gesture(); //显示红屏
+        // ges_show_handler();
         //_ui_screen_change(&red_screen, LV_SCR_LOAD_ANIM_FADE_ON, 1000, 0, &red_screen_init);
     }
 }

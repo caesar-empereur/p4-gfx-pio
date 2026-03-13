@@ -32,7 +32,7 @@ bool stringComplete = false;
 ges_data_t ges_data_curr;
 
 
-extern "C" int ges_show_type = 0;  //状态标记变量. 0代表LVGL显示中, 非0代表GFX显示中
+extern "C" int ges_show_type = 1;  //状态标记变量. 0代表LVGL显示中, 非0代表GFX显示中
 static bool gfx_screen_updated = false;
 
 volatile unsigned long start_time = 0;
@@ -45,8 +45,8 @@ volatile int int_val = 0;
 
 extern "C" void show_gesture(){
 
-    gestureInit(0,0);
-    drawGestureByData(2, ges_data_curr, 0, 0);
+    // gestureInit(0,0);
+    drawGestureByData(ges_show_type, ges_data_curr, 0, 0);
     ges_show_type = 1; //初始刷到第一屏幕
     gfx_screen_updated = false; //需要多刷一次纯色屏, 这样才能覆盖刷新被lvgl绘制的脏区域
 }
@@ -58,16 +58,8 @@ extern "C" void ges_show_handler(){
     if(ges_show_type){
         if(!gfx_screen_updated){
             
-            switch (ges_show_type){
-                case 1:
-                    drawGestureByData(1, ges_data_curr, 0, 0);
-                break;
-                case 2:
-                    drawGestureByData(2, ges_data_curr, 0, 0);
-                break;
-                case 3:
-                    drawGestureByData(3, ges_data_curr, 0, 0);
-                break;
+            if(ges_show_type<=3){
+                drawGestureByData(ges_show_type, ges_data_curr, 0, 0);
             }
             
             gfx_screen_updated = true;
@@ -121,6 +113,9 @@ String getStringBetween(String data, String startStr, String endStr) {
 }
 
 void serial_read_p3d(){
+    if(ges_show_type==0){
+        return;
+    }
    // while(Serial.available()>0) {
     //     uint8_t c = Serial.read();
     //     Serial2.write(c);
