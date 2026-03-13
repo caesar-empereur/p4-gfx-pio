@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Arduino_GFX_Library.h>
+#include "touch_config.h" //配置文件.
 
 #define DCSBIOS_DEFAULT_SERIAL
 
@@ -106,7 +107,7 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 
     //检测到红屏为false时, lvgl需要及时接管.
     if(ges_show_type != 0 ){ //当前是 GFX 显示的状态, 持续检测手势, 监测到上滑手势时标记 redScreen_status 为false, 下个循环将会自动进入LVGL部分
-        Serial.println("ges_show_type != 0");
+        //Serial.println("ges_show_type != 0");
 
         esp_lcd_touch_read_data(tp_handle);
         static uint16_t first_touch_x = 0xffffu;
@@ -121,7 +122,8 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
         tp_handle, &touch_x, &touch_y, NULL, &touch_cnt, (uint8_t )1);
     
 
-        Serial.println("pressed= " + String(pressed));
+        //Serial.printf("pressed= %d\n" , pressed);
+        static uint32_t refreshCoolDown = 0;  // 3/13 MiluoOffical. : 标记触摸冷却期的变量. 检测到触摸后, 立刻进入冷却禁止刷屏, 避免刷屏信号干扰触摸检测和手势检测
         if(pressed==true){
             if(lastPressed==false){ //手指刚放在屏幕上, 记录触摸点
                 first_touch_x = touch_x;
@@ -130,26 +132,35 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
             }
             last_touch_x = touch_x; //只要触摸没断触, 就持续记录触摸点
             last_touch_y = touch_y;
+
+            refreshCoolDown = millis() + TOUCH_SLIDE_COOLDOWN_TIME; // 3/13 MiluoOffical. : 检测到触摸信号后, 新增100ms冷却期, 在此期间不刷屏
         }
-        Serial.println("pressed= " + String(pressed) + ", lastPressed= " + String(lastPressed));
+        else if(millis() >= refreshCoolDown){ // 3/13 MiluoOffical. : 不处于冷却期, 而且在触摸空闲状态: 刷屏, 刷新方框内容
+            update_gfx_screen();              // 3/13 MiluoOffical. : 刷屏. 实际的刷屏处理在 ges_show_handler 函数中. 这里设置好变量之后刷屏任务会自动检测刷屏
+        }
+        else {
+            pressed = true; // 3/13 MiluoOffical. : 断触处理. 如果刚刚检测到触摸不久, 可能会有驱动层面的断触bug, 这里修复此bug来确保流畅的触屏体验.
+        }
+        //Serial.println("pressed= %d, lastPressed= %d\n" , pressed, lastPressed);
         if(pressed==false && lastPressed==true){ //如果移动方位角在-45°~45°之间, 那么视为向上滑动
             int32_t dx = ((int32_t)last_touch_x-(int32_t)first_touch_x);
             int32_t dy = ((int32_t)last_touch_y-(int32_t)first_touch_y);
             int32_t distance_sq = (dx*dx+dy*dy);
             float angle = atan2f(dx,dy) * 180 / 3.14f;
+            Serial.printf("Detected gesture: Pix:%4d, Ang: %3d\n", int(sqrt(distance_sq)), int(angle));
 
             //参考阈值: 距离 10000 (100像素), 角度 -45~45
-            if(distance_sq >= 10000 && angle > -45 &&  angle < 45 ){ //满足上滑动作的阈值
+            if(distance_sq >= (GESTURE_DISTANCE_PIXEL*GESTURE_DISTANCE_PIXEL) && angle > -45 &&  angle < 45 ){ //满足上滑动作的阈值
                 return_to_lvgl(); //退出红屏状态
                 Serial.println("return_to_lvgl");
                 
             }
-            if(distance_sq >= 10000 && angle > 45 &&  angle < 135 ){ //满足右滑动作的阈值
+            if(distance_sq >= (GESTURE_DISTANCE_PIXEL*GESTURE_DISTANCE_PIXEL) && angle > 45 &&  angle < 135 ){ //满足右滑动作的阈值
                 if(ges_show_type < GFX_SCREENS) ges_show_type ++; 
                 update_gfx_screen(); //调用该函数之后将在下一个 displayHandler() 调用时全屏刷新
                 Serial.println("touch from right to left");
             }
-            if(distance_sq >= 10000 && angle > -135 &&  angle < -45 ){ //满足左滑动作的阈值
+            if(distance_sq >= (GESTURE_DISTANCE_PIXEL*GESTURE_DISTANCE_PIXEL) && angle > -135 &&  angle < -45 ){ //满足左滑动作的阈值
                 if(ges_show_type > 1) ges_show_type --; 
                 update_gfx_screen(); //调用该函数之后将在下一个 displayHandler() 调用时全屏刷新
                 Serial.println("touch from left to right");

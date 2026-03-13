@@ -87,6 +87,9 @@ Rgb_Sprite compassTextSp = Rgb_Sprite(gfx);
 Rgb_Sprite compassMidTextSp = Rgb_Sprite(gfx);
 Rgb_Sprite compassPointertSp = Rgb_Sprite(gfx);
 
+Rgb_Sprite rotate_re_sp = Rgb_Sprite(gfx);
+Rgb_Sprite refresh_sp = Rgb_Sprite(gfx);
+
 void initDisplay(){
     gfx->begin();
     gfx->fillScreen(BLACK);

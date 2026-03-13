@@ -21,6 +21,7 @@ extern "C" {
 }
 #include <Arduino_GFX_Library.h>
 
+#include "gesdata.h"
 #include "gesture-rgb.h"
 #include "receive-mpu.h"
 #include "receive-mavlink.h"
@@ -39,9 +40,13 @@ volatile unsigned long start_time = 0;
 volatile int ges_init = 0;
 
 
+volatile int int_val = 0;
+
+
 extern "C" void show_gesture(){
+
+    gestureInit(0,0);
     drawGestureByData(2, ges_data_curr, 0, 0);
-    // show_ges_status = true;
     ges_show_type = 1; //初始刷到第一屏幕
     gfx_screen_updated = false; //需要多刷一次纯色屏, 这样才能覆盖刷新被lvgl绘制的脏区域
 }
@@ -49,38 +54,25 @@ extern "C" void show_gesture(){
 
 extern "C" void ges_show_handler(){
     Serial.println("ges_show_type: " + String(ges_show_type) + ", gfx_screen_updated: " + String(gfx_screen_updated) + ", " + String(millis()));
-    
-    if(millis() - start_time > 500) { // 每100ms刷新一次数据
-        ges_data_curr.air_speed=ges_data_curr.air_speed+2;
-        ges_data_curr.altitude=ges_data_curr.altitude+2;
-        ges_data_curr.roll = ges_data_curr.roll+2;
-        if(ges_data_curr.roll >350){
-            ges_data_curr.roll = 0;
-        }
-        start_time = millis();
-    }
-    // if(ges_init==0){
-    //     gestureInit(0,0);
-    //     ges_init = 1;
-    // }
+
     if(ges_show_type){
         if(!gfx_screen_updated){
-            drawGestureByData(3, ges_data_curr, 0, 0);
-            // switch (ges_show_type){
-                // case 1:
-                //     drawGestureByData(1, ges_data_curr, 0, 0);
-                // break;
-                // case 2:
-                //     drawGestureByData(2, ges_data_curr, 0, 0);
-                // break;
-                // case 3:
-                    // drawGestureByData(3, ges_data_curr, 0, 0);
-                // break;
-            // }
-                gfx_screen_updated = true;
-            // }
             
+            switch (ges_show_type){
+                case 1:
+                    drawGestureByData(1, ges_data_curr, 0, 0);
+                break;
+                case 2:
+                    drawGestureByData(2, ges_data_curr, 0, 0);
+                break;
+                case 3:
+                    drawGestureByData(3, ges_data_curr, 0, 0);
+                break;
+            }
+            
+            gfx_screen_updated = true;
         }
+        
     }
     else{
         lv_timer_handler();
@@ -109,11 +101,11 @@ extern "C" void return_to_lvgl(){
 
 
 void refresh_mavlink_data(){
-    ges_data_curr = mavlink_receive_parse();
+    // ges_data_curr = mavlink_receive_parse();
 }
 
 void refresh_mpu_data(){
-    ges_data_curr = receive_parse_mpu();
+    // ges_data_curr = receive_parse_mpu();
 }
 
 String getStringBetween(String data, String startStr, String endStr) {
