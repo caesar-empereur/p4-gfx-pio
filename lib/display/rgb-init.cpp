@@ -91,6 +91,12 @@ Rgb_Sprite compassCoverSp = Rgb_Sprite(gfx);
 Rgb_Sprite rotate_re_sp = Rgb_Sprite(gfx);
 Rgb_Sprite refresh_sp = Rgb_Sprite(gfx);
 
+//这个背景在初始化的时候，把图形绘制进去，然后把帧复制出来，最后删掉
+Rgb_Sprite radarBgSp = Rgb_Sprite(gfx);
+Rgb_Sprite radarPointerSp = Rgb_Sprite(gfx);
+Rgb_Sprite radarPSmallSp = Rgb_Sprite(gfx);
+Rgb_Sprite radarBgFrameSp = Rgb_Sprite(gfx);//用来存储初始化的背景图形帧
+
 void initDisplay(){
     gfx->begin();
     gfx->fillScreen(BLACK);
@@ -213,6 +219,21 @@ void initDisplay(){
             compassMidTextSp.setFont(GFX_FONT_48);
         }
     }
+
+    radarBgSp.createSprite(RADAR_SP_W, RADAR_SP_H);
+    radarBgSp.fillScreen(BLACK);
+    radarBgSp.setPivot(RADAR_SP_W/2, RADAR_SP_H/2);
+
+    radarBgFrameSp.createSprite(RADAR_SP_W, RADAR_SP_H);
+    radarBgFrameSp.fillScreen(BLACK);
+
+    radarPointerSp.createSprite(RADAR_SP_W, RADAR_SP_H);
+    radarPointerSp.fillScreen(TFT_TRANSPARENT);
+    radarPointerSp.setPivot(RADAR_SP_W/2, RADAR_SP_H/2);
+
+    radarPSmallSp.createSprite(2, RADAR_SP_H/2);
+    radarPSmallSp.fillScreen(TFT_TRANSPARENT);
+    radarPSmallSp.setPivot(1, RADAR_SP_H/2);
 
     
     if(ges_font_size == 1){

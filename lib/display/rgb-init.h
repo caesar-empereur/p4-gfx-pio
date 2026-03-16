@@ -5,6 +5,7 @@
 
 #include "../gesture/gesture-ui-config.h"
 #include "../gesture/compass-ui-config.h"
+#include "../radar/radar-ui-config.h"
 #include "../sprite/Rgb_Sprite.h"
 #include <U8g2lib.h>
 

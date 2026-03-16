@@ -147,11 +147,6 @@ void serial_read_p3d(){
         ges_data_curr.yaw = heading_str.toInt();
         ges_data_curr.altitude = altitude_str.toInt();
         ges_data_curr.air_speed = air_speed.toInt();
-        // tft.fillScreen(TFT_BLACK);
-        // tft.drawString("altitude:" + altitude_str, 0, 0, 4);
-        // tft.drawString("bank:" + bank_str, 0, 50, 4);
-        // tft.drawString("pitch:" + pitch_str, 0, 100, 4);
-        // tft.drawString("heading:" + heading_str, 0, 150, 4);
 
         inputString = "";
     }
@@ -161,19 +156,3 @@ void refresh_p3d_data(){
     serial_read_p3d();
 }
 
-// extern "C" void red_screen_init(void){ //这个函数是C接口的 所以加上 extern "C"
-//     red_screen = lv_obj_create(NULL);
-//     lv_obj_remove_flag(red_screen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-//     lv_obj_set_style_bg_color(red_screen, lv_color_hex(0xFA0303), LV_PART_MAIN | LV_STATE_DEFAULT);
-//     lv_obj_set_style_bg_opa(red_screen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-//     ui_Container19 = lv_obj_create(red_screen);
-//     lv_obj_remove_style_all(ui_Container19);
-//     lv_obj_set_width(ui_Container19, 100);
-//     lv_obj_set_height(ui_Container19, 50);
-//     lv_obj_set_align(ui_Container19, LV_ALIGN_CENTER);
-//     lv_obj_remove_flag(ui_Container19, lv_obj_flag_t (LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE));      /// Flags
-
-//     lv_obj_add_event_cb(red_screen, ui_event_bottom_slide_up, LV_EVENT_ALL, NULL);
-
-// }

@@ -6,7 +6,7 @@
 
 #include "DcsBios.h"
 
-// #include "radar-old.h"
+#include "radar-new.h"
 #include "compass.h"
 #include "gesture-rgb.h"
 #include "receive-mpu.h"
@@ -76,7 +76,7 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 // DcsBios::IntegerBuffer F18_STBY_PRESS_ALT_FUNC(FA_18C_hornet_STBY_PRESS_ALT, F18_STBY_PRESS_ALT);
 
 
-
+uint16_t radar_scan_angle =0;
 
 
  void setup() {
@@ -94,7 +94,7 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
     show_gesture();
     gestureInit(0,0);
     drawCompass();
-    
+    radarInitNew();
 
     // mpu_init();
 
@@ -104,9 +104,13 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 }
 
  void loop() {
-    lvgl_check_touch();
+    // lvgl_check_touch();
 
-    
+    radar_scan_angle = radar_scan_angle + 5;
+    if(radar_scan_angle >= 360 ){
+        radar_scan_angle = 0;
+    }
+    rotatePointer(radar_scan_angle);
 }
 
 
