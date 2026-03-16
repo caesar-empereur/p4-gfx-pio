@@ -7,6 +7,7 @@
 #include "DcsBios.h"
 
 // #include "radar-old.h"
+#include "compass.h"
 #include "gesture-rgb.h"
 #include "receive-mpu.h"
 #include "receive-mavlink.h"
@@ -92,7 +93,7 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 
     show_gesture();
     gestureInit(0,0);
-
+    drawCompass();
     
 
     // mpu_init();

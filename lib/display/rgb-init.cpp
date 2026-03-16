@@ -86,6 +86,7 @@ Rgb_Sprite compassTextSp = Rgb_Sprite(gfx);
 
 Rgb_Sprite compassMidTextSp = Rgb_Sprite(gfx);
 Rgb_Sprite compassPointertSp = Rgb_Sprite(gfx);
+Rgb_Sprite compassCoverSp = Rgb_Sprite(gfx);
 
 Rgb_Sprite rotate_re_sp = Rgb_Sprite(gfx);
 Rgb_Sprite refresh_sp = Rgb_Sprite(gfx);
@@ -194,6 +195,9 @@ void initDisplay(){
         compassPointertSp.createSprite(COMPS_MID_POINTER_SP_W, COMPS_MID_POINTER_SP_H);
         compassPointertSp.setPivot(COMPS_MID_POINTER_SP_W/2, COMPS_MID_POINTER_SP_H/2);
         compassPointertSp.fillScreen(TFT_TRANSPARENT);
+
+        compassCoverSp.createSprite(COMPS_SP_W, COMPS_SP_H);
+        compassCoverSp.fillScreen(TFT_TRANSPARENT);
         
         if(comp_font_size == 1){
             compassTextSp.setFont(GFX_FONT_18);

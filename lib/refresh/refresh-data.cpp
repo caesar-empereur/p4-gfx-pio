@@ -23,6 +23,7 @@ extern "C" {
 
 #include "gesdata.h"
 #include "gesture-rgb.h"
+#include "compass.h"
 #include "receive-mpu.h"
 #include "receive-mavlink.h"
 
@@ -45,7 +46,6 @@ volatile int int_val = 0;
 
 extern "C" void show_gesture(){
 
-    // gestureInit(0,0);
     drawGestureByData(ges_show_type, ges_data_curr, 0, 0);
     ges_show_type = 1; //初始刷到第一屏幕
     gfx_screen_updated = false; //需要多刷一次纯色屏, 这样才能覆盖刷新被lvgl绘制的脏区域
@@ -60,6 +60,9 @@ extern "C" void ges_show_handler(){
             
             if(ges_show_type<=3){
                 drawGestureByData(ges_show_type, ges_data_curr, 0, 0);
+            }
+            if(ges_show_type==4){
+                ratateCompass(ges_data_curr.yaw, 0,0);
             }
             
             gfx_screen_updated = true;
