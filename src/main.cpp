@@ -75,13 +75,13 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 // }
 // DcsBios::IntegerBuffer F18_STBY_PRESS_ALT_FUNC(FA_18C_hornet_STBY_PRESS_ALT, F18_STBY_PRESS_ALT);
 
+extern uint16_t radar_scan_angle;
 
-uint16_t radar_scan_angle =0;
 
 
  void setup() {
 
-    
+    Serial.begin(115200);
     // Serial1.begin(115200);
     // Serial2.begin(115200);
     
@@ -99,18 +99,13 @@ uint16_t radar_scan_angle =0;
     // mpu_init();
 
     // DcsBios::setup();
-    Serial.println("Setup complete");
-    Serial.begin(115200);
 }
 
  void loop() {
-    // lvgl_check_touch();
 
-    radar_scan_angle = radar_scan_angle + 5;
-    if(radar_scan_angle >= 360 ){
-        radar_scan_angle = 0;
-    }
-    rotatePointer(radar_scan_angle);
+    lvgl_check_touch();
+
+    
 }
 
 
@@ -130,9 +125,9 @@ void serial_read_dcs(){
     ExportStreamListener::loopAll();
 }
 
-void serialEvent(){
-    refresh_p3d_data();
-}
+// void serialEvent(){
+//     // refresh_p3d_data();
+// }
 
 
 // void serialEvent2(){

@@ -3,21 +3,21 @@
 
 // extern TFT_eSPI    tft;
 extern Rgb_Sprite radarBgSp;
-extern Rgb_Sprite radarBgFrameSp;
+// extern Rgb_Sprite radarBgFrameSp;
 extern Rgb_Sprite radarPointerSp;
 extern Rgb_Sprite radarPSmallSp;
 
-uint16_t *bg_frame_buffer = new uint16_t[RADAR_SP_W * RADAR_SP_H];
+// uint16_t *bg_frame_buffer = new uint16_t[RADAR_SP_W * RADAR_SP_H];
 
 uint16_t alphaBlend(uint8_t alpha, uint16_t fgc, uint16_t bgc){
-  // Split out and blend 5 bit red and blue channels
-  uint32_t rxb = bgc & 0xF81F;
-  rxb += ((fgc & 0xF81F) - rxb) * (alpha >> 2) >> 6;
-  // Split out and blend 6 bit green channel
-  uint32_t xgx = bgc & 0x07E0;
-  xgx += ((fgc & 0x07E0) - xgx) * alpha >> 8;
-  // Recombine channels
-  return (rxb & 0xF81F) | (xgx & 0x07E0);
+    // Split out and blend 5 bit red and blue channels
+    uint32_t rxb = bgc & 0xF81F;
+    rxb += ((fgc & 0xF81F) - rxb) * (alpha >> 2) >> 6;
+    // Split out and blend 6 bit green channel
+    uint32_t xgx = bgc & 0x07E0;
+    xgx += ((fgc & 0x07E0) - xgx) * alpha >> 8;
+    // Recombine channels
+    return (rxb & 0xF81F) | (xgx & 0x07E0);
 }
 
 // 画出雷达右下角的扫描的度数
@@ -75,69 +75,78 @@ static void drawDotLine(Rgb_Sprite *radarBgSp, uint16_t count, uint16_t radius, 
 }
 
 //这里画横竖，2个斜线，一共4条线，按照顺时针分成8条线
-static void drawCrossLine(Rgb_Sprite *radarBgSp){
+void drawCrossLine(Rgb_Sprite *radarBgSp){
     for (uint16_t i=0; i<= 360; i = i + 45){
-        radarBgSp->drawWideLine(RADAR_SP_W/2, RADAR_SP_H/2, calc_x_pos(RADAR_RADIUS, i), calc_y_pos(RADAR_RADIUS, i), CROSS_LINE_W, GREEN);
+        // radarBgSp->drawWideLine(RADAR_SP_W/2, RADAR_SP_H/2, calc_x_pos(RADAR_RADIUS, i), calc_y_pos(RADAR_RADIUS, i), CROSS_LINE_W, GREEN);
+        radarBgSp->drawLine(RADAR_SP_W/2, RADAR_SP_H/2, calc_x_pos(RADAR_RADIUS, i), calc_y_pos(RADAR_RADIUS, i), GREEN);
     }
+}
+
+void draw_radar_bg_sp(){
+    // radarBgSp.setTextColor(RADAR_TEXT_COLOR, TFT_TRANSPARENT);
+    radarBgSp.fillScreen(BLACK);
+
+    //雷达背景雾化效果, 这个 alphaBlend 函数会导致画面抖动
+    for(uint16_t i=1;i<=RADAR_RADIUS;i++){
+      if(i%4==0){
+          radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, i, alphaBlend(RADAR_RADIUS-i,  RADAR_SCALE_COLOR, BLACK));
+      }
+    }
+
+    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS-2, RADAR_SCALE_COLOR);
+    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS-3, RADAR_SCALE_COLOR);
+    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS*0.66, RADAR_SCALE_COLOR);
+    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS*0.66-1, RADAR_SCALE_COLOR);
+    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS*0.33, RADAR_SCALE_COLOR);
+    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS*0.33-1, RADAR_SCALE_COLOR);
+    // drawDotLine(&radarBgSp, RADAR_SCALE_DOT_NUM, RADAR_RADIUS, RADAR_SCALE_DOT_LEN, 1);
+    drawCrossLine(&radarBgSp);
+
+    // radarBgSp.drawString("N", RADAR_SP_W/2-8, 0, 4);
+    // radarBgSp.drawString("E", RADAR_SP_W-15, RADAR_SP_H/2-10, 4);
+    // radarBgSp.drawString("S", RADAR_SP_W/2-8, RADAR_SP_H-20, 4);
+    // radarBgSp.drawString("W", 0, RADAR_SP_H/2-10, 4);
+}
+
+void draw_pointer_sp(){
+    //绘制扫描的指针
+    // uint16_t d = 2, p = 0;
+    // for(uint16_t i=1;i<=RADAR_POINTER_ANGLE;i++){
+      
+    //     float x_end = RADAR_RADIUS + (RADAR_RADIUS)*sin(radians(i));
+    //     float y_end = RADAR_RADIUS - (RADAR_RADIUS)*cos(radians(i));
+
+    //     p = p + d;
+    //     d = d + 2;
+    //     if(p>255){
+    //       p = 255;
+    //     }
+    //     radarPointerSp.drawLine(RADAR_SP_W/2, RADAR_SP_H/2, x_end, y_end, alphaBlend(p,  GREEN, BLACK));
+    //     // radarPointerSp.drawLine(RADAR_SP_W/2, RADAR_SP_H/2, x_end, y_end, GREEN);
+    // }
+
+    radarPSmallSp.fillScreen(GREEN);
+
 }
 
 void radarInitNew(){
 
-    radarBgSp.setTextColor(RADAR_TEXT_COLOR, TFT_TRANSPARENT);
-
-    //雷达背景雾化效果
-    for(uint16_t i=1;i<=120;i++){
-      if(i%2==0){
-          radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, i, alphaBlend(120-i,  RADAR_SCALE_COLOR, BLACK));
-      }
-        
-    }
-
-    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS-2, RADAR_SCALE_COLOR);
-    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS*0.66, RADAR_SCALE_COLOR);
-    radarBgSp.drawCircle(RADAR_SP_W/2, RADAR_SP_H/2, RADAR_RADIUS*0.33, RADAR_SCALE_COLOR);
-    drawDotLine(&radarBgSp, RADAR_SCALE_DOT_NUM, RADAR_RADIUS, RADAR_SCALE_DOT_LEN, 1);
-    drawCrossLine(&radarBgSp);
-
-    radarBgSp.drawString("N", RADAR_SP_W/2-8, 0, 4);
-    radarBgSp.drawString("E", RADAR_SP_W-15, RADAR_SP_H/2-10, 4);
-    radarBgSp.drawString("S", RADAR_SP_W/2-8, RADAR_SP_H-20, 4);
-    radarBgSp.drawString("W", 0, RADAR_SP_H/2-10, 4);
+    draw_radar_bg_sp();
 
     //背景图形绘制好之后就复制帧出来，然后删掉释放内存
-    memcpy(bg_frame_buffer, radarBgSp.getFramebuffer(), RADAR_SP_W * RADAR_SP_H * sizeof(uint16_t));
-    // radarBgSp.deleteSprite();
+    // memcpy(bg_frame_buffer, radarBgSp.getFramebuffer(), RADAR_SP_W * RADAR_SP_H * sizeof(uint16_t));
+    draw_pointer_sp();
 
-    //绘制扫描的指针
-    uint16_t d = 2, p = 0;
-    for(uint16_t i=1;i<=RADAR_POINTER_ANGLE;i++){
-      
-        float x_end = RADAR_RADIUS + (RADAR_RADIUS)*sin(radians(i));
-        float y_end = RADAR_RADIUS - (RADAR_RADIUS)*cos(radians(i));
-
-        p = p + d;
-        d = d + 2;
-        if(p>255){
-          p = 255;
-        }
-        radarPointerSp.drawLine(RADAR_SP_W/2, RADAR_SP_H/2, x_end, y_end, alphaBlend(p,  GREEN, BLACK));
-        // radarPointerSp.drawLine(RADAR_SP_W/2, RADAR_SP_H/2, x_end, y_end, GREEN);
-    }
-    // for(uint8_t i=1;i<10;i++){
-
-    //     uint8_t alpha_value = i<4?0:i;
-
-    //     radarPSmallSp.drawFastVLine(i, 0, RADAR_SP_H/2, tft.alphaBlend(alpha_value*25,  GREEN, BLACK));
-    // }
-    radarPSmallSp.fillScreen(GREEN);
+    radarBgSp.pushSprite(0,0);
 }
 
 void rotatePointer(uint16_t angle){
-    // radarBgFrameSp.pushImage(0,0, RADAR_SP_W, RADAR_SP_H, bg_frame_buffer);
+    // radarBgSp.draw16bitRGBBitmap(0,0,bg_frame_buffer, RADAR_SP_W, RADAR_SP_H);
+    draw_radar_bg_sp();
 
-    radarBgFrameSp.draw16bitRGBBitmap(0,0,bg_frame_buffer, RADAR_SP_W, RADAR_SP_H);
-    radarPointerSp.pushRotated(&radarBgFrameSp, angle, TFT_TRANSPARENT);
-    // radarPSmallSp.pushRotated(&radarBgFrameSp, angle, TFT_TRANSPARENT);
-    radarBgFrameSp.pushSprite(0,0);
+
+    // radarPointerSp.pushRotated(&radarBgSp, angle, TFT_TRANSPARENT);
+    radarPSmallSp.pushRotated(&radarBgSp, angle, TFT_TRANSPARENT);
+    radarBgSp.pushSprite(0,0);
 
 }

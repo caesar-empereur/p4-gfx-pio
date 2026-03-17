@@ -24,8 +24,8 @@ extern int ges_show_type;
 } /*extern "C"*/
 #endif
 
-#define GFX_SCREENS    4   //屏幕数, 当前示例就是红屏 绿屏 蓝屏 三个
-#define USE_LOOP_SLIDE 0   //是否允许连续滑屏 (屏幕3→屏幕1) 这样
+#define GFX_SCREENS    5   //屏幕数, 当前示例就是红屏 绿屏 蓝屏 三个
+#define USE_LOOP_SLIDE 1   //是否允许连续滑屏 (屏幕3→屏幕1) 这样
 
 void refresh_mavlink_data();
 void refresh_mpu_data();

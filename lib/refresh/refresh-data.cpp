@@ -24,6 +24,7 @@ extern "C" {
 #include "gesdata.h"
 #include "gesture-rgb.h"
 #include "compass.h"
+#include "radar-new.h"
 #include "receive-mpu.h"
 #include "receive-mavlink.h"
 
@@ -38,11 +39,9 @@ static bool gfx_screen_updated = false;
 
 volatile unsigned long start_time = 0;
 
-volatile int ges_init = 0;
 
 
-volatile int int_val = 0;
-
+uint16_t radar_scan_angle =0;
 
 extern "C" void show_gesture(){
 
@@ -53,7 +52,12 @@ extern "C" void show_gesture(){
 
 
 extern "C" void ges_show_handler(){
-    Serial.println("ges_show_type: " + String(ges_show_type) + ", gfx_screen_updated: " + String(gfx_screen_updated) + ", " + String(millis()));
+    radar_scan_angle = radar_scan_angle + 2;
+    if(radar_scan_angle >= 360 ){
+        radar_scan_angle = 0;
+    }
+
+    Serial.println("radar_scan_angle: " + String(radar_scan_angle));
 
     if(ges_show_type){
         if(!gfx_screen_updated){
@@ -63,6 +67,9 @@ extern "C" void ges_show_handler(){
             }
             if(ges_show_type==4){
                 ratateCompass(ges_data_curr.yaw, 0,0);
+            }
+            if(ges_show_type==5){
+                rotatePointer(radar_scan_angle);
             }
             
             gfx_screen_updated = true;
