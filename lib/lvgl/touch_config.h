@@ -1,9 +1,4 @@
-/** -------------------- By MiluoOffical 2026.03.13 --------------
- * @file touch_config.h
- * @version 1
- * @date 2026-03-13
- * @copyright Copyright (c) 2026
- */
+
 
 #ifndef _TOUCH_CONFIG_H_FILE
 #define _TOUCH_CONFIG_H_FILE
