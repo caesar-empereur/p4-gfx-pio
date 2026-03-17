@@ -1,8 +1,12 @@
 // display_config.h
 // #pragma once
+
+#include "../configui/global_config.h"
+
 #ifndef DISPLAYS_CONFIG_H
 #define DISPLAYS_CONFIG_H
 #include <Arduino_GFX_Library.h>
+
 // #include "i2c.h"
 
 struct DisplayConfig
@@ -166,8 +170,8 @@ const DisplayConfig SCREEN_DEFAULT_YAO = {
     .vsync_front_porch = 2,
     .prefer_speed = 30000000,
     .lane_bit_rate = 1000,
-    .width = 480,
-    .height = 480,
+    .width = SCREEN_W_480,
+    .height = SCREEN_H_480,
     .rotation = 2,
     .auto_flush = true,
     .rst_pin = -1,
@@ -190,8 +194,8 @@ const DisplayConfig SCREEN_DEFAULT_YUXI = {
     .vsync_front_porch = 18,
     .prefer_speed = 30000000,
     .lane_bit_rate = 1000,
-    .width = 480,
-    .height = 480,
+    .width = SCREEN_W_480,
+    .height = SCREEN_H_480,
     .rotation = 2,
     .auto_flush = true,
     .rst_pin = -1,

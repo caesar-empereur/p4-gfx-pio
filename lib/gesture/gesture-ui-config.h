@@ -1,11 +1,12 @@
 #include "font-config.h"
+#include "../configui/global_config.h"
 // #include <Arduino_GFX_Library.h>
 
 #ifndef GES_UI_CONFIG_H
 #define GES_UI_CONFIG_H
 
-#define GES_SP_W 480
-#define GES_SP_H 480
+#define GES_SP_W SCREEN_W_480
+#define GES_SP_H SCREEN_H_480
 
 // #define GES_SP_W 720
 // #define GES_SP_H 720

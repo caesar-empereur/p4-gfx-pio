@@ -75,19 +75,52 @@ DcsBios::IntegerBuffer F18_PRESSURE_ALT_FUNC(FA_18C_hornet_PRESSURE_ALT, F18_PRE
 // }
 // DcsBios::IntegerBuffer F18_STBY_PRESS_ALT_FUNC(FA_18C_hornet_STBY_PRESS_ALT, F18_STBY_PRESS_ALT);
 
-extern uint16_t radar_scan_angle;
 
 
+// 定义 BOOT 按键的引脚（ESP32-P4 通常为 GPIO0）
+#define BOOT_BUTTON_PIN 35
+// 按键消抖时间（避免机械按键的抖动导致误触发）
+#define DEBOUNCE_DELAY 50
+// 记录按键上一次的状态
+int lastButtonState = HIGH;
+// 记录按键当前的状态
+int currentButtonState;
+// 记录最后一次检测到按键状态变化的时间
+// 共享变量必须加 volatile
+volatile unsigned long lastInterruptTime = 0;
+uint8_t ui_type=1;
+uint16_t scan_angle =0;
 
- void setup() {
+void bootButtonISR() {
+    unsigned long currentTime = millis();
+    
+    // 消抖：过滤抖动触发
+    if (currentTime - lastInterruptTime < DEBOUNCE_DELAY) {
+        return;
+    }
+    lastInterruptTime = currentTime;
+
+    ui_type++;
+    if(ui_type>5){
+        ui_type = 1;
+    }
+}
+
+void setup() {
 
     Serial.begin(115200);
     // Serial1.begin(115200);
     // Serial2.begin(115200);
     
-
-    lvgl_display_init();
-    ui_init();
+    if(USE_LVGL == 1){
+        lvgl_display_init();
+        ui_init();
+    } else {
+        // 配置按键引脚为输入模式，并启用内部上拉电阻
+        pinMode(BOOT_BUTTON_PIN, INPUT_PULLUP);
+        attachInterrupt(digitalPinToInterrupt(BOOT_BUTTON_PIN), bootButtonISR, FALLING);
+    }
+    
 
     initDisplay();
 
@@ -99,13 +132,31 @@ extern uint16_t radar_scan_angle;
     // mpu_init();
 
     // DcsBios::setup();
+
+    
 }
 
  void loop() {
+    if(USE_LVGL == 1){
+        lvgl_check_touch();
+    } else {
+        scan_angle = scan_angle + 2;
+        if(scan_angle >= 360 ){
+            scan_angle = 0;
+        }
 
-    lvgl_check_touch();
-
+        if(ui_type<=3){
+            drawGestureByData(ui_type, ges_data, 0, 0);
+        }
+        if(ui_type==4){
+            ratateCompass(ges_data.yaw, 0,0);
+        }
+        if(ui_type==5){
+            rotatePointer(scan_angle);
+        }
+    }
     
+
 }
 
 

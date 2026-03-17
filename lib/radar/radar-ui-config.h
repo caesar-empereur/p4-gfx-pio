@@ -1,8 +1,10 @@
+#include "../configui/global_config.h"
+
 #ifndef RADAR_UI_CONFIG_H
 #define RADAR_UI_CONFIG_H
 
-#define RADAR_SP_W 480
-#define RADAR_SP_H 480
+#define RADAR_SP_W SCREEN_W_480
+#define RADAR_SP_H SCREEN_H_480
 
 #define RADAR_RADIUS (min(RADAR_SP_W, RADAR_SP_H)/2)
 
