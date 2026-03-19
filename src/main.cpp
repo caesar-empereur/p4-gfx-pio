@@ -107,14 +107,12 @@ void bootButtonISR() {
 }
 
 // 定义 UART2 重映射后的引脚
-#define UART2_TX_PIN 7  // 扩展口⑧的 GPIO7 作为 TX2
-#define UART2_RX_PIN 8  // 扩展口⑧的 GPIO8 作为 RX2
-// HardwareSerial UART2(2);
+#define UART2_TX_PIN 37  // 扩展口⑧的 GPIO7 作为 TX2
+#define UART2_RX_PIN 38  // 扩展口⑧的 GPIO8 作为 RX2
 
 void setup() {
 
     Serial.begin(115200);
-    // UART2.begin(115200, SERIAL_8N1, UART2_RX_PIN, UART2_TX_PIN);
     Serial2.begin(115200, SERIAL_8N1, UART2_RX_PIN, UART2_TX_PIN);
     // Serial1.begin(115200);
     // Serial2.begin(115200);
@@ -167,10 +165,6 @@ void setup() {
 }
 
 
-
-
-
-
 using namespace DcsBios;
 ProtocolParser parser1;
 
@@ -192,7 +186,8 @@ void serial_read_dcs(){
 //     ges_data = receive_parse_mpu();
 // }
 
-void serialEvent2(){
-    ges_data = receive_parse_mpu();
-}
+// void serialEvent2(){
+//     // ges_data = receive_parse_mpu();
+//     refresh_mpu_data();
+// }
 

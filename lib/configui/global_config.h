@@ -10,6 +10,6 @@
 #define SCREEN_H_720 720
 
 //不使用 lvgl, 就要用 boot 按键来切换界面
-#define USE_LVGL 0
+#define USE_LVGL 1
 
 #endif

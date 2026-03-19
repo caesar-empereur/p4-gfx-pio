@@ -79,7 +79,7 @@ extern "C" void ges_show_handler(){
     else{
         lv_timer_handler();
     }
-
+    refresh_mpu_data();
 }
 
 extern "C" void update_gfx_screen(){
@@ -107,7 +107,8 @@ void refresh_mavlink_data(){
 }
 
 void refresh_mpu_data(){
-    // ges_data_curr = receive_parse_mpu();
+    Serial.println("refresh_mpu_data---------");
+    ges_data_curr = receive_parse_mpu();
 }
 
 String getStringBetween(String data, String startStr, String endStr) {
