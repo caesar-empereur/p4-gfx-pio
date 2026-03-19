@@ -107,8 +107,8 @@ void bootButtonISR() {
 }
 
 // 定义 UART2 重映射后的引脚
-#define UART2_TX_PIN 37  // 扩展口⑧的 GPIO7 作为 TX2
-#define UART2_RX_PIN 38  // 扩展口⑧的 GPIO8 作为 RX2
+#define UART2_TX_PIN 2  // 扩展口⑧的 GPIO7 作为 TX2
+#define UART2_RX_PIN 3  // 扩展口⑧的 GPIO8 作为 RX2
 
 void setup() {
 
