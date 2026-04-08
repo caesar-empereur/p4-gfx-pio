@@ -4,6 +4,36 @@
 // Project name: SquareLine_Project
 
 #include "ui.h"
+
+// lv_font_fmt_txt_dsc_t font_dsc = {
+//     .glyph_bitmap = glyph_bitmap,
+//     .glyph_dsc = glyph_dsc,
+//     .cmaps = cmaps,
+//     .kern_dsc = &kern_classes,
+//     .kern_scale = 16,
+//     .cmap_num = 2,
+//     .bpp = 4,
+//     .kern_classes = 1,
+//     .bitmap_format = 0,
+
+// };
+
+// lv_font_t lv_font_montserrat_30 = {
+// // #endif
+//     .get_glyph_dsc = lv_font_get_glyph_dsc_fmt_txt,    /*Function pointer to get glyph's data*/
+//     .get_glyph_bitmap = lv_font_get_bitmap_fmt_txt,    /*Function pointer to get glyph's bitmap*/
+//     .line_height = 33,          /*The maximum line height required by the font*/
+//     .base_line = 6,             /*Baseline measured from the bottom of the line*/
+// // #if !(LVGL_VERSION_MAJOR == 6 && LVGL_VERSION_MINOR == 0)
+//     .subpx = LV_FONT_SUBPX_NONE,
+// // #endif
+// // #if LV_VERSION_CHECK(7, 4, 0) || LVGL_VERSION_MAJOR >= 8
+//     .underline_position = -2,
+//     .underline_thickness = 2,
+// // #endif
+//     // .dsc = &font_dsc           /*The custom font data. Will be accessed by `get_glyph_bitmap/dsc` */
+// };
+
 void ui_p3d_event(lv_event_t * e);
 
 
@@ -43,7 +73,7 @@ void game_screen_init(void){
     lv_obj_set_height(ui_label_p3d, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_label_p3d, LV_ALIGN_CENTER);
     lv_label_set_text(ui_label_p3d, "P3D");
-    lv_obj_set_style_text_font(ui_label_p3d, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(ui_label_p3d, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_container_dcs = lv_obj_create(game_screen);
     lv_obj_remove_style_all(ui_container_dcs);
@@ -63,7 +93,7 @@ void game_screen_init(void){
     lv_obj_set_height(ui_label_dcs, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_label_dcs, LV_ALIGN_CENTER);
     lv_label_set_text(ui_label_dcs, "DCS");
-    lv_obj_set_style_text_font(ui_label_dcs, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(ui_label_dcs, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_container_dcs_sub = lv_obj_create(game_screen);
     lv_obj_remove_style_all(ui_container_dcs_sub);
@@ -94,7 +124,7 @@ void game_screen_init(void){
     lv_obj_set_height(ui_label_f16, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_label_f16, LV_ALIGN_CENTER);
     lv_label_set_text(ui_label_f16, "F16");
-    lv_obj_set_style_text_font(ui_label_f16, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(ui_label_f16, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_container_f18 = lv_obj_create(ui_container_dcs_sub);
     lv_obj_remove_style_all(ui_container_f18);
@@ -114,7 +144,7 @@ void game_screen_init(void){
     lv_obj_set_height(ui_label_f18, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_label_f18, LV_ALIGN_CENTER);
     lv_label_set_text(ui_label_f18, "F18");
-    lv_obj_set_style_text_font(ui_label_f18, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(ui_label_f18, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_container_f22 = lv_obj_create(ui_container_dcs_sub);
     lv_obj_remove_style_all(ui_container_f22);
@@ -134,7 +164,7 @@ void game_screen_init(void){
     lv_obj_set_height(ui_label_f22, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_label_f22, LV_ALIGN_CENTER);
     lv_label_set_text(ui_label_f22, "F22");
-    lv_obj_set_style_text_font(ui_label_f22, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(ui_label_f22, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_button_return = lv_button_create(game_screen);
     lv_obj_set_width(ui_button_return, 100);
