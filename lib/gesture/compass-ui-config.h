@@ -3,8 +3,8 @@
 
 #define COMPS_SP_SHOW 1
 
-#define COMPS_SP_W SCREEN_W_480
-#define COMPS_SP_H SCREEN_H_480
+#define COMPS_SP_W 480
+#define COMPS_SP_H 480
 
 #define COMPS_SP_RADIUS (min(COMPS_SP_W, COMPS_SP_H)/2)
 #define COMPS_SP_SCALE_S_GAP 6

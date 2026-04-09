@@ -1,16 +1,16 @@
 #include "rgb-init.h"
-#include "rgb-pin-config.h"
 
-#include "font/u8g2_font_yang.h"
-#include "font/u8g2_font_yang_10.h"
-#include "font/u8g2_font_yang_11.h"
-#include "font/u8g2_font_yang_14.h"
-#include "font/u8g2_font_yang_18.h"
-#include "font/u8g2_font_yang_22.h"
-#include "font/u8g2_font_yang_26.h"
-#include "font/u8g2_font_yang_32.h"
-#include "font/u8g2_font_yang_40.h"
-#include "font/u8g2_font_yang_48.h"
+
+#include "../font/u8g2_font_yang.h"
+#include "../font/u8g2_font_yang_10.h"
+#include "../font/u8g2_font_yang_11.h"
+#include "../font/u8g2_font_yang_14.h"
+#include "../font/u8g2_font_yang_18.h"
+#include "../font/u8g2_font_yang_22.h"
+#include "../font/u8g2_font_yang_26.h"
+#include "../font/u8g2_font_yang_32.h"
+#include "../font/u8g2_font_yang_40.h"
+#include "../font/u8g2_font_yang_48.h"
 
 const uint8_t *GFX_FONT = u8g2_font_yang;
 const uint8_t *GFX_FONT_10 = u8g2_font_yang_10;

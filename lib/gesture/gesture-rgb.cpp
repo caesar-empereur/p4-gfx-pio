@@ -593,7 +593,8 @@ void drawGestureByData(int bgType, ges_data_t ges_data, int x, int y) {
           }
           
           moveYaw(&yawRotateBgSp, ges_data.yaw, bgType, 2);
-          yawRotateBgSp.pushToSprite(&bgSprAllHori, 0, y+(GES_SP_H-YAW_ROTATE_SP_BG_H), TFT_TRANSPARENT);
+        //   yawRotateBgSp.pushToSprite(&bgSprAllHori, 0, y+(GES_SP_H-YAW_ROTATE_SP_BG_H), TFT_TRANSPARENT);
+          yawRotateBgSp.pushToSprite(&bgSprAllHori, 0, (GES_SP_H-YAW_ROTATE_SP_BG_H), TFT_TRANSPARENT);
       }
       
       moveYaw(&bgSprAllHori, ges_data.yaw, bgType, 1);

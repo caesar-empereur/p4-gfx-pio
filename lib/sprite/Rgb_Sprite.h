@@ -1,7 +1,8 @@
 #include "Arduino_DataBus.h"
 #include "display/Arduino_RGB_Display.h"
 #include "display/Arduino_DSI_Display.h"
-#include "display/Arduino_DSI_Display.h"
+#include "display/Arduino_CO5300.h"
+#include "screen_type.h"
 #if !defined(LITTLE_FOOT_PRINT)
 
 #ifndef _RGB_SPRITE_H_
@@ -15,7 +16,15 @@
 
 class Rgb_Sprite : public Arduino_GFX{
 public:
+
+#if defined(SCREEN_RGB)
+  Rgb_Sprite(Arduino_RGB_Display *output);
+#elif defined(SCREEN_QSPI)
+  Rgb_Sprite(Arduino_CO5300 *output);
+#else 
   Rgb_Sprite(Arduino_DSI_Display *output);
+#endif
+
   ~Rgb_Sprite();
 
   bool begin(int32_t speed = GFX_NOT_DEFINED) override;
@@ -43,7 +52,7 @@ public:
   void scroll(int16_t dx, int16_t dy = 0);
   bool pushToSprite(Rgb_Sprite *dspr, int16_t x, int16_t y);
   bool pushToSprite(Rgb_Sprite *dspr, int16_t x, int16_t y, uint16_t transparent_color);
-  bool pushRotated(int16_t angle, uint32_t transp = 0x00FFFFFF);
+  // bool pushRotated(int16_t angle, uint32_t transp = 0x00FFFFFF);
   bool pushRotated(Rgb_Sprite *spr, int16_t angle, uint32_t transp = 0x00FFFFFF);
 
   //旋转部分的代码
@@ -59,7 +68,16 @@ public:
 
 protected:
   uint16_t *_framebuffer = nullptr;
+
+
+#if defined(SCREEN_RGB)
+  Arduino_RGB_Display *_output = nullptr;
+#elif defined(SCREEN_QSPI)
+  Arduino_CO5300 *_output = nullptr;
+#else 
   Arduino_DSI_Display *_output = nullptr;
+#endif
+
   int16_t MAX_X, MAX_Y;
 
   // for flushQuad() only

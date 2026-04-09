@@ -74,13 +74,31 @@ static void CmdProcess(void){
 			break;
 		case 'B':	if(WitSetUartBaud(WIT_BAUD_115200) != WIT_HAL_OK) Serial.print("\r\nSet Baud Error\r\n");
               else {
-                Serial2.begin(c_uiBaud[WIT_BAUD_115200]);
+                
+				if(UART_NO==0){
+					Serial.begin(c_uiBaud[WIT_BAUD_115200]);
+				}
+				if(UART_NO==1){
+					Serial1.begin(c_uiBaud[WIT_BAUD_115200]);
+				}
+				if(UART_NO==2){
+					Serial2.begin(c_uiBaud[WIT_BAUD_115200]);
+				}
                 Serial.print(" 115200 Baud rate modified successfully\r\n");
               }
 			break;
 		case 'b':	if(WitSetUartBaud(WIT_BAUD_9600) != WIT_HAL_OK) Serial.print("\r\nSet Baud Error\r\n");
               else {
-                Serial2.begin(c_uiBaud[WIT_BAUD_9600]); 
+                // Serial.begin(c_uiBaud[WIT_BAUD_9600]);
+				if(UART_NO==0){
+					Serial.begin(c_uiBaud[WIT_BAUD_9600]);
+				}
+				if(UART_NO==1){
+					Serial1.begin(c_uiBaud[WIT_BAUD_9600]);
+				}
+				if(UART_NO==2){
+					Serial2.begin(c_uiBaud[WIT_BAUD_9600]);
+				}
                 Serial.print(" 9600 Baud rate modified successfully\r\n");
               }
 			break;
@@ -101,8 +119,18 @@ static void CmdProcess(void){
 	s_cCmd = 0xff;
 }
 static void SensorUartSend(uint8_t *p_data, uint32_t uiSize){
-  Serial2.write(p_data, uiSize);
-  Serial2.flush();
+	if(UART_NO == 0){
+		Serial.write(p_data, uiSize);
+  		Serial.flush();
+	}
+	if(UART_NO == 1){
+		Serial1.write(p_data, uiSize);
+  		Serial1.flush();
+	}
+	if(UART_NO == 2){
+		Serial2.write(p_data, uiSize);
+  		Serial2.flush();
+	}
 }
 static void Delayms(uint16_t ucMs){
   delay(ucMs);
@@ -135,15 +163,15 @@ static void AutoScanSensor(void){
 	int i, iRetry;
 	
 	for(i = 0; i < sizeof(c_uiBaud)/sizeof(c_uiBaud[0]); i++){
-		Serial2.begin(c_uiBaud[i]);
-        Serial2.flush();
+		Serial.begin(c_uiBaud[i]);
+        Serial.flush();
 		iRetry = 2;
 		s_cDataUpdate = 0;
 		do{
 			WitReadReg(AX, 3);
 			delay(200);
-            while (Serial2.available()){
-                WitSerialDataIn(Serial2.read());
+            while (Serial.available()){
+                WitSerialDataIn(Serial.read());
             }
             if(s_cDataUpdate != 0){
                 Serial.print(c_uiBaud[i]);
@@ -169,9 +197,21 @@ void mpu_init(){
 ges_data_t ges_data_mpu;
 
 ges_data_t receive_parse_mpu(){
-    while (Serial2.available()){
-      	WitSerialDataIn(Serial2.read());
-    }
+    if(UART_NO == 0){
+		while (Serial.available()){
+			WitSerialDataIn(Serial.read());
+		}
+	}
+	if(UART_NO == 1){
+		while (Serial1.available()){
+			WitSerialDataIn(Serial1.read());
+		}
+	}
+	if(UART_NO == 2){
+		while (Serial2.available()){
+			WitSerialDataIn(Serial2.read());
+		}
+	}
 
 	CmdProcess();
 	if(s_cDataUpdate){
@@ -195,24 +235,21 @@ ges_data_t receive_parse_mpu(){
 			s_cDataUpdate &= ~GYRO_UPDATE;
 		}
 		if(s_cDataUpdate & ANGLE_UPDATE){
-			roll_now = static_cast<int>(fAngle[0]);
-			pitch_now = static_cast<int>(fAngle[1]);
+			int roll = static_cast<int>(fAngle[0]);
+			int pitch = static_cast<int>(fAngle[1]);
 			int yaw_before = static_cast<int>(fAngle[2]);
 			if(yaw_before<0){
 				yaw_before = 360-abs(yaw_before);
 			}
-			yaw_now = yaw_before;
+			int yaw = yaw_before;
 
-			air_speed_now= roll_now;
-            altitude_now = roll_now;
+			ges_data_mpu.roll = roll;
+			ges_data_mpu.pitch = pitch;
+			ges_data_mpu.yaw = yaw;
+			// ges_data_mpu.air_speed = abs(roll);
+			// ges_data_mpu.altitude = abs(pitch);
 
-			ges_data_mpu.roll = roll_now;
-			ges_data_mpu.pitch = pitch_now;
-			ges_data_mpu.yaw = yaw_now;
-			ges_data_mpu.air_speed = abs(roll_now);
-			ges_data_mpu.altitude = abs(pitch_now);
-
-			Serial.println("mpu data, roll=" + String(roll_now) + ",pitch= " + String(pitch_now) + ",yaw= " + String(yaw_now));
+			Serial.println("roll=" + String(roll) + ",pitch= " + String(pitch) + ",yaw= " + String(yaw));
 
 			s_cDataUpdate &= ~ANGLE_UPDATE;
 		}

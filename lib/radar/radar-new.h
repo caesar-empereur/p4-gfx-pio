@@ -8,6 +8,6 @@
 
 void radarInitNew();
 
-void rotatePointer(uint16_t angle);
+void rotatePointer(uint16_t angle, int16_t x, int16_t y);
 
 #endif

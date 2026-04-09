@@ -3,7 +3,15 @@
 
 #include "Rgb_Sprite.h"
 
-Rgb_Sprite::Rgb_Sprite(Arduino_DSI_Display *output): Arduino_GFX(0,0){
+#if defined(SCREEN_RGB)
+  Rgb_Sprite::Rgb_Sprite(Arduino_RGB_Display *output): Arduino_GFX(0,0){
+#elif defined(SCREEN_QSPI)
+  Rgb_Sprite::Rgb_Sprite(Arduino_CO5300 *output): Arduino_GFX(0,0){
+#else 
+  Rgb_Sprite::Rgb_Sprite(Arduino_DSI_Display *output): Arduino_GFX(0,0){
+#endif
+
+
     MAX_X = WIDTH - 1;
     MAX_Y = HEIGHT - 1;
     setRotation(0);
@@ -702,59 +710,59 @@ void Rgb_Sprite::setPivot(int16_t x, int16_t y){
     _yPivot = y;
 }
 
-bool Rgb_Sprite::pushRotated(int16_t angle, uint32_t transp){
-    // Bounding box parameters
-    int16_t min_x;
-    int16_t min_y;
-    int16_t max_x;
-    int16_t max_y;
+// bool Rgb_Sprite::pushRotated(int16_t angle, uint32_t transp){
+//     // Bounding box parameters
+//     int16_t min_x;
+//     int16_t min_y;
+//     int16_t max_x;
+//     int16_t max_y;
 
-    if (!getRotatedBounds(angle, &min_x, &min_y, &max_x, &max_y) ) return false;
+//     if (!getRotatedBounds(angle, &min_x, &min_y, &max_x, &max_y) ) return false;
 
-    uint16_t sline_buffer[max_x - min_x + 1];
+//     uint16_t sline_buffer[max_x - min_x + 1];
 
-    int32_t xt = min_x - _xPivot;
-    int32_t yt = min_y - _yPivot;
-    uint32_t xe = _iwidth << FP_SCALE;
-    uint32_t ye = _iheight << FP_SCALE;
-    uint16_t tpcolor = (uint16_t)transp;
-    if (transp != 0x00FFFFFF) {
-        // tpcolor = tpcolor>>8 | tpcolor<<8;
-    }
+//     int32_t xt = min_x - _xPivot;
+//     int32_t yt = min_y - _yPivot;
+//     uint32_t xe = _iwidth << FP_SCALE;
+//     uint32_t ye = _iheight << FP_SCALE;
+//     uint16_t tpcolor = (uint16_t)transp;
+//     if (transp != 0x00FFFFFF) {
+//         // tpcolor = tpcolor>>8 | tpcolor<<8;
+//     }
 
-    // Scan destination bounding box and fetch transformed pixels from source Sprite
-    for (int32_t y = min_y; y <= max_y; y++, yt++) {
-      int32_t x = min_x;
-      uint32_t xs = (_cosra * xt - (_sinra * yt - (_xPivot << FP_SCALE)) + (1 << (FP_SCALE - 1)));
-      uint32_t ys = (_sinra * xt + (_cosra * yt + (_yPivot << FP_SCALE)) + (1 << (FP_SCALE - 1)));
+//     // Scan destination bounding box and fetch transformed pixels from source Sprite
+//     for (int32_t y = min_y; y <= max_y; y++, yt++) {
+//       int32_t x = min_x;
+//       uint32_t xs = (_cosra * xt - (_sinra * yt - (_xPivot << FP_SCALE)) + (1 << (FP_SCALE - 1)));
+//       uint32_t ys = (_sinra * xt + (_cosra * yt + (_yPivot << FP_SCALE)) + (1 << (FP_SCALE - 1)));
 
-      while ((xs >= xe || ys >= ye) && x < max_x) { x++; xs += _cosra; ys += _sinra; }
-      if (x == max_x) continue;
+//       while ((xs >= xe || ys >= ye) && x < max_x) { x++; xs += _cosra; ys += _sinra; }
+//       if (x == max_x) continue;
 
-      uint32_t pixel_count = 0;
-      do {
-        uint32_t rp;
-        int32_t xp = xs >> FP_SCALE;
-        int32_t yp = ys >> FP_SCALE;
-        rp = _framebuffer[xp + yp * _iwidth];
-        if (transp != 0x00FFFFFF && tpcolor == rp) {
-          if (pixel_count) {
-              // _output->getDataBus()->writePixels(sline_buffer, pixel_count);
-              // spr->draw16bitRGBBitmap(x - pixel_count, y, sline_buffer, pixel_count, 1);
-              pixel_count = 0;
-          }
-        }
-        else {
-          sline_buffer[pixel_count++] = rp;
-        }
-      } while (++x < max_x && (xs += _cosra) < xe && (ys += _sinra) < ye);
-      if (pixel_count) {
-          // _output->getDataBus()->writePixels(sline_buffer, pixel_count);
-          // spr->draw16bitRGBBitmap(x - pixel_count, y, sline_buffer, pixel_count, 1);
-      }
-    }
-    return true;
-}
+//       uint32_t pixel_count = 0;
+//       do {
+//         uint32_t rp;
+//         int32_t xp = xs >> FP_SCALE;
+//         int32_t yp = ys >> FP_SCALE;
+//         rp = _framebuffer[xp + yp * _iwidth];
+//         if (transp != 0x00FFFFFF && tpcolor == rp) {
+//           if (pixel_count) {
+//               _output->getDataBus()->writePixels(sline_buffer, pixel_count);
+//               // spr->draw16bitRGBBitmap(x - pixel_count, y, sline_buffer, pixel_count, 1);
+//               pixel_count = 0;
+//           }
+//         }
+//         else {
+//           sline_buffer[pixel_count++] = rp;
+//         }
+//       } while (++x < max_x && (xs += _cosra) < xe && (ys += _sinra) < ye);
+//       if (pixel_count) {
+//           _output->getDataBus()->writePixels(sline_buffer, pixel_count);
+//           // spr->draw16bitRGBBitmap(x - pixel_count, y, sline_buffer, pixel_count, 1);
+//       }
+//     }
+//     return true;
+// }
 
 bool Rgb_Sprite::pushRotated(Rgb_Sprite *spr, int16_t angle, uint32_t transp){
     // Bounding box parameters

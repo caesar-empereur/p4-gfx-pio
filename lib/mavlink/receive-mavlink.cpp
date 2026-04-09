@@ -6,8 +6,18 @@ ges_data_t ges_data_mav;
 ges_data_t mavlink_receive_parse() {
   mavlink_message_t msg;    //协议消息的结构体
   mavlink_status_t status;
-  while(Serial.available()>0) {
-    uint8_t c = Serial.read();
+
+#if defined(UART_0)
+    while(Serial.available()>0) {
+      uint8_t c = Serial.read();
+#elif defined(UART_1)
+    while(Serial1.available()>0) {
+      uint8_t c = Serial1.read();
+#else
+    while(Serial2.available()>0) {
+      uint8_t c = Serial2.read();
+#endif
+
     // Serial1.write(c);
     //根据串口序号, 将数据从缓冲区取出来逐帧拼接成指定的消息结构体格式
     if(mavlink_parse_char(MAVLINK_COMM_0, c, &msg, &status)) {
@@ -73,5 +83,5 @@ void mavlink_send_request(){
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
     mavlink_msg_request_data_stream_pack(255, 190, &msg, 1, 1, 0, 5, 1);
     uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
-    Serial1.write(buf, len);
+    Serial.write(buf, len);
 }

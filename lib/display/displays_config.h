@@ -9,6 +9,14 @@
 
 // #include "i2c.h"
 
+// typedef struct
+// {
+//   int cmd;               /*<! The specific LCD command */
+//   const void *data;      /*<! Buffer that holds the command specific data */
+//   size_t data_bytes;     /*<! Size of `data` in memory, in bytes */
+//   unsigned int delay_ms; /*<! Delay in milliseconds after this command */
+// } lcd_init_cmd_t;
+
 struct DisplayConfig
 {
     const char *name;
@@ -170,8 +178,8 @@ const DisplayConfig SCREEN_DEFAULT_YAO = {
     .vsync_front_porch = 2,
     .prefer_speed = 30000000,
     .lane_bit_rate = 1000,
-    .width = SCREEN_W_480,
-    .height = SCREEN_H_480,
+    .width = SCREEN_W,
+    .height = SCREEN_H,
     .rotation = 2,
     .auto_flush = true,
     .rst_pin = -1,
@@ -194,8 +202,8 @@ const DisplayConfig SCREEN_DEFAULT_YUXI = {
     .vsync_front_porch = 18,
     .prefer_speed = 30000000,
     .lane_bit_rate = 1000,
-    .width = SCREEN_W_480,
-    .height = SCREEN_H_480,
+    .width = SCREEN_W,
+    .height = SCREEN_H,
     .rotation = 2,
     .auto_flush = true,
     .rst_pin = -1,
@@ -218,8 +226,8 @@ const DisplayConfig SCREEN_DEFAULT_WEIXUE = {
     .vsync_front_porch = 30,
     .prefer_speed = 80000000,
     .lane_bit_rate = 1000,
-    .width = 720,
-    .height = 720,
+    .width = SCREEN_W,
+    .height = SCREEN_H,
     .rotation = 2,
     .auto_flush = true,
     .rst_pin = -1,

@@ -157,7 +157,7 @@ void setup() {
             ratateCompass(ges_data.yaw, 0,0);
         }
         if(ui_type==5){
-            rotatePointer(scan_angle);
+            rotatePointer(scan_angle,0,0);
         }
     }
     

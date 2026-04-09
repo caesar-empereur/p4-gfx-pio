@@ -137,16 +137,16 @@ void radarInitNew(){
     // memcpy(bg_frame_buffer, radarBgSp.getFramebuffer(), RADAR_SP_W * RADAR_SP_H * sizeof(uint16_t));
     draw_pointer_sp();
 
-    radarBgSp.pushSprite(0,0);
+    // radarBgSp.pushSprite(580,40);
 }
 
-void rotatePointer(uint16_t angle){
+void rotatePointer(uint16_t angle, int16_t x, int16_t y){
     // radarBgSp.draw16bitRGBBitmap(0,0,bg_frame_buffer, RADAR_SP_W, RADAR_SP_H);
     draw_radar_bg_sp();
 
 
     // radarPointerSp.pushRotated(&radarBgSp, angle, TFT_TRANSPARENT);
     radarPSmallSp.pushRotated(&radarBgSp, angle, TFT_TRANSPARENT);
-    radarBgSp.pushSprite(0,0);
+    radarBgSp.pushSprite(x,y);
 
 }

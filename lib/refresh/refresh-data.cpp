@@ -69,7 +69,7 @@ extern "C" void ges_show_handler(){
                 ratateCompass(ges_data_curr.yaw, 0,0);
             }
             if(ges_show_type==5){
-                rotatePointer(radar_scan_angle);
+                rotatePointer(radar_scan_angle,0,0);
             }
             
             gfx_screen_updated = true;
